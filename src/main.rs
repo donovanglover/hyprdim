@@ -9,6 +9,10 @@ static mut I: i32 = 0;
 // (2): Keep track of the last window address
 static mut ADDRESS: Option<Address> = None;
 
+// (3): Keep track of initial variables
+static mut DIM_STRENGTH: f64 = 0.0;
+static mut DIM_INACTIVE: i64 = 0;
+
 fn dim() {
     // Note tha dim_strength is used instead of toggling dim_inactive for smooth animations
     let _ = Keyword::set("decoration:dim_strength", 0.25);
@@ -50,7 +54,25 @@ fn is_new_window(window_address: Address) -> bool {
     !windows_are_the_same
 }
 
+fn log_default() -> hyprland::Result<()> {
+    unsafe {
+        DIM_STRENGTH = match Keyword::get("decoration:dim_strength")?.value {
+            OptionValue::Float(i) => i,
+            _ => 0.5,
+        };
+
+        DIM_INACTIVE = match Keyword::get("decoration:dim_inactive")?.value {
+            OptionValue::Int(i) => i,
+            _ => 0,
+        };
+    }
+
+    Ok(())
+}
+
 fn main() -> hyprland::Result<()> {
+    let _ = log_default();
+
     let _ = Keyword::set("decoration:dim_inactive", "yes");
 
     let mut event_listener = EventListener::new();
