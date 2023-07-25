@@ -51,6 +51,8 @@ fn is_new_window(window_address: Address) -> bool {
 }
 
 fn main() -> hyprland::Result<()> {
+    let _ = Keyword::set("decoration:dim_inactive", "yes");
+
     let mut event_listener = EventListener::new();
 
     // On active window changes

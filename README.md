@@ -21,7 +21,7 @@ That said, if you know how to do things better, feel free to open an issue or ma
 
 ## Todo
 
-- [ ] Turn `dim_inactive` on if it isn't already
+- [x] Turn `dim_inactive` on if it isn't already
 - [ ] Restore the original state of keywords when stopping the daemon
 - [ ] Add support for environment variables
 - [ ] Add support for command line arguments
