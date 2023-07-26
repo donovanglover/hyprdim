@@ -104,7 +104,7 @@ fn main() -> hyprland::Result<()> {
 
         // Only dim if the active window is a new window
         if is_new_window(window_address) {
-            let _ = thread::spawn(|| dim());
+            let _ = thread::spawn(dim);
         }
     });
 
