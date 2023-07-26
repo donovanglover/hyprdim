@@ -1,6 +1,6 @@
 # hyprland-autodim
 
-hyprland-autodim is a daemon that automatically dims windows temporarily when switching between them.
+hyprland-autodim is a daemon that automatically dims windows when switching between them.
 
 ## Advantages
 
