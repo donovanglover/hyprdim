@@ -13,7 +13,7 @@ fn generate_man_pages(cmd: Command) {
 
     std::fs::create_dir_all(&man_dir).unwrap();
 
-    let man = Man::new(cmd.to_owned());
+    let man = Man::new(cmd);
     let mut buffer: Vec<u8> = Default::default();
     man.render(&mut buffer).expect("Man page generation failed");
     std::fs::write(man_dir.join(NAME.to_owned() + ".1"), buffer).expect("Failed to write man page");
