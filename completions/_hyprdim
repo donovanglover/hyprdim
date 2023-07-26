@@ -23,6 +23,8 @@ _hyprdim() {
 '--fade=[Fade animation speed]:FADE: ' \
 '-b+[Bezier curve used for the animation]:BEZIER: ' \
 '--bezier=[Bezier curve used for the animation]:BEZIER: ' \
+'-p[Prevent dim_inactive from being disabled by \`hyprctl reload\` etc]' \
+'--persist[Prevent dim_inactive from being disabled by \`hyprctl reload\` etc]' \
 '-h[Print help]' \
 '--help[Print help]' \
 && ret=0
