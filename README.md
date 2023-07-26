@@ -40,3 +40,4 @@ That said, if you know how to do things better, feel free to open an issue or ma
 
 - [Yavor Kolev](https://github.com/yavko), [Cyril Levis](https://github.com/cyrinux), and [contributors](https://github.com/hyprland-community/hyprland-rs/graphs/contributors) for [hyprland-rs](https://github.com/hyprland-community/hyprland-rs)
 - [Kevin K.](https://github.com/kbknapp), [Ed Page](https://github.com/epage), and [contributors](https://github.com/clap-rs/clap/graphs/contributors) for [clap-rs](https://github.com/clap-rs/clap)
+- [Antti Keränen](https://github.com/Detegr) and [contributors](https://github.com/Detegr/rust-ctrlc/graphs/contributors) for [rust-ctrlc](https://github.com/Detegr/rust-ctrlc)
