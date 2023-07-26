@@ -1,6 +1,6 @@
-# hyprland-autodim
+# hyprdim
 
-hyprland-autodim is a daemon that automatically dims windows when switching between them.
+hyprdim is a daemon that automatically dims windows when switching between them.
 
 ## Advantages
 
@@ -10,7 +10,7 @@ hyprland-autodim is a daemon that automatically dims windows when switching betw
 ## Usage
 
 ```fish
-Usage: hyprland-autodim [OPTIONS]
+Usage: hyprdim [OPTIONS]
 
 Options:
   -s, --strength <STRENGTH>  A value from 0 (no dim) to 1 (maximum dim) [default: 0.4]

@@ -1,4 +1,4 @@
-_hyprland-autodim() {
+_hyprdim() {
     local i cur prev opts cmd
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
@@ -10,7 +10,7 @@ _hyprland-autodim() {
     do
         case "${cmd},${i}" in
             ",$1")
-                cmd="hyprland__autodim"
+                cmd="hyprdim"
                 ;;
             *)
                 ;;
@@ -18,7 +18,7 @@ _hyprland-autodim() {
     done
 
     case "${cmd}" in
-        hyprland__autodim)
+        hyprdim)
             opts="-s -d -f -b -h --strength --duration --fade --bezier --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
@@ -67,4 +67,4 @@ _hyprland-autodim() {
     esac
 }
 
-complete -F _hyprland-autodim -o bashdefault -o default hyprland-autodim
+complete -F _hyprdim -o bashdefault -o default hyprdim

@@ -11,12 +11,12 @@ fn generate_man_pages() {
     std::fs::create_dir_all(&man_dir).unwrap();
 
     let mut cmd = Cli::command();
-    cmd.set_bin_name("hyprland-autodim");
+    cmd.set_bin_name("hyprdim");
 
     let man = Man::new(cmd.to_owned());
     let mut buffer: Vec<u8> = Default::default();
     man.render(&mut buffer).expect("Man page generation failed");
-    std::fs::write(man_dir.join("hyprland-autodim.1"), buffer).expect("Failed to write man page");
+    std::fs::write(man_dir.join("hyprdim.1"), buffer).expect("Failed to write man page");
 }
 
 fn generate_shell_completions() {
@@ -25,10 +25,10 @@ fn generate_shell_completions() {
     std::fs::create_dir_all(&comp_dir).unwrap();
 
     let mut cmd = Cli::command();
-    cmd.set_bin_name("hyprland-autodim");
+    cmd.set_bin_name("hyprdim");
 
     for shell in [Bash, Fish, Zsh] {
-        generate_to(shell, &mut cmd, "hyprland-autodim", &comp_dir).unwrap();
+        generate_to(shell, &mut cmd, "hyprdim", &comp_dir).unwrap();
     }
 }
 

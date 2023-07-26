@@ -1,8 +1,8 @@
-#compdef hyprland-autodim
+#compdef hyprdim
 
 autoload -U is-at-least
 
-_hyprland-autodim() {
+_hyprdim() {
     typeset -A opt_args
     typeset -a _arguments_options
     local ret=1
@@ -28,14 +28,14 @@ _hyprland-autodim() {
 && ret=0
 }
 
-(( $+functions[_hyprland-autodim_commands] )) ||
-_hyprland-autodim_commands() {
+(( $+functions[_hyprdim_commands] )) ||
+_hyprdim_commands() {
     local commands; commands=()
-    _describe -t commands 'hyprland-autodim commands' commands "$@"
+    _describe -t commands 'hyprdim commands' commands "$@"
 }
 
-if [ "$funcstack[1]" = "_hyprland-autodim" ]; then
-    _hyprland-autodim "$@"
+if [ "$funcstack[1]" = "_hyprdim" ]; then
+    _hyprdim "$@"
 else
-    compdef _hyprland-autodim hyprland-autodim
+    compdef _hyprdim hyprdim
 fi

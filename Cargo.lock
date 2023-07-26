@@ -373,6 +373,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
+name = "hyprdim"
+version = "1.0.0"
+dependencies = [
+ "clap",
+ "clap_complete",
+ "clap_mangen",
+ "ctrlc",
+ "hyprland",
+]
+
+[[package]]
 name = "hyprland"
 version = "0.3.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -393,17 +404,6 @@ dependencies = [
  "serde_repr",
  "strum",
  "tokio",
-]
-
-[[package]]
-name = "hyprland-autodim"
-version = "1.0.0"
-dependencies = [
- "clap",
- "clap_complete",
- "clap_mangen",
- "ctrlc",
- "hyprland",
 ]
 
 [[package]]
