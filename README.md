@@ -17,6 +17,7 @@ Options:
   -d, --duration <DURATION>  How many milliseconds to wait [default: 800]
   -f, --fade <FADE>          Fade animation speed [default: 7]
   -b, --bezier <BEZIER>      Bezier curve used for the animation [default: default]
+  -p, --persist              Prevent dim_inactive from being disabled by `hyprctl reload` etc
   -h, --help                 Print help
 ```
 
