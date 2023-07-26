@@ -10,7 +10,14 @@ hyprland-autodim is a daemon that automatically dims windows when switching betw
 ## Usage
 
 ```fish
-hyprland-autodim
+Usage: hyprland-autodim [OPTIONS]
+
+Options:
+  -s, --strength <STRENGTH>  A value from 0 (no dim) to 1 (maximum dim) [default: 0.4]
+  -d, --duration <DURATION>  How many milliseconds to wait [default: 800]
+  -f, --fade <FADE>          Fade animation speed [default: 7]
+  -b, --bezier <BEZIER>      Bezier curve used for the animation [default: default]
+  -h, --help                 Print help
 ```
 
 ## Contributing
