@@ -1,5 +1,5 @@
 use hyprland::event_listener::EventListenerMutable as EventListener;
-use hyprland::keyword::*;
+use hyprland::keyword::{Keyword, OptionValue};
 use hyprland::shared::Address;
 use std::{thread, time};
 pub mod cli;
