@@ -4,7 +4,7 @@
 .SH NAME
 hyprdim
 .SH SYNOPSIS
-\fBhyprdim\fR [\fB\-s\fR|\fB\-\-strength\fR] [\fB\-d\fR|\fB\-\-duration\fR] [\fB\-f\fR|\fB\-\-fade\fR] [\fB\-b\fR|\fB\-\-bezier\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+\fBhyprdim\fR [\fB\-s\fR|\fB\-\-strength\fR] [\fB\-d\fR|\fB\-\-duration\fR] [\fB\-f\fR|\fB\-\-fade\fR] [\fB\-b\fR|\fB\-\-bezier\fR] [\fB\-p\fR|\fB\-\-persist\fR] [\fB\-h\fR|\fB\-\-help\fR] 
 .SH DESCRIPTION
 .SH OPTIONS
 .TP
@@ -19,6 +19,9 @@ Fade animation speed
 .TP
 \fB\-b\fR, \fB\-\-bezier\fR=\fIBEZIER\fR [default: default]
 Bezier curve used for the animation
+.TP
+\fB\-p\fR, \fB\-\-persist\fR
+Prevent dim_inactive from being disabled by `hyprctl reload` etc
 .TP
 \fB\-h\fR, \fB\-\-help\fR
 Print help
