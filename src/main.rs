@@ -115,7 +115,7 @@ fn main() -> hyprland::Result<()> {
     let mut event_listener = EventListener::new();
 
     // On active window changes
-    event_listener.add_active_window_change_handler(|data, _| {
+    event_listener.add_active_window_change_handler(move |data, _| {
         let Some(hyprland::event_listener::WindowEventData { window_address, .. }) = data else {
             // Ignore the event if no window_address was given
             return
@@ -123,6 +123,10 @@ fn main() -> hyprland::Result<()> {
 
         // Only dim if the active window is a new window
         if is_new_window(window_address) {
+            if cli.persist {
+                let _ = Keyword::set("decoration:dim_inactive", "yes");
+            };
+
             let _ = thread::spawn(dim);
         }
     });

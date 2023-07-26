@@ -17,4 +17,8 @@ pub struct Cli {
     /// Bezier curve used for the animation
     #[arg(short, long, default_value = "default")]
     pub bezier: String,
+
+    /// Prevent dim_inactive from being disabled by `hyprctl reload` etc
+    #[arg(short, long, default_value_t = false)]
+    pub persist: bool,
 }
