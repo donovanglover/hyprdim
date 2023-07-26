@@ -13,6 +13,14 @@ struct Cli {
     /// How many milliseconds to wait
     #[arg(short, long, default_value_t = 800)]
     duration: u64,
+
+    /// Fade animation speed
+    #[arg(short, long, default_value_t = 7)]
+    fade: u64,
+
+    /// Bezier curve used for the animation
+    #[arg(short, long, default_value = "default")]
+    bezier: String,
 }
 
 // (1): Keep track of how many threads are running
@@ -97,6 +105,10 @@ fn main() -> hyprland::Result<()> {
     }
 
     let _ = Keyword::set("decoration:dim_inactive", "yes");
+
+    let result = format!("{}{}{}{}", "fadeDim,1,", cli.fade, ",", cli.bezier);
+
+    let _ = Keyword::set("animation", result);
 
     let mut event_listener = EventListener::new();
 
