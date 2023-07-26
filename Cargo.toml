@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4.3.19", features = ["derive"] }
+ctrlc = { version = "3.4.0", features = ["termination"] }
 hyprland = "0.3.8"
 
 [build-dependencies]

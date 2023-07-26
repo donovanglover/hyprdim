@@ -5,6 +5,9 @@ use std::{thread, time};
 pub mod cli;
 use clap::Parser;
 use cli::Cli;
+use ctrlc;
+use std::process::exit;
+use std::sync::mpsc::channel;
 
 // (1): Keep track of how many threads are running
 static mut I: i32 = 0;
@@ -77,6 +80,22 @@ fn log_default() -> hyprland::Result<()> {
     Ok(())
 }
 
+fn handle_termination() {
+    let (tx, rx) = channel();
+
+    ctrlc::set_handler(move || tx.send(()).expect("Could not send signal on channel."))
+        .expect("Error setting Ctrl-C handler");
+
+    rx.recv().expect("Could not receive from channel.");
+
+    unsafe {
+        let _ = Keyword::set("decoration:dim_strength", DIM_STRENGTH);
+        let _ = Keyword::set("decoration:dim_inactive", DIM_INACTIVE);
+    }
+
+    exit(0);
+}
+
 fn main() -> hyprland::Result<()> {
     let _ = log_default();
 
@@ -107,6 +126,8 @@ fn main() -> hyprland::Result<()> {
             let _ = thread::spawn(dim);
         }
     });
+
+    thread::spawn(handle_termination);
 
     event_listener.start_listener()
 }

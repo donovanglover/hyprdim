@@ -22,7 +22,7 @@ That said, if you know how to do things better, feel free to open an issue or ma
 ## Todo
 
 - [x] Turn `dim_inactive` on if it isn't already
-- [ ] Restore the original state of variables when stopping the daemon
+- [x] Restore the original state of variables when stopping the daemon
 - [x] Add support for command line arguments
 - [x] Add man pages
 - [x] Add shell completions
