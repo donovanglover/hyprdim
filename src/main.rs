@@ -2,6 +2,18 @@ use hyprland::event_listener::EventListenerMutable as EventListener;
 use hyprland::keyword::*;
 use hyprland::shared::Address;
 use std::{thread, time};
+use clap::Parser;
+
+#[derive(Parser)]
+struct Cli {
+    /// A value from 0 (no dim) to 1 (maximum dim)
+    #[arg(short, long, default_value_t = 0.4)]
+    strength: f64,
+
+    /// How many milliseconds to wait
+    #[arg(short, long, default_value_t = 800)]
+    duration: u64,
+}
 
 // (1): Keep track of how many threads are running
 static mut I: i32 = 0;
@@ -13,14 +25,18 @@ static mut ADDRESS: Option<Address> = None;
 static mut DIM_STRENGTH: f64 = 0.0;
 static mut DIM_INACTIVE: i64 = 0;
 
-fn dim() {
-    // Note tha dim_strength is used instead of toggling dim_inactive for smooth animations
-    let _ = Keyword::set("decoration:dim_strength", 0.25);
+// (4): Keep track of CLI variables
+static mut STRENGTH: f64 = 0.0;
+static mut DURATION: u64 = 0;
 
+fn dim() {
     unsafe {
+        // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
+        let _ = Keyword::set("decoration:dim_strength", STRENGTH);
+
         // (1): Wait X milliseconds, keeping track of the number of waiting threads with I
         I += 1;
-        thread::sleep(time::Duration::from_millis(800));
+        thread::sleep(time::Duration::from_millis(DURATION));
         I -= 1;
 
         // (1): If this is the last thread, remove dim
@@ -72,6 +88,13 @@ fn log_default() -> hyprland::Result<()> {
 
 fn main() -> hyprland::Result<()> {
     let _ = log_default();
+
+    let cli = Cli::parse();
+
+    unsafe {
+        STRENGTH = cli.strength;
+        DURATION = cli.duration;
+    }
 
     let _ = Keyword::set("decoration:dim_inactive", "yes");
 

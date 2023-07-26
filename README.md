@@ -24,7 +24,7 @@ That said, if you know how to do things better, feel free to open an issue or ma
 - [x] Turn `dim_inactive` on if it isn't already
 - [ ] Restore the original state of keywords when stopping the daemon
 - [ ] Add support for environment variables
-- [ ] Add support for command line arguments
+- [x] Add support for command line arguments
 - [ ] Add man pages
 - [ ] Add shell completions
 - [ ] Add to [awesome-hyprland](https://github.com/hyprland-community/awesome-hyprland)
