@@ -1,0 +1,24 @@
+.ie \n(.g .ds Aq \(aq
+.el .ds Aq '
+.TH hyprland-autodim 1  "hyprland-autodim " 
+.SH NAME
+hyprland\-autodim
+.SH SYNOPSIS
+\fBhyprland\-autodim\fR [\fB\-s\fR|\fB\-\-strength\fR] [\fB\-d\fR|\fB\-\-duration\fR] [\fB\-f\fR|\fB\-\-fade\fR] [\fB\-b\fR|\fB\-\-bezier\fR] [\fB\-h\fR|\fB\-\-help\fR] 
+.SH DESCRIPTION
+.SH OPTIONS
+.TP
+\fB\-s\fR, \fB\-\-strength\fR=\fISTRENGTH\fR [default: 0.4]
+A value from 0 (no dim) to 1 (maximum dim)
+.TP
+\fB\-d\fR, \fB\-\-duration\fR=\fIDURATION\fR [default: 800]
+How many milliseconds to wait
+.TP
+\fB\-f\fR, \fB\-\-fade\fR=\fIFADE\fR [default: 7]
+Fade animation speed
+.TP
+\fB\-b\fR, \fB\-\-bezier\fR=\fIBEZIER\fR [default: default]
+Bezier curve used for the animation
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help
