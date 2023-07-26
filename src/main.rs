@@ -3,8 +3,8 @@ use hyprland::keyword::*;
 use hyprland::shared::Address;
 use std::{thread, time};
 pub mod cli;
-use cli::Cli;
 use clap::Parser;
+use cli::Cli;
 
 // (1): Keep track of how many threads are running
 static mut I: i32 = 0;

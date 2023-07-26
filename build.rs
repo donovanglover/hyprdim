@@ -1,9 +1,9 @@
 include!("src/cli.rs");
 
-use clap_mangen::Man;
 use clap::CommandFactory;
 use clap_complete::generate_to;
 use clap_complete::Shell::{Bash, Fish, Zsh};
+use clap_mangen::Man;
 
 fn generate_man_pages() {
     let man_dir = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("man");
