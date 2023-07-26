@@ -2,26 +2,9 @@ use hyprland::event_listener::EventListenerMutable as EventListener;
 use hyprland::keyword::*;
 use hyprland::shared::Address;
 use std::{thread, time};
+pub mod cli;
+use cli::Cli;
 use clap::Parser;
-
-#[derive(Parser)]
-struct Cli {
-    /// A value from 0 (no dim) to 1 (maximum dim)
-    #[arg(short, long, default_value_t = 0.4)]
-    strength: f64,
-
-    /// How many milliseconds to wait
-    #[arg(short, long, default_value_t = 800)]
-    duration: u64,
-
-    /// Fade animation speed
-    #[arg(short, long, default_value_t = 7)]
-    fade: u64,
-
-    /// Bezier curve used for the animation
-    #[arg(short, long, default_value = "default")]
-    bezier: String,
-}
 
 // (1): Keep track of how many threads are running
 static mut I: i32 = 0;
