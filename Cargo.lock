@@ -161,6 +161,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "clap_complete"
+version = "4.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5fc443334c81a804575546c5a8a79b4913b50e28d69232903604cada1de817ce"
+dependencies = [
+ "clap",
+]
+
+[[package]]
 name = "clap_derive"
 version = "4.3.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -381,6 +390,7 @@ name = "hyprland-autodim"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "clap_complete",
  "clap_mangen",
  "hyprland",
 ]

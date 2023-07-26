@@ -26,7 +26,7 @@ That said, if you know how to do things better, feel free to open an issue or ma
 - [ ] Add support for environment variables
 - [x] Add support for command line arguments
 - [x] Add man pages
-- [ ] Add shell completions
+- [x] Add shell completions
 - [ ] Add to [awesome-hyprland](https://github.com/hyprland-community/awesome-hyprland)
 - [ ] Add to [nixpkgs](https://github.com/NixOS/nixpkgs)
 
