@@ -5,7 +5,7 @@ use std::{thread, time};
 pub mod cli;
 use clap::Parser;
 use cli::Cli;
-use ctrlc;
+use ctrlc::set_handler;
 use std::process::exit;
 use std::sync::mpsc::channel;
 
@@ -83,7 +83,7 @@ fn log_default() -> hyprland::Result<()> {
 fn handle_termination() {
     let (tx, rx) = channel();
 
-    ctrlc::set_handler(move || tx.send(()).expect("Could not send signal on channel."))
+    set_handler(move || tx.send(()).expect("Could not send signal on channel."))
         .expect("Error setting Ctrl-C handler");
 
     rx.recv().expect("Could not receive from channel.");
