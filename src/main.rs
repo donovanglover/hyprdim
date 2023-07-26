@@ -45,7 +45,7 @@ fn is_new_window(window_address: Address) -> bool {
             // (2): If the saved address is the same as the new window, they're the same
             Some(address) => {
                 let old_address = format!("{:?}", address.clone());
-                let new_address = format!("{:?}", window_address.clone());
+                let new_address = format!("{:?}", window_address);
 
                 if old_address == new_address {
                     windows_are_the_same = true;
