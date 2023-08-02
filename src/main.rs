@@ -71,20 +71,15 @@ fn main() -> hyprland::Result<()> {
 
         let num_threads = num_threads_outer.clone();
         let last_address = last_address_outer.clone();
-        let mut windows_are_the_same = false;
 
-        // If the saved address is the same as the new window, they're the same
+        // If the last address is the same as the new window, don't dim
         if let Some(ref address) = *last_address.lock().unwrap() {
             let old_address = format!("{:?}", address.clone());
             let new_address = format!("{:?}", window_address);
 
             if old_address == new_address {
-                windows_are_the_same = true;
+                return
             }
-        }
-
-        if windows_are_the_same {
-            return
         }
 
         *last_address.lock().unwrap() = Some(window_address);
