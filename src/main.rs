@@ -51,9 +51,8 @@ fn main() -> hyprland::Result<()> {
 
     let cli = Cli::parse();
 
-    let _ = Keyword::set("decoration:dim_inactive", "yes");
-
-    let _ = Keyword::set("animation", format!("{}{}{}{}", "fadeDim,1,", cli.fade, ",", cli.bezier));
+    Keyword::set("decoration:dim_inactive", "yes")?;
+    Keyword::set("animation", format!("{}{}{}{}", "fadeDim,1,", cli.fade, ",", cli.bezier))?;
 
     let mut event_listener = EventListener::new();
 
