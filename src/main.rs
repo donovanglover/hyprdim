@@ -1,10 +1,10 @@
+use clap::Parser;
+use cli::Cli;
 use hyprland::event_listener::EventListener;
 use hyprland::keyword::{Keyword, OptionValue};
 use hyprland::shared::Address;
-use std::{thread, time, process};
-use clap::Parser;
-use cli::Cli;
-use std::sync::{Arc, Mutex, mpsc};
+use std::sync::{mpsc, Arc, Mutex};
+use std::{process, thread, time};
 
 mod cli;
 
