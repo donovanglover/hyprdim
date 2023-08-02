@@ -9,6 +9,7 @@ use std::{process, thread, time};
 mod cli;
 
 fn main() -> hyprland::Result<()> {
+    // Save dim_strength and dim_inactive values so they can be restored later
     let dim_strength = match Keyword::get("decoration:dim_strength")?.value {
         OptionValue::Float(i) => i,
         _ => 0.5,
@@ -21,6 +22,7 @@ fn main() -> hyprland::Result<()> {
 
     let cli = Cli::parse();
 
+    // Set initial dim values
     Keyword::set("decoration:dim_inactive", "yes")?;
 
     #[rustfmt::skip]
@@ -28,6 +30,7 @@ fn main() -> hyprland::Result<()> {
 
     let mut event_listener = EventListener::new();
 
+    // Keep track of state
     let num_threads_outer = Arc::new(Mutex::new(0));
     let last_address_outer: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
 
