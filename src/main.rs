@@ -10,20 +10,6 @@ use std::process::exit;
 use std::sync::mpsc::channel;
 use std::sync::{Arc, Mutex};
 
-fn handle_termination(dim_strength: f64, dim_inactive: i64) {
-    let (tx, rx) = channel();
-
-    set_handler(move || tx.send(()).expect("Could not send signal on channel."))
-        .expect("Error setting Ctrl-C handler");
-
-    rx.recv().expect("Could not receive from channel.");
-
-    let _ = Keyword::set("decoration:dim_strength", dim_strength);
-    let _ = Keyword::set("decoration:dim_inactive", dim_inactive);
-
-    exit(0);
-}
-
 fn main() -> hyprland::Result<()> {
     let dim_strength = match Keyword::get("decoration:dim_strength")?.value {
         OptionValue::Float(i) => i,
@@ -90,7 +76,17 @@ fn main() -> hyprland::Result<()> {
     });
 
     thread::spawn(move || {
-        handle_termination(dim_strength, dim_inactive)
+        let (tx, rx) = channel();
+
+        set_handler(move || tx.send(()).expect("Could not send signal on channel."))
+            .expect("Error setting Ctrl-C handler");
+
+        rx.recv().expect("Could not receive from channel.");
+
+        let _ = Keyword::set("decoration:dim_strength", dim_strength);
+        let _ = Keyword::set("decoration:dim_inactive", dim_inactive);
+
+        exit(0);
     });
 
     event_listener.start_listener()
