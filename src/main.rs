@@ -36,10 +36,8 @@ fn main() -> hyprland::Result<()> {
 
     // On active window changes
     event_listener.add_active_window_change_handler(move |data| {
-        let Some(WindowEventData { window_address, .. }) = data else {
-            // Ignore the event if no window_address was given
-            return
-        };
+        // Ignore the event if no window_address was given
+        let Some(WindowEventData { window_address, .. }) = data else { return };
 
         let num_threads = num_threads_outer.clone();
         let last_address = last_address_outer.clone();
