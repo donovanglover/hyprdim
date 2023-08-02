@@ -85,9 +85,9 @@ fn main() -> hyprland::Result<()> {
             let _ = Keyword::set("decoration:dim_inactive", "yes");
         };
 
-        thread::spawn(move || {
+        thread::spawn(move || -> hyprland::Result<()> {
             // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
-            let _ = Keyword::set("decoration:dim_strength", cli.strength);
+            Keyword::set("decoration:dim_strength", cli.strength)?;
 
             // Wait X milliseconds, keeping track of the number of waiting threads
             *num_threads.lock().unwrap() += 1;
@@ -96,8 +96,10 @@ fn main() -> hyprland::Result<()> {
 
             // If this is the last thread, remove dim
             if *num_threads.lock().unwrap() == 0 {
-                let _ = Keyword::set("decoration:dim_strength", 0);
+                Keyword::set("decoration:dim_strength", 0)?;
             }
+
+            Ok(())
         });
     });
 
