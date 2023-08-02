@@ -22,10 +22,9 @@ fn main() -> hyprland::Result<()> {
     let cli = Cli::parse();
 
     Keyword::set("decoration:dim_inactive", "yes")?;
-    Keyword::set(
-        "animation",
-        format!("{}{}{}{}", "fadeDim,1,", cli.fade, ",", cli.bezier),
-    )?;
+
+    #[rustfmt::skip]
+    Keyword::set("animation", format!("{}{}{}{}", "fadeDim,1,", cli.fade, ",", cli.bezier))?;
 
     let mut event_listener = EventListener::new();
 
