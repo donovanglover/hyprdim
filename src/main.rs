@@ -76,7 +76,7 @@ fn main() -> hyprland::Result<()> {
         });
     });
 
-    thread::spawn(move || {
+    thread::spawn(move || -> hyprland::Result<()> {
         let (tx, rx) = mpsc::channel();
 
         ctrlc::set_handler(move || tx.send(()).expect("Could not send signal on channel."))
@@ -84,8 +84,8 @@ fn main() -> hyprland::Result<()> {
 
         rx.recv().expect("Could not receive from channel.");
 
-        let _ = Keyword::set("decoration:dim_strength", dim_strength);
-        let _ = Keyword::set("decoration:dim_inactive", dim_inactive);
+        Keyword::set("decoration:dim_strength", dim_strength)?;
+        Keyword::set("decoration:dim_inactive", dim_inactive)?;
 
         process::exit(0);
     });
