@@ -73,18 +73,14 @@ fn main() -> hyprland::Result<()> {
         let last_address = last_address_outer.clone();
         let mut windows_are_the_same = false;
 
-        match *last_address.lock().unwrap() {
-            // If the saved address is the same as the new window, they're the same
-            Some(ref address) => {
-                let old_address = format!("{:?}", address.clone());
-                let new_address = format!("{:?}", window_address);
+        // If the saved address is the same as the new window, they're the same
+        if let Some(ref address) = *last_address.lock().unwrap() {
+            let old_address = format!("{:?}", address.clone());
+            let new_address = format!("{:?}", window_address);
 
-                if old_address == new_address {
-                    windows_are_the_same = true;
-                }
-            },
-            // Fallback for when an initial address hasn't been saved yet
-            None => {}
+            if old_address == new_address {
+                windows_are_the_same = true;
+            }
         }
 
         if windows_are_the_same {
