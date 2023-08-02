@@ -1,6 +1,6 @@
 # hyprdim
 
-hyprdim is a daemon that automatically dims windows when switching between them.
+hyprdim is a daemon that automatically dims windows in Hyprland when switching between them.
 
 ## Advantages
 
