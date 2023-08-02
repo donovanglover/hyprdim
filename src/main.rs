@@ -19,18 +19,14 @@ static mut ADDRESS: Option<Address> = None;
 static mut DIM_STRENGTH: f64 = 0.0;
 static mut DIM_INACTIVE: i64 = 0;
 
-// (4): Keep track of CLI variables
-static mut STRENGTH: f64 = 0.0;
-static mut DURATION: u64 = 0;
-
-fn dim() {
+fn dim(strength: f64, duration: u64) {
     unsafe {
         // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
-        let _ = Keyword::set("decoration:dim_strength", STRENGTH);
+        let _ = Keyword::set("decoration:dim_strength", strength);
 
         // (1): Wait X milliseconds, keeping track of the number of waiting threads with I
         I += 1;
-        thread::sleep(time::Duration::from_millis(DURATION));
+        thread::sleep(time::Duration::from_millis(duration));
         I -= 1;
 
         // (1): If this is the last thread, remove dim
@@ -101,11 +97,6 @@ fn main() -> hyprland::Result<()> {
 
     let cli = Cli::parse();
 
-    unsafe {
-        STRENGTH = cli.strength;
-        DURATION = cli.duration;
-    }
-
     let _ = Keyword::set("decoration:dim_inactive", "yes");
 
     let result = format!("{}{}{}{}", "fadeDim,1,", cli.fade, ",", cli.bezier);
@@ -127,7 +118,9 @@ fn main() -> hyprland::Result<()> {
                 let _ = Keyword::set("decoration:dim_inactive", "yes");
             };
 
-            let _ = thread::spawn(dim);
+            let _ = thread::spawn(move || {
+                dim(cli.strength, cli.duration)
+            });
         }
     });
 
