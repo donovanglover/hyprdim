@@ -5,9 +5,8 @@ use std::{thread, time};
 pub mod cli;
 use clap::Parser;
 use cli::Cli;
-use ctrlc::set_handler;
-use std::process::exit;
-use std::sync::mpsc::channel;
+use std::process;
+use std::sync::mpsc;
 use std::sync::{Arc, Mutex};
 
 fn main() -> hyprland::Result<()> {
@@ -76,9 +75,9 @@ fn main() -> hyprland::Result<()> {
     });
 
     thread::spawn(move || {
-        let (tx, rx) = channel();
+        let (tx, rx) = mpsc::channel();
 
-        set_handler(move || tx.send(()).expect("Could not send signal on channel."))
+        ctrlc::set_handler(move || tx.send(()).expect("Could not send signal on channel."))
             .expect("Error setting Ctrl-C handler");
 
         rx.recv().expect("Could not receive from channel.");
@@ -86,7 +85,7 @@ fn main() -> hyprland::Result<()> {
         let _ = Keyword::set("decoration:dim_strength", dim_strength);
         let _ = Keyword::set("decoration:dim_inactive", dim_inactive);
 
-        exit(0);
+        process::exit(0);
     });
 
     event_listener.start_listener()
