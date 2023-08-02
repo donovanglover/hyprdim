@@ -1,6 +1,6 @@
 use clap::Parser;
 use cli::Cli;
-use hyprland::event_listener::EventListener;
+use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::{Keyword, OptionValue};
 use hyprland::shared::Address;
 use std::sync::{mpsc, Arc, Mutex};
@@ -36,7 +36,7 @@ fn main() -> hyprland::Result<()> {
 
     // On active window changes
     event_listener.add_active_window_change_handler(move |data| {
-        let Some(hyprland::event_listener::WindowEventData { window_address, .. }) = data else {
+        let Some(WindowEventData { window_address, .. }) = data else {
             // Ignore the event if no window_address was given
             return
         };
