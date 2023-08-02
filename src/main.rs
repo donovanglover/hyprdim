@@ -10,27 +10,7 @@ use std::process::exit;
 use std::sync::mpsc::channel;
 use std::sync::{Arc, Mutex};
 
-// (3): Keep track of initial variables
-static mut DIM_STRENGTH: f64 = 0.0;
-static mut DIM_INACTIVE: i64 = 0;
-
-fn log_default() -> hyprland::Result<()> {
-    unsafe {
-        DIM_STRENGTH = match Keyword::get("decoration:dim_strength")?.value {
-            OptionValue::Float(i) => i,
-            _ => 0.5,
-        };
-
-        DIM_INACTIVE = match Keyword::get("decoration:dim_inactive")?.value {
-            OptionValue::Int(i) => i,
-            _ => 0,
-        };
-    }
-
-    Ok(())
-}
-
-fn handle_termination() {
+fn handle_termination(dim_strength: f64, dim_inactive: i64) {
     let (tx, rx) = channel();
 
     set_handler(move || tx.send(()).expect("Could not send signal on channel."))
@@ -38,16 +18,22 @@ fn handle_termination() {
 
     rx.recv().expect("Could not receive from channel.");
 
-    unsafe {
-        let _ = Keyword::set("decoration:dim_strength", DIM_STRENGTH);
-        let _ = Keyword::set("decoration:dim_inactive", DIM_INACTIVE);
-    }
+    let _ = Keyword::set("decoration:dim_strength", dim_strength);
+    let _ = Keyword::set("decoration:dim_inactive", dim_inactive);
 
     exit(0);
 }
 
 fn main() -> hyprland::Result<()> {
-    let _ = log_default();
+    let dim_strength = match Keyword::get("decoration:dim_strength")?.value {
+        OptionValue::Float(i) => i,
+        _ => 0.5,
+    };
+
+    let dim_inactive = match Keyword::get("decoration:dim_inactive")?.value {
+        OptionValue::Int(i) => i,
+        _ => 0,
+    };
 
     let cli = Cli::parse();
 
@@ -103,7 +89,9 @@ fn main() -> hyprland::Result<()> {
         });
     });
 
-    thread::spawn(handle_termination);
+    thread::spawn(move || {
+        handle_termination(dim_strength, dim_inactive)
+    });
 
     event_listener.start_listener()
 }
