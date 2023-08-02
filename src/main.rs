@@ -81,11 +81,11 @@ fn main() -> hyprland::Result<()> {
 
         *last_address.lock().unwrap() = Some(window_address);
 
-        if cli.persist {
-            let _ = Keyword::set("decoration:dim_inactive", "yes");
-        };
-
         thread::spawn(move || -> hyprland::Result<()> {
+            if cli.persist {
+                Keyword::set("decoration:dim_inactive", "yes")?;
+            };
+
             // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
             Keyword::set("decoration:dim_strength", cli.strength)?;
 
