@@ -1,4 +1,4 @@
-use hyprland::event_listener::EventListenerMutable as EventListener;
+use hyprland::event_listener::EventListener;
 use hyprland::keyword::{Keyword, OptionValue};
 use hyprland::shared::Address;
 use std::{thread, time, process};
@@ -29,7 +29,7 @@ fn main() -> hyprland::Result<()> {
     let last_address_outer: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
 
     // On active window changes
-    event_listener.add_active_window_change_handler(move |data, _| {
+    event_listener.add_active_window_change_handler(move |data| {
         let Some(hyprland::event_listener::WindowEventData { window_address, .. }) = data else {
             // Ignore the event if no window_address was given
             return
