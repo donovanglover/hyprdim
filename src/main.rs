@@ -10,36 +10,9 @@ use std::process::exit;
 use std::sync::mpsc::channel;
 use std::sync::{Arc, Mutex};
 
-// (2): Keep track of the last window address
-static mut ADDRESS: Option<Address> = None;
-
 // (3): Keep track of initial variables
 static mut DIM_STRENGTH: f64 = 0.0;
 static mut DIM_INACTIVE: i64 = 0;
-
-fn is_new_window(window_address: Address) -> bool {
-    let mut windows_are_the_same = false;
-
-    unsafe {
-        match &ADDRESS {
-            // (2): If the saved address is the same as the new window, they're the same
-            Some(address) => {
-                let old_address = format!("{:?}", address.clone());
-                let new_address = format!("{:?}", window_address);
-
-                if old_address == new_address {
-                    windows_are_the_same = true;
-                }
-            }
-
-            // (2): Fallback for when an initial address hasn't been saved yet
-            None => {}
-        }
-        ADDRESS = Some(window_address);
-    }
-
-    !windows_are_the_same
-}
 
 fn log_default() -> hyprland::Result<()> {
     unsafe {
@@ -87,6 +60,7 @@ fn main() -> hyprland::Result<()> {
     let mut event_listener = EventListener::new();
 
     let num_threads_outer = Arc::new(Mutex::new(0));
+    let last_address_outer: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
 
     // On active window changes
     event_listener.add_active_window_change_handler(move |data, _| {
@@ -96,28 +70,47 @@ fn main() -> hyprland::Result<()> {
         };
 
         let num_threads = num_threads_outer.clone();
+        let last_address = last_address_outer.clone();
+        let mut windows_are_the_same = false;
 
-        // Only dim if the active window is a new window
-        if is_new_window(window_address) {
-            if cli.persist {
-                let _ = Keyword::set("decoration:dim_inactive", "yes");
-            };
+        match *last_address.lock().unwrap() {
+            // If the saved address is the same as the new window, they're the same
+            Some(ref address) => {
+                let old_address = format!("{:?}", address.clone());
+                let new_address = format!("{:?}", window_address);
 
-            thread::spawn(move || {
-                // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
-                let _ = Keyword::set("decoration:dim_strength", cli.strength);
-
-                // Wait X milliseconds, keeping track of the number of waiting threads
-                *num_threads.lock().unwrap() += 1;
-                thread::sleep(time::Duration::from_millis(cli.duration));
-                *num_threads.lock().unwrap() -= 1;
-
-                // If this is the last thread, remove dim
-                if *num_threads.lock().unwrap() == 0 {
-                    let _ = Keyword::set("decoration:dim_strength", 0);
+                if old_address == new_address {
+                    windows_are_the_same = true;
                 }
-            });
+            },
+            // Fallback for when an initial address hasn't been saved yet
+            None => {}
         }
+
+        if windows_are_the_same {
+            return
+        }
+
+        *last_address.lock().unwrap() = Some(window_address);
+
+        if cli.persist {
+            let _ = Keyword::set("decoration:dim_inactive", "yes");
+        };
+
+        thread::spawn(move || {
+            // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
+            let _ = Keyword::set("decoration:dim_strength", cli.strength);
+
+            // Wait X milliseconds, keeping track of the number of waiting threads
+            *num_threads.lock().unwrap() += 1;
+            thread::sleep(time::Duration::from_millis(cli.duration));
+            *num_threads.lock().unwrap() -= 1;
+
+            // If this is the last thread, remove dim
+            if *num_threads.lock().unwrap() == 0 {
+                let _ = Keyword::set("decoration:dim_strength", 0);
+            }
+        });
     });
 
     thread::spawn(handle_termination);
