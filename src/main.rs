@@ -8,9 +8,7 @@ use cli::Cli;
 use ctrlc::set_handler;
 use std::process::exit;
 use std::sync::mpsc::channel;
-
-// (1): Keep track of how many threads are running
-static mut I: i32 = 0;
+use std::sync::{Arc, Mutex};
 
 // (2): Keep track of the last window address
 static mut ADDRESS: Option<Address> = None;
@@ -18,23 +16,6 @@ static mut ADDRESS: Option<Address> = None;
 // (3): Keep track of initial variables
 static mut DIM_STRENGTH: f64 = 0.0;
 static mut DIM_INACTIVE: i64 = 0;
-
-fn dim(strength: f64, duration: u64) {
-    unsafe {
-        // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
-        let _ = Keyword::set("decoration:dim_strength", strength);
-
-        // (1): Wait X milliseconds, keeping track of the number of waiting threads with I
-        I += 1;
-        thread::sleep(time::Duration::from_millis(duration));
-        I -= 1;
-
-        // (1): If this is the last thread, remove dim
-        if I == 0 {
-            let _ = Keyword::set("decoration:dim_strength", 0);
-        }
-    }
-}
 
 fn is_new_window(window_address: Address) -> bool {
     let mut windows_are_the_same = false;
@@ -105,6 +86,8 @@ fn main() -> hyprland::Result<()> {
 
     let mut event_listener = EventListener::new();
 
+    let num_threads_outer = Arc::new(Mutex::new(0));
+
     // On active window changes
     event_listener.add_active_window_change_handler(move |data, _| {
         let Some(hyprland::event_listener::WindowEventData { window_address, .. }) = data else {
@@ -112,14 +95,27 @@ fn main() -> hyprland::Result<()> {
             return
         };
 
+        let num_threads = num_threads_outer.clone();
+
         // Only dim if the active window is a new window
         if is_new_window(window_address) {
             if cli.persist {
                 let _ = Keyword::set("decoration:dim_inactive", "yes");
             };
 
-            let _ = thread::spawn(move || {
-                dim(cli.strength, cli.duration)
+            thread::spawn(move || {
+                // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
+                let _ = Keyword::set("decoration:dim_strength", cli.strength);
+
+                // Wait X milliseconds, keeping track of the number of waiting threads
+                *num_threads.lock().unwrap() += 1;
+                thread::sleep(time::Duration::from_millis(cli.duration));
+                *num_threads.lock().unwrap() -= 1;
+
+                // If this is the last thread, remove dim
+                if *num_threads.lock().unwrap() == 0 {
+                    let _ = Keyword::set("decoration:dim_strength", 0);
+                }
             });
         }
     });
