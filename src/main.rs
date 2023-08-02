@@ -2,10 +2,11 @@ use hyprland::event_listener::EventListener;
 use hyprland::keyword::{Keyword, OptionValue};
 use hyprland::shared::Address;
 use std::{thread, time, process};
-mod cli;
 use clap::Parser;
 use cli::Cli;
 use std::sync::{Arc, Mutex, mpsc};
+
+mod cli;
 
 fn main() -> hyprland::Result<()> {
     let dim_strength = match Keyword::get("decoration:dim_strength")?.value {
