@@ -2,7 +2,7 @@
 
 hyprdim is a daemon that automatically dims windows in [Hyprland](https://hyprland.org/) when switching between them.
 
-## Advantages
+## Features
 
 - Easy to see which window has focus, even with subtle or no borders.
 - Windows only dim when switching windows, eliminating the need to toggle dim on/off when you want to see other windows.
