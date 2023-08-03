@@ -19,6 +19,8 @@ fn main() -> hyprland::Result<()> {
         process::exit(1);
     };
 
+    println!("Starting hyprdim...");
+
     // Save dim_strength and dim_inactive values so they can be restored later
     let dim_strength = match Keyword::get("decoration:dim_strength")?.value {
         OptionValue::Float(i) => i,
