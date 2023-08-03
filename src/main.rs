@@ -3,12 +3,22 @@ use cli::Cli;
 use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::{Keyword, OptionValue};
 use hyprland::shared::Address;
+use single_instance::SingleInstance;
 use std::sync::{mpsc, Arc, Mutex};
 use std::{process, thread, time};
 
 mod cli;
 
 fn main() -> hyprland::Result<()> {
+    let instance = SingleInstance::new("hyprdim").unwrap();
+
+    // Don't allow more than one hyprdim instance to run
+    if !instance.is_single() {
+        println!("hyprdim is already running. Use `killall hyprdim` to stop any existing processes.");
+
+        process::exit(1);
+    };
+
     // Save dim_strength and dim_inactive values so they can be restored later
     let dim_strength = match Keyword::get("decoration:dim_strength")?.value {
         OptionValue::Float(i) => i,
