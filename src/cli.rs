@@ -31,7 +31,7 @@ pub struct Cli {
     #[arg(short, long, default_value_t = 0.4)]
     pub strength: f64,
 
-    /// How many milliseconds to wait
+    /// How many milliseconds to wait before removing dim
     #[arg(short, long, default_value_t = 800)]
     pub duration: u64,
 
