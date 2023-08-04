@@ -42,15 +42,17 @@ fn main() -> hyprland::Result<()> {
         ..
     } = Cli::parse();
 
-    // Set initial dim values
-    Keyword::set("decoration:dim_inactive", "yes")?;
+    // Set initial dim animation
     Keyword::set("animation", format!("fadeDim,1,{fade},{bezier}"))?;
 
     let mut event_listener = EventListener::new();
 
     // Keep track of state
-    let num_threads_outer = Arc::new(Mutex::new(0));
+    let num_threads_outer: Arc<Mutex<u16>> = Arc::new(Mutex::new(0));
     let last_address_outer: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
+
+    // Initialize with dim so the user sees something
+    spawn_dim_thread(num_threads_outer.clone(), strength, persist, duration, true);
 
     // On active window changes
     event_listener.add_active_window_change_handler(move |data| {
@@ -69,30 +71,7 @@ fn main() -> hyprland::Result<()> {
 
         *last_address.lock().unwrap() = Some(window_address);
 
-        thread::spawn(move || -> hyprland::Result<()> {
-            if persist {
-                Keyword::set("decoration:dim_inactive", "yes")?;
-            };
-
-            // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
-            Keyword::set("decoration:dim_strength", strength)?;
-
-            log("info: Applied dim (new thread)");
-
-            // Wait X milliseconds, keeping track of the number of waiting threads
-            *num_threads.lock().unwrap() += 1;
-            thread::sleep(time::Duration::from_millis(duration));
-            *num_threads.lock().unwrap() -= 1;
-
-            // If this is the last thread, remove dim
-            if *num_threads.lock().unwrap() == 0 {
-                Keyword::set("decoration:dim_strength", 0)?;
-
-                log("info: Removed dim (last thread)");
-            }
-
-            Ok(())
-        });
+        spawn_dim_thread(num_threads, strength, persist, duration, false);
     });
 
     thread::spawn(move || -> hyprland::Result<()> {
@@ -112,4 +91,31 @@ fn main() -> hyprland::Result<()> {
     });
 
     event_listener.start_listener()
+}
+
+fn spawn_dim_thread(num_threads: Arc<Mutex<u16>>, strength: f64, persist: bool, duration: u64, first_run: bool) {
+    thread::spawn(move || -> hyprland::Result<()> {
+        if persist || first_run {
+            Keyword::set("decoration:dim_inactive", "yes")?;
+        };
+
+        // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
+        Keyword::set("decoration:dim_strength", strength)?;
+
+        log("info: Applied dim (new thread)");
+
+        // Wait X milliseconds, keeping track of the number of waiting threads
+        *num_threads.lock().unwrap() += 1;
+        thread::sleep(time::Duration::from_millis(duration));
+        *num_threads.lock().unwrap() -= 1;
+
+        // If this is the last thread, remove dim
+        if *num_threads.lock().unwrap() == 0 {
+            Keyword::set("decoration:dim_strength", 0)?;
+
+            log("info: Removed dim (last thread)");
+        }
+
+        Ok(())
+    });
 }
