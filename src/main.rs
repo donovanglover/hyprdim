@@ -20,7 +20,7 @@ fn main() -> hyprland::Result<()> {
         process::exit(1);
     };
 
-    log("Starting hyprdim...");
+    log("hyprdim is now running.");
 
     // Save dim_strength and dim_inactive values so they can be restored later
     let dim_strength = match Keyword::get("decoration:dim_strength")?.value {
