@@ -33,13 +33,13 @@ fn main() -> hyprland::Result<()> {
         _ => 0,
     };
 
-    let cli = Cli::parse();
+    let Cli { fade, bezier, strength, duration, persist, .. } = Cli::parse();
 
     // Set initial dim values
     Keyword::set("decoration:dim_inactive", "yes")?;
 
     #[rustfmt::skip]
-    Keyword::set("animation", format!("fadeDim,1,{},{}", cli.fade, cli.bezier))?;
+    Keyword::set("animation", format!("fadeDim,1,{fade},{bezier}"))?;
 
     let mut event_listener = EventListener::new();
 
@@ -68,18 +68,18 @@ fn main() -> hyprland::Result<()> {
         *last_address.lock().unwrap() = Some(window_address);
 
         thread::spawn(move || -> hyprland::Result<()> {
-            if cli.persist {
+            if persist {
                 Keyword::set("decoration:dim_inactive", "yes")?;
             };
 
             // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
-            Keyword::set("decoration:dim_strength", cli.strength)?;
+            Keyword::set("decoration:dim_strength", strength)?;
 
             log("info: Applied dim (new thread)");
 
             // Wait X milliseconds, keeping track of the number of waiting threads
             *num_threads.lock().unwrap() += 1;
-            thread::sleep(time::Duration::from_millis(cli.duration));
+            thread::sleep(time::Duration::from_millis(duration));
             *num_threads.lock().unwrap() -= 1;
 
             // If this is the last thread, remove dim
