@@ -28,6 +28,8 @@ available here[5].
 #[command(author, version, about, long_about = LONG_ABOUT)]
 pub struct Cli {
     /// A value from 0 (no dim) to 1 (maximum dim)
+    ///
+    /// Note that negative numbers such as -1 and -5 are also supported for "light dim".
     #[arg(short, long, default_value_t = 0.4)]
     pub strength: f64,
 
