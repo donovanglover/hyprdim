@@ -43,6 +43,7 @@ fn main() -> hyprland::Result<()> {
         duration,
         persist,
         ignore_entering_special,
+        ignore_leaving_special,
         ..
     } = Cli::parse();
 
@@ -97,7 +98,15 @@ fn main() -> hyprland::Result<()> {
         }
 
         if !is_special_workspace {
+            let was_in_special = *in_special_workspace.lock().unwrap();
+
             *in_special_workspace.lock().unwrap() = false;
+
+            // If we're exiting for the first time, don't dim
+            if ignore_leaving_special && was_in_special {
+                log("info: Leaving special workspace, so not dimming.");
+                return
+            }
         }
 
         // Don't dim when switching to another workspace with only one window
