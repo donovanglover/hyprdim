@@ -35,9 +35,9 @@ pub struct Cli {
     #[arg(short, long, default_value_t = 800)]
     pub duration: u64,
 
-    /// Fade animation speed from 0 (instantaneous) to 65535 (very slow)
+    /// Fade animation speed from 0 (instantaneous) to 255 (very slow)
     #[arg(short, long, default_value_t = 7)]
-    pub fade: u16,
+    pub fade: u8,
 
     /// Bezier curve used for the animation
     #[arg(short, long, default_value = "default")]
