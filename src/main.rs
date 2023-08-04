@@ -33,7 +33,14 @@ fn main() -> hyprland::Result<()> {
         _ => 0,
     };
 
-    let Cli { fade, bezier, strength, duration, persist, .. } = Cli::parse();
+    let Cli {
+        fade,
+        bezier,
+        strength,
+        duration,
+        persist,
+        ..
+    } = Cli::parse();
 
     // Set initial dim values
     Keyword::set("decoration:dim_inactive", "yes")?;
