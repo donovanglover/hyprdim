@@ -1,6 +1,10 @@
 [package]
 name = "hyprdim"
+description = "Automatically dim windows in Hyprland when switching between them."
 version = "2.0.1"
+authors = ["Donovan Glover"]
+repository = "https://github.com/donovanglover/hyprdim"
+license = "MIT"
 edition = "2021"
 
 [dependencies]
