@@ -49,6 +49,8 @@ pub struct Cli {
     pub bezier: String,
 
     /// Prevent dim_inactive from being disabled by `hyprctl reload` etc
+    ///
+    /// Alternatively, set dim_inactive to true in hyprland.conf.
     #[arg(short, long, default_value_t = false)]
     pub persist: bool,
 
