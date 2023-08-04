@@ -81,7 +81,7 @@ fn main() -> hyprland::Result<()> {
         let is_special_workspace = format!("{parent_workspace_window}") != format!("0x{window_address}");
 
         // Don't dim when switching to another workspace with only one window
-        if parent_workspace.windows == 1 && !is_special_workspace {
+        if (parent_workspace.windows == 1 || parent_workspace.fullscreen) && !is_special_workspace {
             log("info: Parent workspace only has one window, so not dimming.");
             return
         }
