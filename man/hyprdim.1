@@ -32,18 +32,24 @@ available here[5].
 .TP
 \fB\-s\fR, \fB\-\-strength\fR=\fISTRENGTH\fR [default: 0.4]
 A value from 0 (no dim) to 1 (maximum dim)
+
+Note that negative numbers such as \-1 and \-5 are also supported for "light dim".
 .TP
 \fB\-d\fR, \fB\-\-duration\fR=\fIDURATION\fR [default: 800]
-How many milliseconds to wait
+How many milliseconds to wait before removing dim
 .TP
 \fB\-f\fR, \fB\-\-fade\fR=\fIFADE\fR [default: 7]
-Fade animation speed
+Fade animation speed from 0 (instantaneous) to 255 (very slow)
+
+The slower the fade animation speed is, the higher the duration should be before removing dim.
 .TP
 \fB\-b\fR, \fB\-\-bezier\fR=\fIBEZIER\fR [default: default]
 Bezier curve used for the animation
 .TP
 \fB\-p\fR, \fB\-\-persist\fR
 Prevent dim_inactive from being disabled by `hyprctl reload` etc
+
+Alternatively, set dim_inactive to true in hyprland.conf.
 .TP
 \fB\-v\fR, \fB\-\-verbose\fR
 Show information about what hyprdim is doing
