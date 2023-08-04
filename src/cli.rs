@@ -1,7 +1,7 @@
 use clap::Parser;
 
 #[derive(Parser)]
-#[command(version)]
+#[command(version, about)]
 pub struct Cli {
     /// A value from 0 (no dim) to 1 (maximum dim)
     #[arg(short, long, default_value_t = 0.4)]
