@@ -54,14 +54,14 @@ pub struct Cli {
     #[arg(short, long, default_value_t = false)]
     pub persist: bool,
 
-    /// Don't dim when switching to a workspace that only has one window
+    /// Don't dim when switching to a workspace that only has one visible window
     ///
     /// Usually when you use dim in Hyprland, windows are dimmed even when switching between
     /// workspaces. This can be annoying if you constantly switch between two different workspaces
     /// that each consist of a single window.
     ///
     /// Note that this option also takes into account whether a window is fullscreen or not since
-    /// a workspace with multiple windows but with an active one fullscreen makes dimming redundant.
+    /// a workspace with multiple windows and an active one fullscreen makes dimming redundant.
     ///
     /// Note that this option also doesn't dim when switching between a special workspace that has
     /// only one window. In the future if Hyprland supports fullscreen windows inside special
@@ -75,16 +75,16 @@ pub struct Cli {
     /// This is useful when you like toggling between a special workspace that has a transparent
     /// window and don't want to deal with a distracting dim in the background.
     ///
-    /// Note that when you leave a special workspace, the workspace in the background will dim the
-    /// active window if there's more than one window. If you want to avoid this, use this option
-    /// in combination with ignore_leaving_special.
+    /// Note that when you leave a special workspace, the workspace in the background will dim
+    /// inactive windows if there's more than one window. If you want to avoid this, use this
+    /// option in combination with ignore_leaving_special.
     ///
     /// Note that if you're watching a video you never want to dim, you can use windowrules in
     /// Hyprland to achieve this.
     #[arg(short, long, default_value_t = false)]
     pub ignore_entering_special: bool,
 
-    /// Don't dim when leaving a special workspace
+    /// Don't dim when closing a special workspace
     ///
     /// This is useful if you have multiple windows in your main workspace and usually don't switch
     /// between them.
