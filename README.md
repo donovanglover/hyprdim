@@ -52,8 +52,8 @@ As far as I'm aware, this software is bug free. That said, if you know how to do
 - [x] Add shell completions
 - [x] Replace all unsafe code with [Arc][Arc], [Mutex][Mutex], etc.
 - [ ] Add example image/video to README
-- [ ] Add to [awesome-hyprland](https://github.com/hyprland-community/awesome-hyprland)
-- [ ] Add to [nixpkgs](https://github.com/NixOS/nixpkgs)
+- [x] Add to [awesome-hyprland](https://github.com/hyprland-community/awesome-hyprland)
+- [x] Add to [nixpkgs](https://github.com/NixOS/nixpkgs)
 
 ## Thanks
 
