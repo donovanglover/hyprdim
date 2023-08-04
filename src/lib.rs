@@ -1,6 +1,8 @@
 use clap::Parser;
 use cli::Cli;
+use hyprland::data::Client;
 use hyprland::keyword::Keyword;
+use hyprland::prelude::*;
 use std::sync::{Arc, Mutex};
 use std::{thread, time};
 
@@ -44,4 +46,13 @@ pub fn spawn_dim_thread(num_threads: Arc<Mutex<u16>>, strength: f64, persist: bo
 
         Ok(())
     });
+}
+
+/// Gets whether the current workspace is a special workspace or not.
+///
+/// This function works by getting which workspace the active window is in.
+pub fn is_special() -> bool {
+    let Client { workspace, .. } = Client::get_active().unwrap().unwrap();
+
+    workspace.name.contains("special")
 }
