@@ -42,6 +42,7 @@ fn main() -> hyprland::Result<()> {
         strength,
         duration,
         persist,
+        no_dim_when_only,
         ignore_entering_special,
         ignore_leaving_special,
         ..
@@ -110,9 +111,11 @@ fn main() -> hyprland::Result<()> {
         }
 
         // Don't dim when switching to another workspace with only one window
-        if (parent_workspace.windows == 1 || parent_workspace.fullscreen) && !is_special_workspace {
-            log("info: Parent workspace only has one window, so not dimming.");
-            return
+        if no_dim_when_only {
+            if (parent_workspace.windows == 1 || parent_workspace.fullscreen) && !is_special_workspace {
+                log("info: Parent workspace only has one window, so not dimming.");
+                return
+            }
         }
 
         spawn_dim_thread(num_threads, strength, persist, duration, false);
