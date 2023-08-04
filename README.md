@@ -42,6 +42,7 @@ As far as I'm aware, this software is bug free. That said, if you know how to do
 - [Yavor Kolev](https://github.com/yavko), [Cyril Levis](https://github.com/cyrinux), and [contributors](https://github.com/hyprland-community/hyprland-rs/graphs/contributors) for [hyprland-rs](https://github.com/hyprland-community/hyprland-rs)
 - [Kevin K.](https://github.com/kbknapp), [Ed Page](https://github.com/epage), and [contributors](https://github.com/clap-rs/clap/graphs/contributors) for [clap-rs](https://github.com/clap-rs/clap)
 - [Antti Keränen](https://github.com/Detegr) and [contributors](https://github.com/Detegr/rust-ctrlc/graphs/contributors) for [rust-ctrlc](https://github.com/Detegr/rust-ctrlc)
+- [Liu BoFan](https://github.com/WLBF) and [contributors](https://github.com/WLBF/single-instance/graphs/contributors) for [single-instance](https://github.com/WLBF/single-instance)
 
 [Arc]: https://doc.rust-lang.org/std/sync/struct.Arc.html
 [Mutex]: https://doc.rust-lang.org/std/sync/struct.Mutex.html
