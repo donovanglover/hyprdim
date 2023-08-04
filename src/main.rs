@@ -75,6 +75,8 @@ fn main() -> hyprland::Result<()> {
             // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
             Keyword::set("decoration:dim_strength", cli.strength)?;
 
+            log("info: Applied dim (new thread)");
+
             // Wait X milliseconds, keeping track of the number of waiting threads
             *num_threads.lock().unwrap() += 1;
             thread::sleep(time::Duration::from_millis(cli.duration));
@@ -83,6 +85,8 @@ fn main() -> hyprland::Result<()> {
             // If this is the last thread, remove dim
             if *num_threads.lock().unwrap() == 0 {
                 Keyword::set("decoration:dim_strength", 0)?;
+
+                log("info: Removed dim (last thread)");
             }
 
             Ok(())
