@@ -38,6 +38,9 @@ pub struct Cli {
     pub duration: u64,
 
     /// Fade animation speed from 0 (instantaneous) to 255 (very slow)
+    ///
+    /// The slower the fade animation speed is, the higher the duration should be before
+    /// removing dim.
     #[arg(short, long, default_value_t = 7)]
     pub fade: u8,
 
