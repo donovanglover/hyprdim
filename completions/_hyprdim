@@ -17,10 +17,10 @@ _hyprdim() {
     _arguments "${_arguments_options[@]}" \
 '-s+[A value from 0 (no dim) to 1 (maximum dim)]:STRENGTH: ' \
 '--strength=[A value from 0 (no dim) to 1 (maximum dim)]:STRENGTH: ' \
-'-d+[How many milliseconds to wait]:DURATION: ' \
-'--duration=[How many milliseconds to wait]:DURATION: ' \
-'-f+[Fade animation speed]:FADE: ' \
-'--fade=[Fade animation speed]:FADE: ' \
+'-d+[How many milliseconds to wait before removing dim]:DURATION: ' \
+'--duration=[How many milliseconds to wait before removing dim]:DURATION: ' \
+'-f+[Fade animation speed from 0 (instantaneous) to 255 (very slow)]:FADE: ' \
+'--fade=[Fade animation speed from 0 (instantaneous) to 255 (very slow)]:FADE: ' \
 '-b+[Bezier curve used for the animation]:BEZIER: ' \
 '--bezier=[Bezier curve used for the animation]:BEZIER: ' \
 '-p[Prevent dim_inactive from being disabled by \`hyprctl reload\` etc]' \
