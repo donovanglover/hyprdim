@@ -6,6 +6,7 @@ use std::{thread, time};
 
 mod cli;
 
+/// A helper function to only print what's happening to users if they enable the verbose flag.
 pub fn log(text: &str) {
     let Cli { verbose, .. } = Cli::parse();
 
@@ -14,6 +15,10 @@ pub fn log(text: &str) {
     }
 }
 
+/// Spawns a new thread in charge of dimming inactive windows with Hyprland.
+///
+/// When there are no more threads left to wait for, that is, when the user has been inactive long
+/// enough, dimming is disabled.
 pub fn spawn_dim_thread(num_threads: Arc<Mutex<u16>>, strength: f64, persist: bool, duration: u64, first_run: bool) {
     thread::spawn(move || -> hyprland::Result<()> {
         if persist || first_run {
