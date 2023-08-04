@@ -104,6 +104,8 @@ fn main() -> hyprland::Result<()> {
         Keyword::set("decoration:dim_strength", dim_strength)?;
         Keyword::set("decoration:dim_inactive", dim_inactive)?;
 
+        log("\nhyprdim terminated successfully.");
+
         process::exit(0);
     });
 
