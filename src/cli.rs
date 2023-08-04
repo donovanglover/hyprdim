@@ -21,4 +21,8 @@ pub struct Cli {
     /// Prevent dim_inactive from being disabled by `hyprctl reload` etc
     #[arg(short, long, default_value_t = false)]
     pub persist: bool,
+
+    /// Show information about what hyprdim is doing
+    #[arg(short, long, default_value_t = false)]
+    pub verbose: bool,
 }

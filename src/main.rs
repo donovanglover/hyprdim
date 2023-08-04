@@ -1,5 +1,6 @@
 use clap::Parser;
 use cli::Cli;
+use hyprdim::log;
 use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::{Keyword, OptionValue};
 use hyprland::shared::Address;
@@ -14,12 +15,12 @@ fn main() -> hyprland::Result<()> {
 
     // Don't allow more than one hyprdim instance to run
     if !instance.is_single() {
-        println!("hyprdim is already running. Use `killall hyprdim` to stop any existing processes.");
+        log("hyprdim is already running. Use `killall hyprdim` to stop any existing processes.");
 
         process::exit(1);
     };
 
-    println!("Starting hyprdim...");
+    log("Starting hyprdim...");
 
     // Save dim_strength and dim_inactive values so they can be restored later
     let dim_strength = match Keyword::get("decoration:dim_strength")?.value {
