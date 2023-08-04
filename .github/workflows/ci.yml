@@ -1,4 +1,4 @@
-name: Cargo Build & Test
+name: ci
 
 on:
   push:
@@ -9,7 +9,7 @@ env:
 
 jobs:
   build_and_test:
-    name: Rust project - latest
+    name: build and test
     runs-on: ubuntu-latest
     strategy:
       matrix:
