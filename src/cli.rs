@@ -70,6 +70,23 @@ pub struct Cli {
     #[arg(short, long, default_value_t = false)]
     pub no_dim_when_only: bool,
 
+    /// Don't dim when opening a special workspace
+    ///
+    /// This is useful when you like toggling between a special workspace that has a transparent
+    /// window and don't want to deal with a distracting dim in the background.
+    ///
+    /// Note that when you leave a special workspace, the workspace in the background will dim the
+    /// active window if there's more than one window. If you want to avoid this, use this option
+    /// in combination with ignore_leaving_special.
+    ///
+    /// TODO: Would it be better to have options like enter/leave/both? A generic --ignore option?
+    /// What about i and I to differentiate both ignore specials?
+    ///
+    /// Note that if you're watching a video you never want to dim, you can use windowrules in
+    /// Hyprland to achieve this.
+    #[arg(short, long, default_value_t = false)]
+    pub ignore_entering_special: bool,
+
     /// Show information about what hyprdim is doing
     #[arg(short, long, default_value_t = false)]
     pub verbose: bool,

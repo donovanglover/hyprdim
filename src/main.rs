@@ -42,6 +42,7 @@ fn main() -> hyprland::Result<()> {
         strength,
         duration,
         persist,
+        ignore_entering_special,
         ..
     } = Cli::parse();
 
@@ -53,8 +54,11 @@ fn main() -> hyprland::Result<()> {
     // Keep track of state
     let num_threads_outer: Arc<Mutex<u16>> = Arc::new(Mutex::new(0));
     let last_address_outer: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
+    let in_special_workspace_outer: Arc<Mutex<bool>> = Arc::new(Mutex::new(false));
 
     // Initialize with dim so the user sees something
+    // TODO: If already in a special workspace, then set in_special_workspace_outer equal to true
+    // and don't spawn_dim_thread.
     spawn_dim_thread(num_threads_outer.clone(), strength, persist, duration, true);
 
     // On active window changes
@@ -64,6 +68,7 @@ fn main() -> hyprland::Result<()> {
 
         let num_threads = num_threads_outer.clone();
         let last_address = last_address_outer.clone();
+        let in_special_workspace = in_special_workspace_outer.clone();
 
         // If the last address is the same as the new window, don't dim
         if let Some(ref old_address) = *last_address.lock().unwrap() {
@@ -80,6 +85,20 @@ fn main() -> hyprland::Result<()> {
 
         // If the parent_workspace_window is NOT the same as the window_address, then we're in a special workspace
         let is_special_workspace = format!("{parent_workspace_window}") != format!("0x{window_address}");
+
+        // Keep track of being inside special workspaces and don't dim when entering them
+        if is_special_workspace && !*in_special_workspace.lock().unwrap() {
+            *in_special_workspace.lock().unwrap() = true;
+
+            if ignore_entering_special {
+                log("info: Special workspace was opened, so not dimming.");
+                return
+            }
+        }
+
+        if !is_special_workspace {
+            *in_special_workspace.lock().unwrap() = false;
+        }
 
         // Don't dim when switching to another workspace with only one window
         if (parent_workspace.windows == 1 || parent_workspace.fullscreen) && !is_special_workspace {
