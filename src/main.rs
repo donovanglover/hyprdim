@@ -39,7 +39,7 @@ fn main() -> hyprland::Result<()> {
     Keyword::set("decoration:dim_inactive", "yes")?;
 
     #[rustfmt::skip]
-    Keyword::set("animation", format!("{}{}{}{}", "fadeDim,1,", cli.fade, ",", cli.bezier))?;
+    Keyword::set("animation", format!("fadeDim,1,{},{}", cli.fade, cli.bezier))?;
 
     let mut event_listener = EventListener::new();
 
