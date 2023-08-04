@@ -19,7 +19,7 @@ _hyprdim() {
 
     case "${cmd}" in
         hyprdim)
-            opts="-s -d -f -b -p -h --strength --duration --fade --bezier --persist --help"
+            opts="-s -d -f -b -p -v -h -V --strength --duration --fade --bezier --persist --verbose --help --version"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
