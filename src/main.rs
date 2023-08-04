@@ -56,11 +56,8 @@ fn main() -> hyprland::Result<()> {
         let last_address = last_address_outer.clone();
 
         // If the last address is the same as the new window, don't dim
-        if let Some(ref address) = *last_address.lock().unwrap() {
-            let old_address = format!("{:?}", address);
-            let new_address = format!("{:?}", window_address);
-
-            if old_address == new_address {
+        if let Some(ref old_address) = *last_address.lock().unwrap() {
+            if format!("{old_address}") == format!("{window_address}") {
                 return;
             }
         }
