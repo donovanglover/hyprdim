@@ -34,7 +34,9 @@ Options:
   -f, --fade <FADE>          Fade animation speed [default: 7]
   -b, --bezier <BEZIER>      Bezier curve used for the animation [default: default]
   -p, --persist              Prevent dim_inactive from being disabled by `hyprctl reload` etc
-  -h, --help                 Print help
+  -v, --verbose              Show information about what hyprdim is doing
+  -h, --help                 Print help (see more with '--help')
+  -V, --version              Print version
 ```
 
 ## Contributing
