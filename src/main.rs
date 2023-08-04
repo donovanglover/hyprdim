@@ -1,8 +1,10 @@
 use clap::Parser;
 use cli::Cli;
 use hyprdim::log;
+use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::{Keyword, OptionValue};
+use hyprland::prelude::*;
 use hyprland::shared::Address;
 use single_instance::SingleInstance;
 use std::sync::{mpsc, Arc, Mutex};
@@ -69,7 +71,20 @@ fn main() -> hyprland::Result<()> {
             }
         }
 
-        *last_address.lock().unwrap() = Some(window_address);
+        *last_address.lock().unwrap() = Some(window_address.clone());
+
+        // Get the state of the current parent workspace
+        let parent_workspace = Workspace::get_active().unwrap();
+        let parent_workspace_window = &parent_workspace.last_window;
+
+        // If the parent_workspace_window is NOT the same as the window_address, then we're in a special workspace
+        let is_special_workspace = format!("{parent_workspace_window}") != format!("0x{window_address}");
+
+        // Don't dim when switching to another workspace with only one window
+        if parent_workspace.windows == 1 && !is_special_workspace {
+            log("info: Parent workspace only has one window, so not dimming.");
+            return
+        }
 
         spawn_dim_thread(num_threads, strength, persist, duration, false);
     });
