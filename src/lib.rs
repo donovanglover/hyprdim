@@ -1,6 +1,6 @@
 use clap::Parser;
 use cli::Cli;
-use hyprland::data::{Client, Workspaces, WorkspaceBasic};
+use hyprland::data::{Client, WorkspaceBasic, Workspaces};
 use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
 use std::sync::{Arc, Mutex};
@@ -21,7 +21,13 @@ pub fn log(text: &str) {
 ///
 /// When there are no more threads left to wait for, that is, when the user has been inactive long
 /// enough, dimming is disabled.
-pub fn spawn_dim_thread(num_threads: Arc<Mutex<u16>>, strength: f64, persist: bool, duration: u64, first_run: bool) {
+pub fn spawn_dim_thread(
+    num_threads: Arc<Mutex<u16>>,
+    strength: f64,
+    persist: bool,
+    duration: u64,
+    first_run: bool,
+) {
     thread::spawn(move || -> hyprland::Result<()> {
         if persist || first_run {
             Keyword::set("decoration:dim_inactive", "yes")?;
@@ -64,7 +70,9 @@ pub fn num_windows_special() -> i32 {
     // Workspaces uses private fields, however format! works...
     let workspaces_str = format!("{:?}", Workspaces::get().unwrap());
 
-    let s1 = workspaces_str.split(&format!("id: {id}, name: \"{name}\"")).collect::<Vec<&str>>();
+    let s1 = workspaces_str
+        .split(&format!("id: {id}, name: \"{name}\""))
+        .collect::<Vec<&str>>();
     let s2 = s1[1].split("windows: ").collect::<Vec<&str>>();
     let s3 = s2[1].split(',').collect::<Vec<&str>>();
     let num_windows: i32 = s3[0].parse().unwrap();

@@ -91,7 +91,8 @@ fn main() -> hyprland::Result<()> {
         let parent_workspace_window = &parent_workspace.last_window;
 
         // If the parent_workspace_window is NOT the same as the window_address, then we're in a special workspace
-        let is_special_workspace = format!("{parent_workspace_window}") != format!("0x{window_address}");
+        let is_special_workspace =
+            format!("{parent_workspace_window}") != format!("0x{window_address}");
 
         // Keep track of being inside special workspaces and don't dim when entering them
         if is_special_workspace && !*in_special_workspace.lock().unwrap() {
@@ -99,7 +100,7 @@ fn main() -> hyprland::Result<()> {
 
             if ignore_entering_special {
                 log("info: Special workspace was opened, so not dimming.");
-                return
+                return;
             }
         }
 
@@ -111,20 +112,22 @@ fn main() -> hyprland::Result<()> {
             // If we're exiting for the first time, don't dim
             if ignore_leaving_special && was_in_special {
                 log("info: Leaving special workspace, so not dimming.");
-                return
+                return;
             }
         }
 
         // Don't dim when switching to another workspace with only one window
         if no_dim_when_only {
-            if (parent_workspace.windows == 1 || parent_workspace.fullscreen) && !is_special_workspace {
+            if (parent_workspace.windows == 1 || parent_workspace.fullscreen)
+                && !is_special_workspace
+            {
                 log("info: Parent workspace only has one window, so not dimming.");
-                return
+                return;
             }
 
             if is_special() && num_windows_special() == 1 {
                 log("info: Special workspace only has one window, so not dimming.");
-                return
+                return;
             }
         }
 
