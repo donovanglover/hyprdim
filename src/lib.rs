@@ -66,7 +66,7 @@ pub fn num_windows_special() -> i32 {
 
     let s1 = workspaces_str.split(&format!("id: {id}, name: \"{name}\"")).collect::<Vec<&str>>();
     let s2 = s1[1].split("windows: ").collect::<Vec<&str>>();
-    let s3 = s2[1].split(",").collect::<Vec<&str>>();
+    let s3 = s2[1].split(',').collect::<Vec<&str>>();
     let num_windows: i32 = s3[0].parse().unwrap();
 
     num_windows
