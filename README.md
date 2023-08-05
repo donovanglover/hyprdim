@@ -26,7 +26,7 @@ Alternatively, use `nix run nixpkgs#hyprdim` to test hyprdim without installing 
 
 ## Usage
 
-```fish
+```man
 Usage: hyprdim [OPTIONS]
 
 Options:
