@@ -1,6 +1,8 @@
 use clap::Parser;
 use cli::Cli;
+use hyprdim::is_special;
 use hyprdim::log;
+use hyprdim::num_windows_special;
 use hyprdim::spawn_dim_thread;
 use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
@@ -58,10 +60,14 @@ fn main() -> hyprland::Result<()> {
     let last_address_outer: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
     let in_special_workspace_outer: Arc<Mutex<bool>> = Arc::new(Mutex::new(false));
 
-    // Initialize with dim so the user sees something
-    // TODO: If already in a special workspace, then set in_special_workspace_outer equal to true
-    // and don't spawn_dim_thread.
-    spawn_dim_thread(num_threads_outer.clone(), strength, persist, duration, true);
+    // Initialize with dim so the user sees something, but only if the user wants dim
+    if is_special() && (ignore_entering_special || (num_windows_special() == 1 && no_dim_when_only)) {
+        *in_special_workspace_outer.lock().unwrap() = true;
+        Keyword::set("decoration:dim_strength", 0)?;
+        Keyword::set("decoration:dim_inactive", "yes")?;
+    } else {
+        spawn_dim_thread(num_threads_outer.clone(), strength, persist, duration, true);
+    }
 
     // On active window changes
     event_listener.add_active_window_change_handler(move |data| {
