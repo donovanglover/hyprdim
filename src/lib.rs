@@ -63,6 +63,12 @@ pub fn is_special() -> bool {
     workspace.name.contains("special")
 }
 
+/// Gets the number of windows on a special workspace.
+///
+/// In the future, this should be replaced with special_has_only_one_window() or similar to
+/// accommodate for fullscreen windows in special workspaces if Hyprland implements it.
+///
+/// https://github.com/hyprwm/Hyprland/issues/2173
 pub fn num_windows_special() -> i32 {
     let Client { workspace, .. } = Client::get_active().unwrap().unwrap();
     let WorkspaceBasic { id, name } = workspace;
