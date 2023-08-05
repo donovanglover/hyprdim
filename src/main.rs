@@ -58,11 +58,10 @@ fn main() -> hyprland::Result<()> {
     // Keep track of state
     let num_threads_outer: Arc<Mutex<u16>> = Arc::new(Mutex::new(0));
     let last_address_outer: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
-    let in_special_workspace_outer: Arc<Mutex<bool>> = Arc::new(Mutex::new(false));
+    let in_special_workspace_outer: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
 
     // Initialize with dim so the user sees something, but only if the user wants dim
     if is_special() && (ignore_entering_special || no_dim_when_only) && num_windows_special() == 1 {
-        *in_special_workspace_outer.lock().unwrap() = true;
         Keyword::set("decoration:dim_strength", 0)?;
         Keyword::set("decoration:dim_inactive", "yes")?;
     } else {
