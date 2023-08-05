@@ -121,6 +121,11 @@ fn main() -> hyprland::Result<()> {
                 log("info: Parent workspace only has one window, so not dimming.");
                 return
             }
+
+            if is_special() && num_windows_special() == 1 {
+                log("info: Special workspace only has one window, so not dimming.");
+                return
+            }
         }
 
         spawn_dim_thread(num_threads, strength, persist, duration, false);
