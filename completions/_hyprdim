@@ -25,6 +25,12 @@ _hyprdim() {
 '--bezier=[Bezier curve used for the animation]:BEZIER: ' \
 '-p[Prevent dim_inactive from being disabled by \`hyprctl reload\` etc]' \
 '--persist[Prevent dim_inactive from being disabled by \`hyprctl reload\` etc]' \
+'-n[Don'\''t dim when switching to a workspace that only has one visible window]' \
+'--no-dim-when-only[Don'\''t dim when switching to a workspace that only has one visible window]' \
+'-i[Don'\''t dim when opening a special workspace]' \
+'--ignore-entering-special[Don'\''t dim when opening a special workspace]' \
+'-I[Don'\''t dim when closing a special workspace]' \
+'--ignore-leaving-special[Don'\''t dim when closing a special workspace]' \
 '-v[Show information about what hyprdim is doing]' \
 '--verbose[Show information about what hyprdim is doing]' \
 '-h[Print help (see more with '\''--help'\'')]' \
