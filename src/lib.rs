@@ -1,6 +1,6 @@
 use clap::Parser;
 use cli::Cli;
-use hyprland::data::Client;
+use hyprland::data::{Client, Workspaces, WorkspaceBasic};
 use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
 use std::sync::{Arc, Mutex};
@@ -55,4 +55,19 @@ pub fn is_special() -> bool {
     let Client { workspace, .. } = Client::get_active().unwrap().unwrap();
 
     workspace.name.contains("special")
+}
+
+pub fn num_windows_special() -> i32 {
+    let Client { workspace, .. } = Client::get_active().unwrap().unwrap();
+    let WorkspaceBasic { id, name } = workspace;
+
+    // Workspaces uses private fields, however format! works...
+    let workspaces_str = format!("{:?}", Workspaces::get().unwrap());
+
+    let s1 = workspaces_str.split(&format!("id: {id}, name: \"{name}\"")).collect::<Vec<&str>>();
+    let s2 = s1[1].split("windows: ").collect::<Vec<&str>>();
+    let s3 = s2[1].split(",").collect::<Vec<&str>>();
+    let num_windows: i32 = s3[0].parse().unwrap();
+
+    num_windows
 }
