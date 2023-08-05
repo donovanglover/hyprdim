@@ -30,14 +30,17 @@ Alternatively, use `nix run nixpkgs#hyprdim` to test hyprdim without installing 
 Usage: hyprdim [OPTIONS]
 
 Options:
-  -s, --strength <STRENGTH>  A value from 0 (no dim) to 1 (maximum dim) [default: 0.4]
-  -d, --duration <DURATION>  How many milliseconds to wait [default: 800]
-  -f, --fade <FADE>          Fade animation speed [default: 7]
-  -b, --bezier <BEZIER>      Bezier curve used for the animation [default: default]
-  -p, --persist              Prevent dim_inactive from being disabled by `hyprctl reload` etc
-  -v, --verbose              Show information about what hyprdim is doing
-  -h, --help                 Print help (see more with '--help')
-  -V, --version              Print version
+  -s, --strength <STRENGTH>      A value from 0 (no dim) to 1 (maximum dim) [default: 0.4]
+  -d, --duration <DURATION>      How many milliseconds to wait before removing dim [default: 800]
+  -f, --fade <FADE>              Fade animation speed from 0 (instantaneous) to 255 (very slow) [default: 7]
+  -b, --bezier <BEZIER>          Bezier curve used for the animation [default: default]
+  -p, --persist                  Prevent dim_inactive from being disabled by `hyprctl reload` etc
+  -n, --no-dim-when-only         Don't dim when switching to a workspace that only has one visible window
+  -i, --ignore-entering-special  Don't dim when opening a special workspace
+  -I, --ignore-leaving-special   Don't dim when closing a special workspace
+  -v, --verbose                  Show information about what hyprdim is doing
+  -h, --help                     Print help (see more with '--help')
+  -V, --version                  Print version
 ```
 
 ## Contributing
