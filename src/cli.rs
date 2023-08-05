@@ -63,9 +63,10 @@ pub struct Cli {
     /// Note that this option also takes into account whether a window is fullscreen or not since
     /// a workspace with multiple windows and an active one fullscreen makes dimming redundant.
     ///
-    /// Note that this option doesn't apply to special workspaces. If you want to disable dim when
-    /// toggling a special workspace, use --ignore-entering-special and --ignore-leaving-special
-    /// respectively.
+    /// Note that this option also doesn't dim when switching between a special workspace that has
+    /// only one window. In the future if Hyprland supports fullscreen windows inside special
+    /// workspaces the codebase will need to be updated as appropriate. Please file an issue or
+    /// make a pull request if this occurs and there hasn't been an update yet.
     #[arg(short, long, default_value_t = false)]
     pub no_dim_when_only: bool,
 
