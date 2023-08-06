@@ -57,8 +57,8 @@ fn main() -> hyprland::Result<()> {
 
     // Keep track of state
     let num_threads_outer: Arc<Mutex<u16>> = Arc::new(Mutex::new(0));
-    let last_address_outer: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
-    let in_special_workspace_outer: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
+    let last_address: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
+    let in_special_workspace: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
 
     // Initialize with dim so the user sees something, but only if the user wants dim
     if is_special() && (ignore_entering_special || no_dim_when_only) && special_only_has_one_visible_window() {
@@ -73,9 +73,8 @@ fn main() -> hyprland::Result<()> {
         // Ignore the event if no window_address was given
         let Some(WindowEventData { window_address, .. }) = data else { return };
 
+        // Clone inside
         let num_threads = num_threads_outer.clone();
-        let last_address = last_address_outer.clone();
-        let in_special_workspace = in_special_workspace_outer.clone();
 
         // If the last address is the same as the new window, don't dim
         if let Some(ref old_address) = *last_address.lock().unwrap() {
