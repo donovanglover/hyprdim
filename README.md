@@ -25,7 +25,7 @@ Add [`hyprdim`](https://search.nixos.org/packages?channel=unstable&query=hyprdim
 }
 ```
 
-Alternatively, use `nix run nixpkgs#hyprdim` to test hyprdim without installing it.
+Alternatively, use `nix run nixpkgs#hyprdim` to start hyprdim without installing it.
 
 ### [Arch Linux](https://archlinux.org/)
 
