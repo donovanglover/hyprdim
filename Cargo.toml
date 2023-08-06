@@ -17,3 +17,6 @@ single-instance = "0.3.3"
 clap = { version = "4.3.19", features = ["derive"] }
 clap_complete = "4.3.2"
 clap_mangen = "0.2.12"
+
+[dev-dependencies]
+rustympkglib = "0.1.1"

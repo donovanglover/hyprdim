@@ -384,6 +384,7 @@ dependencies = [
  "clap_mangen",
  "ctrlc",
  "hyprland",
+ "rustympkglib",
  "single-instance",
 ]
 
@@ -697,6 +698,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7ffc183a10b4478d04cbbbfc96d0873219d962dd5accaff2ffbd4ceb7df837f4"
 
 [[package]]
+name = "rustympkglib"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "39a6a04e9c4cc5d0fd4291f8ce8e1aa9d438d3e7b5ea09699cc81acd83272a16"
+dependencies = [
+ "serde",
+ "tree-sitter",
+ "tree-sitter-bash",
+]
+
+[[package]]
 name = "ryu"
 version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -908,6 +920,26 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.28",
+]
+
+[[package]]
+name = "tree-sitter"
+version = "0.19.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ad726ec26496bf4c083fff0f43d4eb3a2ad1bba305323af5ff91383c0b6ecac0"
+dependencies = [
+ "cc",
+ "regex",
+]
+
+[[package]]
+name = "tree-sitter-bash"
+version = "0.19.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c629e2d29ebb85b34cd195a1c511a161ed775451456cde110470e7af693424db"
+dependencies = [
+ "cc",
+ "tree-sitter",
 ]
 
 [[package]]
