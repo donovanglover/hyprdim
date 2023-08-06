@@ -61,7 +61,10 @@ fn main() -> hyprland::Result<()> {
     let in_special_workspace: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
 
     // Initialize with dim so the user sees something, but only if the user wants dim
-    if is_special() && (ignore_entering_special || no_dim_when_only) && special_only_has_one_visible_window() {
+    if is_special()
+        && (ignore_entering_special || no_dim_when_only)
+        && special_only_has_one_visible_window()
+    {
         Keyword::set("decoration:dim_strength", 0)?;
         Keyword::set("decoration:dim_inactive", "yes")?;
     } else {

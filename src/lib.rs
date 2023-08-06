@@ -75,7 +75,7 @@ pub fn special_only_has_one_visible_window() -> bool {
 
     for workspace in Workspaces::get().unwrap() {
         if workspace.id == id {
-            return workspace.windows == 1
+            return workspace.windows == 1;
         }
     }
 

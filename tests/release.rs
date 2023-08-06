@@ -1,7 +1,7 @@
-use rustympkglib::pkgdata::PkgData;
-use std::fs;
-use serde::Deserialize;
 use assert_cmd::Command;
+use rustympkglib::pkgdata::PkgData;
+use serde::Deserialize;
+use std::fs;
 
 #[derive(Debug, Deserialize)]
 struct Config {
