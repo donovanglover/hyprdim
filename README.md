@@ -9,7 +9,9 @@ hyprdim is a daemon that automatically dims windows in [Hyprland](https://hyprla
 - Prevent windows from being dimmed if there are no other visible windows in a workspace
 - Prevent windows from being dimmed when toggling special workspaces
 
-## Installation ([NixOS](https://nixos.org/))
+## Installation
+
+### [NixOS](https://nixos.wiki/wiki/Overview_of_the_NixOS_Linux_distribution) (Recommended)
 
 Add [`hyprdim`](https://search.nixos.org/packages?channel=unstable&query=hyprdim) to your `systemPackages` and rebuild.
 
