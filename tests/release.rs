@@ -35,6 +35,26 @@ fn versions_are_the_same() {
 }
 
 #[test]
+/// Ensures that the description is the same across the project
+///
+/// Note that the PKGBUILD should not have a period at the end.
+fn descriptions_are_the_same() {
+    let pkgbuild = &fs::read_to_string("PKGBUILD").unwrap();
+    let pkgbuild = PkgData::from_source(pkgbuild).unwrap();
+    let pkgbuild = pkgbuild.pkgdesc.unwrap() + ".";
+
+    let cargo = &fs::read_to_string("Cargo.toml").unwrap();
+    let cargo: Config = toml::from_str(cargo).unwrap();
+    let cargo = cargo.package.unwrap().description.unwrap();
+
+    assert_eq!(
+        pkgbuild,
+        cargo.as_str(),
+        "Cargo.toml and PKGBUILD should have the same description"
+    );
+}
+
+#[test]
 /// Ensures that the copyright year is updated in both files if the LICENSE is updated
 fn copyright_is_the_same() {
     let license = &fs::read_to_string("LICENSE").unwrap();
