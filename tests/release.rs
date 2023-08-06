@@ -25,7 +25,11 @@ fn versions_are_the_same() {
     let cargo: Config = toml::from_str(cargo).unwrap();
     let cargo = cargo.package.unwrap().version.unwrap();
 
-    assert_eq!(pkgbuild, cargo.as_str());
+    assert_eq!(
+        pkgbuild,
+        cargo.as_str(),
+        "Cargo.toml and PKGBUILD should have the same version"
+    );
 }
 
 #[test]
@@ -38,5 +42,8 @@ fn copyright_is_the_same() {
     let cargo: Config = toml::from_str(cargo).unwrap();
     let cargo = &cargo.package.unwrap().authors.unwrap()[0];
 
-    assert!(cargo.starts_with(license));
+    assert!(
+        cargo.starts_with(license),
+        "Cargo.toml should have the same copyright year as LICENSE"
+    );
 }
