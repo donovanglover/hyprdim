@@ -35,6 +35,16 @@ I don't use Arch Linux anymore, but I wrote a PKGBUILD for the `pacman` enjoyers
 git clone https://github.com/donovanglover/hyprdim && cd hyprdim && makepkg -si
 ```
 
+### Other distributions
+
+Follow the [install guide](https://www.rust-lang.org/tools/install) for Rust. Then, use cargo to install hyprdim.
+
+```fish
+cargo install --git https://github.com/donovanglover/hyprdim --tag 2.0.1
+```
+
+Make sure `$HOME/.cargo/bin` is in your `$PATH` if it isn't already.
+
 ## Usage
 
 ```man
