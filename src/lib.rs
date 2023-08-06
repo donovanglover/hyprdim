@@ -71,18 +71,13 @@ pub fn is_special() -> bool {
 /// https://github.com/hyprwm/Hyprland/issues/2173
 pub fn special_only_has_one_visible_window() -> bool {
     let Client { workspace, .. } = Client::get_active().unwrap().unwrap();
-    let WorkspaceBasic { id, name } = workspace;
+    let WorkspaceBasic { id, .. } = workspace;
 
-    // Workspaces uses private fields, however format! works...
-    let workspaces_str = format!("{:?}", Workspaces::get().unwrap());
+    for workspace in Workspaces::get().unwrap() {
+        if workspace.id == id {
+            return workspace.windows == 1
+        }
+    }
 
-    let s1 = workspaces_str
-        .split(&format!("id: {id}, name: \"{name}\""))
-        .collect::<Vec<&str>>();
-    let s2 = s1[1].split("windows: ").collect::<Vec<&str>>();
-    let s3 = s2[1].split(',').collect::<Vec<&str>>();
-
-    let num_windows: i32 = s3[0].parse().unwrap();
-
-    num_windows == 1
+    false
 }
