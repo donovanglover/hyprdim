@@ -2,8 +2,8 @@ use clap::Parser;
 use cli::Cli;
 use hyprdim::is_special;
 use hyprdim::log;
-use hyprdim::num_windows_special;
 use hyprdim::spawn_dim_thread;
+use hyprdim::special_only_has_one_visible_window;
 use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::{Keyword, OptionValue};
@@ -61,7 +61,7 @@ fn main() -> hyprland::Result<()> {
     let in_special_workspace_outer: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
 
     // Initialize with dim so the user sees something, but only if the user wants dim
-    if is_special() && (ignore_entering_special || no_dim_when_only) && num_windows_special() == 1 {
+    if is_special() && (ignore_entering_special || no_dim_when_only) && special_only_has_one_visible_window() {
         Keyword::set("decoration:dim_strength", 0)?;
         Keyword::set("decoration:dim_inactive", "yes")?;
     } else {
@@ -125,7 +125,7 @@ fn main() -> hyprland::Result<()> {
                 return;
             }
 
-            if is_special() && num_windows_special() == 1 {
+            if is_special() && special_only_has_one_visible_window() {
                 log("info: Special workspace only has one window, so not dimming.");
                 return;
             }
