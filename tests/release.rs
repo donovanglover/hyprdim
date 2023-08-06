@@ -47,3 +47,31 @@ fn copyright_is_the_same() {
         "Cargo.toml should have the same copyright year as LICENSE"
     );
 }
+
+#[test]
+/// Ensures that the usage code block in the README is the same as the output of hyprdim -h
+fn usage_is_the_same() {
+    let readme = &fs::read_to_string("README.md").unwrap();
+    let mut inside_code_block = false;
+    let mut readme_usage = String::new();
+
+    for line in readme.lines() {
+        if line == "```" {
+            inside_code_block = false;
+            continue;
+        }
+
+        if inside_code_block {
+            readme_usage.push_str(&(line.to_owned() + "\n"));
+            continue;
+        }
+
+        if line == "```man" {
+            inside_code_block = true;
+        }
+    }
+
+    println!("{}", readme_usage);
+
+    assert!(false)
+}
