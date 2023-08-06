@@ -121,7 +121,7 @@ fn main() -> hyprland::Result<()> {
             if (parent_workspace.windows == 1 || parent_workspace.fullscreen)
                 && !is_special_workspace
             {
-                log("info: Parent workspace only has one window, so not dimming.");
+                log("info: Parent workspace only has one window or that window is fullscreen, so not dimming.");
                 return;
             }
 
