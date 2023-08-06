@@ -1,6 +1,7 @@
 use rustympkglib::pkgdata::PkgData;
 use std::fs;
 use serde::Deserialize;
+use assert_cmd::Command;
 
 #[derive(Debug, Deserialize)]
 struct Config {
@@ -11,6 +12,7 @@ struct Config {
 struct PackageConfig {
     version: Option<String>,
     authors: Option<Vec<String>>,
+    description: Option<String>,
 }
 
 #[test]
@@ -51,9 +53,15 @@ fn copyright_is_the_same() {
 #[test]
 /// Ensures that the usage code block in the README is the same as the output of hyprdim -h
 fn usage_is_the_same() {
+    let cargo_description = &fs::read_to_string("Cargo.toml").unwrap();
+    let cargo_description: Config = toml::from_str(cargo_description).unwrap();
+    let cargo_description = cargo_description.package.unwrap().description.unwrap();
+
     let readme = &fs::read_to_string("README.md").unwrap();
     let mut inside_code_block = false;
-    let mut readme_usage = String::new();
+
+    // Initialize with cargo_description since we don't duplicate this in the README
+    let mut readme_usage: String = format!("{cargo_description}\n\n");
 
     for line in readme.lines() {
         if line == "```" {
@@ -71,7 +79,6 @@ fn usage_is_the_same() {
         }
     }
 
-    println!("{}", readme_usage);
-
-    assert!(false)
+    let mut cmd = Command::cargo_bin("hyprdim").unwrap();
+    cmd.arg("-h").assert().stdout(readme_usage);
 }
