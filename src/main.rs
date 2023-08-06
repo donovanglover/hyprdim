@@ -56,7 +56,7 @@ fn main() -> hyprland::Result<()> {
     let mut event_listener = EventListener::new();
 
     // Keep track of state
-    let num_threads_outer: Arc<Mutex<u16>> = Arc::new(Mutex::new(0));
+    let num_threads: Arc<Mutex<u16>> = Arc::new(Mutex::new(0));
     let last_address: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
     let in_special_workspace: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
 
@@ -65,7 +65,7 @@ fn main() -> hyprland::Result<()> {
         Keyword::set("decoration:dim_strength", 0)?;
         Keyword::set("decoration:dim_inactive", "yes")?;
     } else {
-        spawn_dim_thread(num_threads_outer.clone(), strength, persist, duration, true);
+        spawn_dim_thread(num_threads.clone(), strength, persist, duration, true);
     }
 
     // On active window changes
@@ -73,8 +73,8 @@ fn main() -> hyprland::Result<()> {
         // Ignore the event if no window_address was given
         let Some(WindowEventData { window_address, .. }) = data else { return };
 
-        // Clone inside
-        let num_threads = num_threads_outer.clone();
+        // Clone inside since u16 does not implement copy
+        let num_threads = num_threads.clone();
 
         // If the last address is the same as the new window, don't dim
         if let Some(ref old_address) = *last_address.lock().unwrap() {
