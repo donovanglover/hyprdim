@@ -20,3 +20,5 @@ clap_mangen = "0.2.12"
 
 [dev-dependencies]
 rustympkglib = "0.1.1"
+serde = "1.0.182"
+toml = "0.7.6"
