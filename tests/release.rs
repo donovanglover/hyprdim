@@ -102,3 +102,18 @@ fn usage_is_the_same() {
     let mut cmd = Command::cargo_bin("hyprdim").unwrap();
     cmd.arg("-h").assert().stdout(readme_usage);
 }
+
+#[test]
+/// Ensures that the correct version of hyprdim is found in the README
+fn current_version_is_used() {
+    let cargo_version = &fs::read_to_string("Cargo.toml").unwrap();
+    let cargo_version: Config = toml::from_str(cargo_version).unwrap();
+    let cargo_version = cargo_version.package.unwrap().version.unwrap();
+
+    let readme = &fs::read_to_string("README.md").unwrap();
+
+    assert!(
+        readme.contains(&("--tag ".to_owned() + cargo_version.as_str())),
+        "should have the correct tag version in the README"
+    )
+}
