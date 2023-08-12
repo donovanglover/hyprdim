@@ -1,7 +1,9 @@
 use clap::Parser;
 use cli::Cli;
+use hyprdim::is_floating;
 use hyprdim::is_special;
 use hyprdim::log;
+use hyprdim::set_dim;
 use hyprdim::spawn_dim_thread;
 use hyprdim::special_only_has_one_visible_window;
 use hyprland::data::Workspace;
@@ -58,6 +60,8 @@ fn main() -> hyprland::Result<()> {
     // Keep track of state
     let num_threads: Arc<Mutex<u16>> = Arc::new(Mutex::new(0));
     let last_address: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
+    let last_class: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(None));
+    // let last_floating: Arc<Mutex<bool>> = Arc::new(Mutex::new(false));
     let in_special_workspace: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
 
     // Initialize with dim so the user sees something, but only if the user wants dim
@@ -74,7 +78,7 @@ fn main() -> hyprland::Result<()> {
     // On active window changes
     event_listener.add_active_window_change_handler(move |data| {
         // Ignore the event if no window_address was given
-        let Some(WindowEventData { window_address, .. }) = data else { return };
+        let Some(WindowEventData { window_address, window_class, .. }) = data else { return };
 
         // Clone inside since u16 does not implement copy
         let num_threads = num_threads.clone();
@@ -86,7 +90,23 @@ fn main() -> hyprland::Result<()> {
             }
         }
 
+        let mut same_class = false;
+
+        if let Some(ref old_class) = *last_class.lock().unwrap() {
+            if format!("{old_class}") == format!("{window_class}") {
+                same_class = true;
+            }
+        }
+
+        // let mut both_floating = false;
+        //
+        // if *last_floating.lock().unwrap() == is_floating() {
+        //     both_floating = true;
+        // }
+
         *last_address.lock().unwrap() = Some(window_address.clone());
+        *last_class.lock().unwrap() = Some(window_class.clone());
+        // *last_floating.lock().unwrap() = is_floating();
 
         // Get the state of the current parent workspace
         let parent_workspace = Workspace::get_active().unwrap();
@@ -133,7 +153,12 @@ fn main() -> hyprland::Result<()> {
             }
         }
 
-        spawn_dim_thread(num_threads, strength, persist, duration, false);
+        // if same_class && is_floating() && !both_floating {
+        if same_class && is_floating() {
+            set_dim(strength, persist).unwrap();
+        } else {
+            spawn_dim_thread(num_threads, strength, persist, duration, false);
+        }
     });
 
     thread::spawn(move || -> hyprland::Result<()> {

@@ -54,6 +54,18 @@ pub fn spawn_dim_thread(
     });
 }
 
+pub fn set_dim(strength: f64, persist: bool) -> hyprland::Result<()> {
+    if persist {
+        Keyword::set("decoration:dim_inactive", "yes")?;
+    };
+
+    Keyword::set("decoration:dim_strength", strength)?;
+
+    log("info: Set a permanent dim (until next event) without spawning thread");
+
+    Ok(())
+}
+
 /// Gets whether the current workspace is a special workspace or not.
 ///
 /// This function works by getting which workspace the active window is in.
@@ -77,6 +89,15 @@ pub fn special_only_has_one_visible_window() -> bool {
         if workspace.id == id {
             return workspace.windows == 1;
         }
+    }
+
+    false
+}
+
+pub fn is_floating() -> bool {
+    if let Some(client) = Client::get_active().unwrap() {
+        let Client { floating, .. } = client;
+        return floating;
     }
 
     false
