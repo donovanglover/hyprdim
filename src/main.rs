@@ -132,6 +132,12 @@ fn main() -> hyprland::Result<()> {
             }
         }
 
+        if same_class && is_floating() {
+            *is_set_dim.lock().unwrap() = true;
+            set_dim(strength, persist).unwrap();
+            return;
+        }
+
         // Don't dim when switching to another workspace with only one window
         if no_dim_when_only {
             if (parent_workspace.windows == 1 || parent_workspace.fullscreen)
@@ -147,11 +153,8 @@ fn main() -> hyprland::Result<()> {
             }
         }
 
-        if same_class && is_floating() {
-            set_dim(strength, persist).unwrap();
-        } else {
-            spawn_dim_thread(num_threads, strength, persist, duration, false);
-        }
+        *is_set_dim.lock().unwrap() = false;
+        spawn_dim_thread(num_threads, is_set_dim, strength, persist, duration, false);
     });
 
     thread::spawn(move || -> hyprland::Result<()> {
