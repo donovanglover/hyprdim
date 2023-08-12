@@ -23,6 +23,7 @@ pub fn log(text: &str) {
 /// enough, dimming is disabled.
 pub fn spawn_dim_thread(
     num_threads: Arc<Mutex<u16>>,
+    is_set_dim: Arc<Mutex<bool>>,
     strength: f64,
     persist: bool,
     duration: u64,
@@ -43,11 +44,15 @@ pub fn spawn_dim_thread(
         thread::sleep(time::Duration::from_millis(duration));
         *num_threads.lock().unwrap() -= 1;
 
-        // If this is the last thread, remove dim
+        // If this is the last thread and we're not setting dim, remove dim
         if *num_threads.lock().unwrap() == 0 {
-            Keyword::set("decoration:dim_strength", 0)?;
+            if *is_set_dim.lock().unwrap() {
+                log("info: Last thread, but not removing dim since permanent dim is active");
+            } else {
+                Keyword::set("decoration:dim_strength", 0)?;
 
-            log("info: Removed dim (last thread)");
+                log("info: Removed dim (last thread)");
+            }
         }
 
         Ok(())
