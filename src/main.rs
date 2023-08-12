@@ -61,7 +61,6 @@ fn main() -> hyprland::Result<()> {
     let num_threads: Arc<Mutex<u16>> = Arc::new(Mutex::new(0));
     let last_address: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
     let last_class: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(None));
-    // let last_floating: Arc<Mutex<bool>> = Arc::new(Mutex::new(false));
     let in_special_workspace: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
 
     // Initialize with dim so the user sees something, but only if the user wants dim
@@ -98,15 +97,8 @@ fn main() -> hyprland::Result<()> {
             }
         }
 
-        // let mut both_floating = false;
-        //
-        // if *last_floating.lock().unwrap() == is_floating() {
-        //     both_floating = true;
-        // }
-
         *last_address.lock().unwrap() = Some(window_address.clone());
         *last_class.lock().unwrap() = Some(window_class.clone());
-        // *last_floating.lock().unwrap() = is_floating();
 
         // Get the state of the current parent workspace
         let parent_workspace = Workspace::get_active().unwrap();
@@ -153,7 +145,6 @@ fn main() -> hyprland::Result<()> {
             }
         }
 
-        // if same_class && is_floating() && !both_floating {
         if same_class && is_floating() {
             set_dim(strength, persist).unwrap();
         } else {
