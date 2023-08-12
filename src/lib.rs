@@ -70,12 +70,14 @@ pub fn is_special() -> bool {
 ///
 /// https://github.com/hyprwm/Hyprland/issues/2173
 pub fn special_only_has_one_visible_window() -> bool {
-    let Client { workspace, .. } = Client::get_active().unwrap().unwrap();
-    let WorkspaceBasic { id, .. } = workspace;
+    if let Some(client) = Client::get_active().unwrap() {
+        let Client { workspace, .. } = client;
+        let WorkspaceBasic { id, .. } = workspace;
 
-    for workspace in Workspaces::get().unwrap() {
-        if workspace.id == id {
-            return workspace.windows == 1;
+        for workspace in Workspaces::get().unwrap() {
+            if workspace.id == id {
+                return workspace.windows == 1;
+            }
         }
     }
 
