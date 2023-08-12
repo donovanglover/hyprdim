@@ -57,10 +57,16 @@ pub fn spawn_dim_thread(
 /// Gets whether the current workspace is a special workspace or not.
 ///
 /// This function works by getting which workspace the active window is in.
+///
+/// The if statement is used to make sure this function works when no window
+/// is the active window.
 pub fn is_special() -> bool {
-    let Client { workspace, .. } = Client::get_active().unwrap().unwrap();
+    if let Some(client) = Client::get_active().unwrap() {
+        let Client { workspace, .. } = client;
+        return workspace.name.contains("special");
+    }
 
-    workspace.name.contains("special")
+    false
 }
 
 /// Returns true if there is only one visible window in the special workspace.
