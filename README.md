@@ -8,6 +8,7 @@ hyprdim is a daemon that automatically dims windows in [Hyprland](https://hyprla
 - Windows only dim when switching windows, eliminating the need to toggle dim on/off when you want to see other windows.
 - Prevent windows from being dimmed if there are no other visible windows in a workspace.
 - Prevent windows from being dimmed when toggling special workspaces.
+- Dim background windows when dialog windows open.
 
 ## Installation
 
