@@ -91,7 +91,7 @@ pub struct Cli {
     #[arg(short = 'I', long, default_value_t = false)]
     pub ignore_leaving_special: bool,
 
-    /// Dim windows if they're the same class and floating
+    /// Dim windows if they're the same class and floating (strength_default: 0.7)
     ///
     /// This option is particularly useful for dimming dialog boxes started by applications
     /// since those tend to have the same class and be floating.
@@ -101,6 +101,7 @@ pub struct Cli {
     /// Note that the dim is removed when switching workspaces or doing any other event.
     ///
     /// Optionally specify a strength value to change how much dim is applied to dialog windows.
+    /// The default strength value is 0.7.
     #[arg(short = 'D', long, value_name = "STRENGTH", default_value = None, default_missing_value = "0.7", num_args = 0..=1)]
     pub dialog_dim: Option<f64>,
 
