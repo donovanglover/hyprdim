@@ -51,19 +51,18 @@ Make sure `$HOME/.cargo/bin` is in your `$PATH` if it isn't already.
 Usage: hyprdim [OPTIONS]
 
 Options:
-  -s, --strength <STRENGTH>         A value from 0 (no dim) to 1 (maximum dim) [default: 0.4]
-  -d, --duration <DURATION>         How many milliseconds to wait before removing dim [default: 800]
-  -f, --fade <FADE>                 Fade animation speed from 0 (instantaneous) to 255 (very slow) [default: 7]
-  -b, --bezier <BEZIER>             Bezier curve used for the animation [default: default]
-  -p, --persist                     Prevent dim_inactive from being disabled by `hyprctl reload` etc
-  -n, --no-dim-when-only            Don't dim when switching to a workspace that only has one visible window
-  -i, --ignore-entering-special     Don't dim when opening a special workspace
-  -I, --ignore-leaving-special      Don't dim when closing a special workspace
-  -D, --dialog-dim                  Dim windows if they're the same class and floating
-  -S, --dialog-strength <STRENGTH>  How much to dim same-class floating windows [default: 0.7]
-  -v, --verbose                     Show information about what hyprdim is doing
-  -h, --help                        Print help (see more with '--help')
-  -V, --version                     Print version
+  -s, --strength <STRENGTH>      A value from 0 (no dim) to 1 (maximum dim) [default: 0.4]
+  -d, --duration <DURATION>      How many milliseconds to wait before removing dim [default: 800]
+  -f, --fade <FADE>              Fade animation speed from 0 (instantaneous) to 255 (very slow) [default: 7]
+  -b, --bezier <BEZIER>          Bezier curve used for the animation [default: default]
+  -p, --persist                  Prevent dim_inactive from being disabled by `hyprctl reload` etc
+  -n, --no-dim-when-only         Don't dim when switching to a workspace that only has one visible window
+  -i, --ignore-entering-special  Don't dim when opening a special workspace
+  -I, --ignore-leaving-special   Don't dim when closing a special workspace
+  -D, --dialog-dim [<STRENGTH>]  Dim windows if they're the same class and floating (strength_default: 0.7)
+  -v, --verbose                  Show information about what hyprdim is doing
+  -h, --help                     Print help (see more with '--help')
+  -V, --version                  Print version
 ```
 
 ## Contributing
