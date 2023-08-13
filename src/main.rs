@@ -49,8 +49,7 @@ fn main() -> hyprland::Result<()> {
         no_dim_when_only,
         ignore_entering_special,
         ignore_leaving_special,
-        dim_floating_when_same_class,
-        strength_floating_when_same_class,
+        dialog_dim,
         ..
     } = Cli::parse();
 
@@ -134,10 +133,12 @@ fn main() -> hyprland::Result<()> {
             }
         }
 
-        if dim_floating_when_same_class {
+        // Enable dim when using a floating windows with the same class as the last window,
+        // but only if the user specified the argument to do so.
+        if let Some(dialog_strength) = dialog_dim {
             if same_class && is_floating() {
                 *is_set_dim.lock().unwrap() = true;
-                set_dim(strength_floating_when_same_class, persist).unwrap();
+                set_dim(dialog_strength, persist).unwrap();
                 return;
             }
         }

@@ -99,16 +99,10 @@ pub struct Cli {
     /// The dim is a permanent dim while working in the floating window of the same class.
     ///
     /// Note that the dim is removed when switching workspaces or doing any other event.
-    #[arg(short = 'D', long = "dialog-dim", default_value_t = false)]
-    pub dim_floating_when_same_class: bool,
-
-    /// How much to dim same-class floating windows
     ///
-    /// A value from 0 (no dim) to 1 (maximum dim)
-    ///
-    /// Note that negative numbers such as -1 and -5 are also supported for "light dim".
-    #[arg(short = 'S', long = "dialog-strength", value_name = "STRENGTH", default_value_t = 0.7)]
-    pub strength_floating_when_same_class: f64,
+    /// Optionally specify a strength value to change how much dim is applied to dialog windows.
+    #[arg(short = 'D', long, value_name = "STRENGTH", default_value = None, default_missing_value = "0.7", num_args = 0..=1)]
+    pub dialog_dim: Option<f64>,
 
     /// Show information about what hyprdim is doing
     #[arg(short, long, default_value_t = false)]
