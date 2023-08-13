@@ -62,6 +62,7 @@ fn main() -> hyprland::Result<()> {
     let num_threads: Arc<Mutex<u16>> = Arc::new(Mutex::new(0));
     let last_address: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
     let last_class: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(None));
+    let last_workspace: Arc<Mutex<Option<Workspace>>> = Arc::new(Mutex::new(None));
     let is_set_dim: Arc<Mutex<bool>> = Arc::new(Mutex::new(false));
     let in_special_workspace: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
 
@@ -107,6 +108,16 @@ fn main() -> hyprland::Result<()> {
         let parent_workspace = Workspace::get_active().unwrap();
         let parent_workspace_window = &parent_workspace.last_window;
 
+        let mut same_workspace = false;
+
+        if let Some(ref old_workspace) = *last_workspace.lock().unwrap() {
+            if old_workspace.id == parent_workspace.id {
+                same_workspace = true;
+            }
+        }
+
+        *last_workspace.lock().unwrap() = Some(parent_workspace.clone());
+
         // If the parent_workspace_window is NOT the same as the window_address, then we're in a special workspace
         let is_special_workspace =
             format!("{parent_workspace_window}") != format!("0x{window_address}");
@@ -136,7 +147,7 @@ fn main() -> hyprland::Result<()> {
         // Enable dim when using a floating windows with the same class as the last window,
         // but only if the user specified the argument to do so.
         if let Some(dialog_strength) = dialog_dim {
-            if same_class && is_floating() {
+            if same_workspace && same_class && is_floating() {
                 *is_set_dim.lock().unwrap() = true;
                 set_dim(dialog_strength, persist).unwrap();
                 return;
