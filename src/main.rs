@@ -50,6 +50,7 @@ fn main() -> hyprland::Result<()> {
         ignore_entering_special,
         ignore_leaving_special,
         dim_floating_when_same_class,
+        strength_floating_when_same_class,
         ..
     } = Cli::parse();
 
@@ -136,7 +137,7 @@ fn main() -> hyprland::Result<()> {
         if dim_floating_when_same_class {
             if same_class && is_floating() {
                 *is_set_dim.lock().unwrap() = true;
-                set_dim(strength, persist).unwrap();
+                set_dim(strength_floating_when_same_class, persist).unwrap();
                 return;
             }
         }
