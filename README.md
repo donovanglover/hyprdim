@@ -60,6 +60,7 @@ Options:
   -n, --no-dim-when-only         Don't dim when switching to a workspace that only has one visible window
   -i, --ignore-entering-special  Don't dim when opening a special workspace
   -I, --ignore-leaving-special   Don't dim when closing a special workspace
+  -D, --dialog-dim [<STRENGTH>]  Dim windows if they're the same class and floating (strength_default: 0.7)
   -v, --verbose                  Show information about what hyprdim is doing
   -h, --help                     Print help (see more with '--help')
   -V, --version                  Print version

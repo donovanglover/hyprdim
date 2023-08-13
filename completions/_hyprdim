@@ -23,6 +23,8 @@ _hyprdim() {
 '--fade=[Fade animation speed from 0 (instantaneous) to 255 (very slow)]:FADE: ' \
 '-b+[Bezier curve used for the animation]:BEZIER: ' \
 '--bezier=[Bezier curve used for the animation]:BEZIER: ' \
+'-D+[Dim windows if they'\''re the same class and floating (strength_default\: 0.7)]' \
+'--dialog-dim=[Dim windows if they'\''re the same class and floating (strength_default\: 0.7)]' \
 '-p[Prevent dim_inactive from being disabled by \`hyprctl reload\` etc]' \
 '--persist[Prevent dim_inactive from being disabled by \`hyprctl reload\` etc]' \
 '-n[Don'\''t dim when switching to a workspace that only has one visible window]' \
