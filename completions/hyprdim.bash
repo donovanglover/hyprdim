@@ -19,7 +19,7 @@ _hyprdim() {
 
     case "${cmd}" in
         hyprdim)
-            opts="-s -d -f -b -p -n -i -I -D -S -v -h -V --strength --duration --fade --bezier --persist --no-dim-when-only --ignore-entering-special --ignore-leaving-special --dialog-dim --dialog-strength --verbose --help --version"
+            opts="-s -d -f -b -p -n -i -I -D -v -h -V --strength --duration --fade --bezier --persist --no-dim-when-only --ignore-entering-special --ignore-leaving-special --dialog-dim --verbose --help --version"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -57,11 +57,11 @@ _hyprdim() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --dialog-strength)
+                --dialog-dim)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                -S)
+                -D)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;

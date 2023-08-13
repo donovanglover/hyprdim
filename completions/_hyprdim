@@ -23,8 +23,8 @@ _hyprdim() {
 '--fade=[Fade animation speed from 0 (instantaneous) to 255 (very slow)]:FADE: ' \
 '-b+[Bezier curve used for the animation]:BEZIER: ' \
 '--bezier=[Bezier curve used for the animation]:BEZIER: ' \
-'-S+[How much to dim same-class floating windows]:STRENGTH: ' \
-'--dialog-strength=[How much to dim same-class floating windows]:STRENGTH: ' \
+'-D+[Dim windows if they'\''re the same class and floating (strength_default\: 0.7)]' \
+'--dialog-dim=[Dim windows if they'\''re the same class and floating (strength_default\: 0.7)]' \
 '-p[Prevent dim_inactive from being disabled by \`hyprctl reload\` etc]' \
 '--persist[Prevent dim_inactive from being disabled by \`hyprctl reload\` etc]' \
 '-n[Don'\''t dim when switching to a workspace that only has one visible window]' \
@@ -33,8 +33,6 @@ _hyprdim() {
 '--ignore-entering-special[Don'\''t dim when opening a special workspace]' \
 '-I[Don'\''t dim when closing a special workspace]' \
 '--ignore-leaving-special[Don'\''t dim when closing a special workspace]' \
-'-D[Dim windows if they'\''re the same class and floating]' \
-'--dialog-dim[Dim windows if they'\''re the same class and floating]' \
 '-v[Show information about what hyprdim is doing]' \
 '--verbose[Show information about what hyprdim is doing]' \
 '-h[Print help (see more with '\''--help'\'')]' \
