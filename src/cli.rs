@@ -91,6 +91,17 @@ pub struct Cli {
     #[arg(short = 'I', long, default_value_t = false)]
     pub ignore_leaving_special: bool,
 
+    /// Dim windows if they're the same class and floating
+    ///
+    /// This option is particularly useful for dimming dialog boxes started by applications
+    /// since those tend to have the same class and be floating.
+    ///
+    /// The dim is a permanent dim while working in the floating window of the same class.
+    ///
+    /// Note that the dim is removed when switching workspaces or doing any other event.
+    #[arg(short = 'D', long, default_value_t = false)]
+    pub dim_floating_when_same_class: bool,
+
     /// Show information about what hyprdim is doing
     #[arg(short, long, default_value_t = false)]
     pub verbose: bool,
