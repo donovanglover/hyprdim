@@ -4,7 +4,7 @@
 .SH NAME
 hyprdim \- Automatically dim windows in Hyprland when switching between them.
 .SH SYNOPSIS
-\fBhyprdim\fR [\fB\-s\fR|\fB\-\-strength\fR] [\fB\-d\fR|\fB\-\-duration\fR] [\fB\-f\fR|\fB\-\-fade\fR] [\fB\-b\fR|\fB\-\-bezier\fR] [\fB\-p\fR|\fB\-\-persist\fR] [\fB\-n\fR|\fB\-\-no\-dim\-when\-only\fR] [\fB\-i\fR|\fB\-\-ignore\-entering\-special\fR] [\fB\-I\fR|\fB\-\-ignore\-leaving\-special\fR] [\fB\-D\fR|\fB\-\-dialog\-dim\fR] [\fB\-S\fR|\fB\-\-dialog\-strength\fR] [\fB\-v\fR|\fB\-\-verbose\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] 
+\fBhyprdim\fR [\fB\-s\fR|\fB\-\-strength\fR] [\fB\-d\fR|\fB\-\-duration\fR] [\fB\-f\fR|\fB\-\-fade\fR] [\fB\-b\fR|\fB\-\-bezier\fR] [\fB\-p\fR|\fB\-\-persist\fR] [\fB\-n\fR|\fB\-\-no\-dim\-when\-only\fR] [\fB\-i\fR|\fB\-\-ignore\-entering\-special\fR] [\fB\-I\fR|\fB\-\-ignore\-leaving\-special\fR] [\fB\-D\fR|\fB\-\-dialog\-dim\fR] [\fB\-v\fR|\fB\-\-verbose\fR] [\fB\-h\fR|\fB\-\-help\fR] [\fB\-V\fR|\fB\-\-version\fR] 
 .SH DESCRIPTION
 .PP
 hyprdim is a daemon that automatically dims windows in Hyprland[1] when
@@ -74,21 +74,16 @@ Don\*(Aqt dim when closing a special workspace
 
 This is useful if you have multiple windows in your main workspace and usually don\*(Aqt switch between them.
 .TP
-\fB\-D\fR, \fB\-\-dialog\-dim\fR
-Dim windows if they\*(Aqre the same class and floating
+\fB\-D\fR, \fB\-\-dialog\-dim\fR=\fISTRENGTH\fR
+Dim windows if they\*(Aqre the same class and floating (strength_default: 0.7)
 
 This option is particularly useful for dimming dialog boxes started by applications since those tend to have the same class and be floating.
 
 The dim is a permanent dim while working in the floating window of the same class.
 
 Note that the dim is removed when switching workspaces or doing any other event.
-.TP
-\fB\-S\fR, \fB\-\-dialog\-strength\fR=\fISTRENGTH\fR [default: 0.7]
-How much to dim same\-class floating windows
 
-A value from 0 (no dim) to 1 (maximum dim)
-
-Note that negative numbers such as \-1 and \-5 are also supported for "light dim".
+Optionally specify a strength value to change how much dim is applied to dialog windows. The default strength value is 0.7.
 .TP
 \fB\-v\fR, \fB\-\-verbose\fR
 Show information about what hyprdim is doing
