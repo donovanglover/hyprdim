@@ -74,7 +74,14 @@ fn main() -> hyprland::Result<()> {
         Keyword::set("decoration:dim_strength", 0)?;
         Keyword::set("decoration:dim_inactive", "yes")?;
     } else {
-        spawn_dim_thread(num_threads.clone(), is_set_dim.clone(), strength, persist, duration, true);
+        spawn_dim_thread(
+            num_threads.clone(),
+            is_set_dim.clone(),
+            strength,
+            persist,
+            duration,
+            true,
+        );
     }
 
     // On active window changes
