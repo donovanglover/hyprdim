@@ -103,7 +103,7 @@ fn main() -> hyprland::Result<()> {
         let mut same_class = false;
 
         if let Some(ref old_class) = *last_class.lock().unwrap() {
-            if format!("{old_class}") == format!("{window_class}") {
+            if *old_class == window_class {
                 same_class = true;
             }
         }
