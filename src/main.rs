@@ -154,22 +154,25 @@ fn main() -> hyprland::Result<()> {
             }
         }
 
+        *is_set_dim.lock().unwrap() = false;
+
         // Don't dim when switching to another workspace with only one window
         if no_dim_when_only {
             if (parent_workspace.windows == 1 || parent_workspace.fullscreen)
                 && !is_special_workspace
             {
+                Keyword::set("decoration:dim_strength", 0).unwrap();
                 log("info: Parent workspace only has one window or that window is fullscreen, so not dimming.");
                 return;
             }
 
             if is_special() && special_only_has_one_visible_window() {
+                Keyword::set("decoration:dim_strength", 0).unwrap();
                 log("info: Special workspace only has one window, so not dimming.");
                 return;
             }
         }
 
-        *is_set_dim.lock().unwrap() = false;
         spawn_dim_thread(num_threads, is_set_dim, strength, persist, duration, false);
     });
 
