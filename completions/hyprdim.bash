@@ -75,4 +75,4 @@ _hyprdim() {
     esac
 }
 
-complete -F _hyprdim -o bashdefault -o default hyprdim
+complete -F _hyprdim -o nosort -o bashdefault -o default hyprdim
