@@ -59,6 +59,9 @@ pub fn spawn_dim_thread(
     });
 }
 
+/// Sets the dim strength to a specific value permanently until it gets changed again.
+///
+/// Useful for setting the dim of dialog windows.
 pub fn set_dim(strength: f64, persist: bool) -> hyprland::Result<()> {
     if persist {
         Keyword::set("decoration:dim_inactive", "yes")?;
@@ -107,6 +110,9 @@ pub fn special_only_has_one_visible_window() -> bool {
     false
 }
 
+/// Checks if the active window is floating or not.
+///
+/// Returns false if no window is active.
 pub fn is_floating() -> bool {
     if let Some(client) = Client::get_active().unwrap() {
         let Client { floating, .. } = client;

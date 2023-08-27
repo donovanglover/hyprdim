@@ -17,6 +17,11 @@ use std::{process, thread};
 
 mod cli;
 
+/// Main function in charge of hyprdim flow logic.
+///
+/// Although it's possible to test all expected functionality and any regressions over time,
+/// the current implementation would require an existing Hyprland environment with test
+/// applications that can be used to simulate windows.
 fn main() -> hyprland::Result<()> {
     let instance = SingleInstance::new("hyprdim").unwrap();
 
@@ -183,6 +188,7 @@ fn main() -> hyprland::Result<()> {
         spawn_dim_thread(num_threads, is_set_dim, strength, persist, duration, false);
     });
 
+    // Gracefully handle hyprdim termination
     thread::spawn(move || -> hyprland::Result<()> {
         let (tx, rx) = mpsc::channel();
 
