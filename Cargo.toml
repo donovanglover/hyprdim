@@ -9,7 +9,7 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4.4.2", features = ["derive"] }
-ctrlc = { version = "3.4.0", features = ["termination"] }
+ctrlc = { version = "3.4.1", features = ["termination"] }
 hyprland = "0.3.8"
 single-instance = "0.3.3"
 
