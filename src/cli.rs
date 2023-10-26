@@ -1,3 +1,4 @@
+use clap::builder::styling::{AnsiColor, Effects, Styles};
 use clap::Parser;
 
 const LONG_ABOUT: &str = "
@@ -24,8 +25,16 @@ available here[5].
 [5]: https://github.com/donovanglover/hyprdim
 ";
 
+fn styles() -> Styles {
+    Styles::styled()
+        .header(AnsiColor::Red.on_default() | Effects::BOLD)
+        .usage(AnsiColor::Red.on_default() | Effects::BOLD)
+        .literal(AnsiColor::Blue.on_default() | Effects::BOLD)
+        .placeholder(AnsiColor::Green.on_default())
+}
+
 #[derive(Parser)]
-#[command(author, version, about, long_about = LONG_ABOUT)]
+#[command(author, version, about, long_about = LONG_ABOUT, styles = styles())]
 pub struct Cli {
     /// A value from 0 (no dim) to 1 (maximum dim)
     ///
