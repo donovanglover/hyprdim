@@ -14,5 +14,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: cargo build --verbose
-      - run: cargo test --verbose
+      - run: cargo build
+      - run: cargo test
