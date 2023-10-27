@@ -11,7 +11,6 @@ struct Config {
 #[derive(Debug, Deserialize)]
 struct PackageConfig {
     version: Option<String>,
-    authors: Option<Vec<String>>,
     description: Option<String>,
 }
 
@@ -51,22 +50,6 @@ fn descriptions_are_the_same() {
         pkgbuild,
         cargo.as_str(),
         "Cargo.toml and PKGBUILD should have the same description"
-    );
-}
-
-#[test]
-/// Ensures that the copyright year is updated in both files if the LICENSE is updated
-fn copyright_is_the_same() {
-    let license = &fs::read_to_string("LICENSE").unwrap();
-    let license = license.split("\n").collect::<Vec<&str>>()[0];
-
-    let cargo = &fs::read_to_string("Cargo.toml").unwrap();
-    let cargo: Config = toml::from_str(cargo).unwrap();
-    let cargo = &cargo.package.unwrap().authors.unwrap()[0];
-
-    assert!(
-        cargo.starts_with(license),
-        "Cargo.toml should have the same copyright year as LICENSE"
     );
 }
 
