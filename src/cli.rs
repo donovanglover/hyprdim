@@ -10,7 +10,7 @@ hyprdim makes use of threads to keep track of new window events. This
 enables hyprdim to only disable dim once a user has been inactive long
 enough.
 
-hyprdim is written in Safe Rust[3] and is available under the MIT license[4].
+hyprdim is written in Safe Rust[3] and is available under the GPL license[4].
 Anyone is free to study the software and expand upon it. The source code is
 available here[5].
 
@@ -23,7 +23,16 @@ available here[5].
 [4]: https://raw.githubusercontent.com/donovanglover/hyprdim/master/LICENSE
 
 [5]: https://github.com/donovanglover/hyprdim
-";
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.";
 
 fn styles() -> Styles {
     Styles::styled()

@@ -4,7 +4,7 @@ description = "Automatically dim windows in Hyprland when switching between them
 version = "2.2.1"
 authors = ["Copyright (C) 2023 Donovan Glover <https://donovan.is/>"]
 repository = "https://github.com/donovanglover/hyprdim"
-license = "MIT"
+license = "GPL-3.0-or-later"
 edition = "2021"
 
 [dependencies]
