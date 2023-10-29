@@ -33,7 +33,7 @@ Alternatively, use `nix run nixpkgs#hyprdim` to start hyprdim without installing
 I don't use Arch Linux anymore, but I wrote a PKGBUILD for the `pacman` enjoyers out there. Feel free to add it to the AUR.
 
 ```fish
-git clone https://github.com/donovanglover/hyprdim && cd hyprdim && makepkg -si
+git clone https://github.com/donovanglover/hyprdim -b 2.2.1 && cd hyprdim && makepkg -si
 ```
 
 ### Other distributions
