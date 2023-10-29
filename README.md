@@ -33,7 +33,7 @@ Alternatively, use `nix run nixpkgs#hyprdim` to start hyprdim without installing
 I don't use Arch Linux anymore, but I wrote a PKGBUILD for the `pacman` enjoyers out there. Feel free to add it to the AUR.
 
 ```fish
-git clone https://github.com/donovanglover/hyprdim -b 2.2.1 && cd hyprdim && makepkg -si
+git clone https://github.com/donovanglover/hyprdim -b 2.2.2 && cd hyprdim && makepkg -si
 ```
 
 ### Other distributions
@@ -41,7 +41,7 @@ git clone https://github.com/donovanglover/hyprdim -b 2.2.1 && cd hyprdim && mak
 Follow the [install guide](https://www.rust-lang.org/tools/install) for Rust. Then, use cargo to install hyprdim.
 
 ```fish
-cargo install --git https://github.com/donovanglover/hyprdim --tag 2.2.1
+cargo install --git https://github.com/donovanglover/hyprdim --tag 2.2.2
 ```
 
 Make sure `$HOME/.cargo/bin` is in your `$PATH` if it isn't already.
