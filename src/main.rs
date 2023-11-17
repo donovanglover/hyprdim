@@ -156,7 +156,7 @@ fn main() -> hyprland::Result<()> {
             }
         }
 
-        // Enable dim when using a floating windows with the same class as the last window,
+        // Enable dim when using a floating window with the same class as the last window,
         // but only if the user specified the argument to do so.
         if let Some(dialog_strength) = dialog_dim {
             if same_workspace && same_class && is_floating() {
