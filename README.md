@@ -28,12 +28,12 @@ Add [`hyprdim`](https://search.nixos.org/packages?channel=unstable&query=hyprdim
 
 Alternatively, use `nix run nixpkgs#hyprdim` to start hyprdim without installing it.
 
-### [Arch Linux](https://archlinux.org/)
+### [Arch Linux](https://archlinux.org/) (AUR)
 
-I don't use Arch Linux anymore, but I wrote a PKGBUILD for the `pacman` enjoyers out there. Feel free to add it to the AUR.
+Use an AUR helper like [yay](https://github.com/Jguer/yay) to install [`hyprdim`](https://aur.archlinux.org/packages/hyprdim).
 
 ```fish
-git clone https://github.com/donovanglover/hyprdim -b 2.2.2 && cd hyprdim && makepkg -si
+yay hyprdim
 ```
 
 ### Other distributions
