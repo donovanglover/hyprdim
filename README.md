@@ -12,7 +12,7 @@ hyprdim is a daemon that automatically dims windows in [Hyprland](https://hyprla
 
 ## Installation
 
-hyprdim has official support for NixOS and Arch Linux.
+hyprdim has official support for NixOS, Arch Linux (AUR), and Fedora (Copr).
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/hyprdim.svg)](https://repology.org/project/hyprdim/versions)
 
@@ -38,6 +38,14 @@ Use an AUR helper like [yay](https://github.com/Jguer/yay) to install [`hyprdim`
 
 ```fish
 yay hyprdim
+```
+
+### [Fedora](https://fedoraproject.org/) (Copr)
+
+[`hyprdim`](https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/package/hyprdim) is available in the [solopasha/hyprland](https://copr.fedorainfracloud.org/coprs/solopasha/hyprland) Copr repository.
+
+```fish
+sudo dnf copr enable solopasha/hyprland && sudo dnf install hyprdim
 ```
 
 ### Other distributions
