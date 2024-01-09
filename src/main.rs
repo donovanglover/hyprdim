@@ -2,7 +2,6 @@ use clap::Parser;
 use cli::Cli;
 use hyprdim::is_floating;
 use hyprdim::is_special;
-use hyprdim::log;
 use hyprdim::set_dim;
 use hyprdim::spawn_dim_thread;
 use hyprdim::special_only_has_one_visible_window;
@@ -27,12 +26,12 @@ fn main() -> hyprland::Result<()> {
 
     // Don't allow more than one hyprdim instance to run
     if !instance.is_single() {
-        log("hyprdim is already running. Use `killall hyprdim` to stop any existing processes.");
+        cli::log("hyprdim is already running. Use `killall hyprdim` to stop any existing processes.");
 
         process::exit(1);
     };
 
-    log("hyprdim is now running.");
+    cli::log("hyprdim is now running.");
 
     // Save dim_strength and dim_inactive values so they can be restored later
     let dim_strength = match Keyword::get("decoration:dim_strength")?.value {
@@ -139,7 +138,7 @@ fn main() -> hyprland::Result<()> {
             *in_special_workspace.lock().unwrap() = true;
 
             if ignore_entering_special {
-                log("info: Special workspace was opened, so not dimming.");
+                cli::log("info: Special workspace was opened, so not dimming.");
                 return;
             }
         }
@@ -151,7 +150,7 @@ fn main() -> hyprland::Result<()> {
 
             // If we're exiting for the first time, don't dim
             if ignore_leaving_special && was_in_special {
-                log("info: Leaving special workspace, so not dimming.");
+                cli::log("info: Leaving special workspace, so not dimming.");
                 return;
             }
         }
@@ -174,13 +173,13 @@ fn main() -> hyprland::Result<()> {
                 && !is_special_workspace
             {
                 Keyword::set("decoration:dim_strength", 0).unwrap();
-                log("info: Parent workspace only has one window or that window is fullscreen, so not dimming.");
+                cli::log("info: Parent workspace only has one window or that window is fullscreen, so not dimming.");
                 return;
             }
 
             if is_special() && special_only_has_one_visible_window() {
                 Keyword::set("decoration:dim_strength", 0).unwrap();
-                log("info: Special workspace only has one window, so not dimming.");
+                cli::log("info: Special workspace only has one window, so not dimming.");
                 return;
             }
         }
@@ -200,7 +199,7 @@ fn main() -> hyprland::Result<()> {
         Keyword::set("decoration:dim_strength", dim_strength)?;
         Keyword::set("decoration:dim_inactive", dim_inactive)?;
 
-        log("\nhyprdim terminated successfully.");
+        cli::log("\nhyprdim terminated successfully.");
 
         process::exit(0);
     });

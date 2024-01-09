@@ -1,5 +1,3 @@
-use clap::Parser;
-use cli::Cli;
 use hyprland::data::{Client, WorkspaceBasic, Workspaces};
 use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
@@ -7,15 +5,6 @@ use std::sync::{Arc, Mutex};
 use std::{thread, time};
 
 mod cli;
-
-/// A helper function to only print what's happening to users if they enable the verbose flag.
-pub fn log(text: &str) {
-    let Cli { verbose, .. } = Cli::parse();
-
-    if verbose {
-        println!("{text}")
-    }
-}
 
 /// Spawns a new thread in charge of dimming inactive windows with Hyprland.
 ///
@@ -37,7 +26,7 @@ pub fn spawn_dim_thread(
         // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
         Keyword::set("decoration:dim_strength", strength)?;
 
-        log("info: Applied dim (new thread)");
+        cli::log("info: Applied dim (new thread)");
 
         // Wait X milliseconds, keeping track of the number of waiting threads
         *num_threads.lock().unwrap() += 1;
@@ -47,11 +36,11 @@ pub fn spawn_dim_thread(
         // If this is the last thread and we're not setting dim, remove dim
         if *num_threads.lock().unwrap() == 0 {
             if *is_set_dim.lock().unwrap() {
-                log("info: Last thread, but not removing dim since permanent dim is active");
+                cli::log("info: Last thread, but not removing dim since permanent dim is active");
             } else {
                 Keyword::set("decoration:dim_strength", 0)?;
 
-                log("info: Removed dim (last thread)");
+                cli::log("info: Removed dim (last thread)");
             }
         }
 
@@ -69,7 +58,7 @@ pub fn set_dim(strength: f64, persist: bool) -> hyprland::Result<()> {
 
     Keyword::set("decoration:dim_strength", strength)?;
 
-    log("info: Set a permanent dim (until next event) without spawning thread");
+    cli::log("info: Set a permanent dim (until next event) without spawning thread");
 
     Ok(())
 }
