@@ -1,6 +1,6 @@
 # Maintainer: Donovan Glover <https://donovan.is/>
 pkgname=hyprdim
-pkgver=2.2.2
+pkgver=2.2.3
 pkgrel=1
 pkgdesc="Automatically dim windows in Hyprland when switching between them"
 arch=('x86_64')

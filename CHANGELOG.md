@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 2.2.3 - 2024-01-12
+
+This release prevents unknown events from being logged by hyprland-rs, useful for [hyprland-autoname-workspaces](https://github.com/hyprland-community/hyprland-autoname-workspaces) users.
+
+### What's Changed
+
+- chore: prevent log flood when some event are send by @cyrinux in https://github.com/donovanglover/hyprdim/pull/55
+- chore(deps): Bump clap from 4.4.7 to 4.4.16 by @dependabot in https://github.com/donovanglover/hyprdim/pull/58
+- chore(deps): Bump serde from 1.0.190 to 1.0.195 by @dependabot in https://github.com/donovanglover/hyprdim/pull/56
+- chore(deps): Bump clap_complete from 4.4.4 to 4.4.6 by @dependabot in https://github.com/donovanglover/hyprdim/pull/53
+- chore(deps): Bump ctrlc from 3.4.1 to 3.4.2 by @dependabot in https://github.com/donovanglover/hyprdim/pull/49
+- chore(deps): Bump toml from 0.8.5 to 0.8.8 by @dependabot in https://github.com/donovanglover/hyprdim/pull/43
+
+### New Contributors
+
+- @cyrinux made their first contribution in https://github.com/donovanglover/hyprdim/pull/55
+
+**Full Changelog**: https://github.com/donovanglover/hyprdim/compare/2.2.2...2.2.3
+
 ## 2.2.2 - 2023-10-29
 
 - [feat(cli): Add colored output to --help](https://github.com/donovanglover/hyprdim/commit/c9be9b037616c5b929d177c8c5dfb82f34242d8d). Optionally disable with `NO_COLOR=1`.
