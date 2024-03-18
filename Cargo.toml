@@ -8,13 +8,13 @@ license = "GPL-3.0-or-later"
 edition = "2021"
 
 [dependencies]
-clap = { version = "4.4.16", features = ["derive"] }
+clap = { version = "4.5.3", features = ["derive"] }
 ctrlc = { version = "3.4.2", features = ["termination"] }
 hyprland = { version = "=0.3.9", features = ["silent"] }
 single-instance = "0.3.3"
 
 [build-dependencies]
-clap = { version = "4.4.16", features = ["derive"] }
+clap = { version = "4.5.3", features = ["derive"] }
 clap_complete = "4.4.6"
 clap_mangen = "0.2.15"
 
