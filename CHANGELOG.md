@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 2.2.4 - 2024-04-08
+
+This release updates the hyprland-rs dependency, fixing hyprdim for Hyprland v0.36.0 and above.
+
+**Full Changelog**: https://github.com/donovanglover/hyprdim/compare/2.2.3...2.2.4
+
 ## 2.2.3 - 2024-01-12
 
 This release prevents unknown events from being logged by hyprland-rs, useful for [hyprland-autoname-workspaces](https://github.com/hyprland-community/hyprland-autoname-workspaces) users.
