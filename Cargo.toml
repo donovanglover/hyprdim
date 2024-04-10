@@ -23,7 +23,7 @@ git = "https://github.com/hyprland-community/hyprland-rs.git"
 features = ["silent"]
 
 [build-dependencies]
-clap_complete = "4.5.1"
+clap_complete = "4.5.2"
 clap_mangen = "0.2.20"
 
 [build-dependencies.clap]
