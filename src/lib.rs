@@ -3,6 +3,7 @@ use cli::Cli;
 use hyprland::data::{Client, WorkspaceBasic, Workspaces};
 use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
+use std::sync::atomic::{AtomicU16, Ordering};
 use std::sync::{Arc, Mutex};
 use std::{thread, time};
 
@@ -22,7 +23,7 @@ pub fn log(text: &str) {
 /// When there are no more threads left to wait for, that is, when the user has been inactive long
 /// enough, dimming is disabled.
 pub fn spawn_dim_thread(
-    num_threads: Arc<Mutex<u16>>,
+    num_threads: Arc<AtomicU16>,
     is_set_dim: Arc<Mutex<bool>>,
     strength: f64,
     persist: bool,
@@ -40,12 +41,12 @@ pub fn spawn_dim_thread(
         log("info: Applied dim (new thread)");
 
         // Wait X milliseconds, keeping track of the number of waiting threads
-        *num_threads.lock().unwrap() += 1;
+        num_threads.fetch_add(1, Ordering::Relaxed);
         thread::sleep(time::Duration::from_millis(duration));
-        *num_threads.lock().unwrap() -= 1;
+        num_threads.fetch_sub(1, Ordering::Relaxed);
 
         // If this is the last thread and we're not setting dim, remove dim
-        if *num_threads.lock().unwrap() == 0 {
+        if num_threads.load(Ordering::Relaxed) == 0 {
             if *is_set_dim.lock().unwrap() {
                 log("info: Last thread, but not removing dim since permanent dim is active");
             } else {

@@ -12,6 +12,7 @@ use hyprland::keyword::{Keyword, OptionValue};
 use hyprland::prelude::*;
 use hyprland::shared::Address;
 use single_instance::SingleInstance;
+use std::sync::atomic::AtomicU16;
 use std::sync::{mpsc, Arc, Mutex};
 use std::{process, thread};
 
@@ -64,7 +65,7 @@ fn main() -> hyprland::Result<()> {
     let mut event_listener = EventListener::new();
 
     // Keep track of state
-    let num_threads: Arc<Mutex<u16>> = Arc::new(Mutex::new(0));
+    let num_threads = Arc::new(AtomicU16::new(0));
     let last_address: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
     let last_class: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(None));
     let last_workspace: Arc<Mutex<Option<Workspace>>> = Arc::new(Mutex::new(None));
