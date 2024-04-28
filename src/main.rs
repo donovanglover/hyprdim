@@ -72,7 +72,7 @@ fn main() -> hyprland::Result<()> {
     let last_class: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(None));
     let last_workspace: Arc<Mutex<Option<Workspace>>> = Arc::new(Mutex::new(None));
     let is_set_dim = Arc::new(AtomicBool::new(false));
-    let in_special_workspace: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
+    let in_special_workspace = Arc::new(AtomicBool::new(is_special()));
 
     // Initialize with dim so the user sees something, but only if the user wants dim
     if is_special()
@@ -138,8 +138,8 @@ fn main() -> hyprland::Result<()> {
             format!("{parent_workspace_window}") != format!("0x{window_address}");
 
         // Keep track of being inside special workspaces and don't dim when entering them
-        if is_special_workspace && !*in_special_workspace.lock().unwrap() {
-            *in_special_workspace.lock().unwrap() = true;
+        if is_special_workspace && !in_special_workspace.load(Ordering::Relaxed) {
+            in_special_workspace.store(true, Ordering::Relaxed);
 
             if ignore_entering_special {
                 log("info: Special workspace was opened, so not dimming.");
@@ -148,9 +148,9 @@ fn main() -> hyprland::Result<()> {
         }
 
         if !is_special_workspace {
-            let was_in_special = *in_special_workspace.lock().unwrap();
+            let was_in_special = in_special_workspace.load(Ordering::Relaxed);
 
-            *in_special_workspace.lock().unwrap() = false;
+            in_special_workspace.store(false, Ordering::Relaxed);
 
             // If we're exiting for the first time, don't dim
             if ignore_leaving_special && was_in_special {
