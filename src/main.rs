@@ -12,7 +12,9 @@ use hyprland::keyword::{Keyword, OptionValue};
 use hyprland::prelude::*;
 use hyprland::shared::Address;
 use single_instance::SingleInstance;
+use std::sync::atomic::AtomicBool;
 use std::sync::atomic::AtomicU16;
+use std::sync::atomic::Ordering;
 use std::sync::{mpsc, Arc, Mutex};
 use std::{process, thread};
 
@@ -69,7 +71,7 @@ fn main() -> hyprland::Result<()> {
     let last_address: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
     let last_class: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(None));
     let last_workspace: Arc<Mutex<Option<Workspace>>> = Arc::new(Mutex::new(None));
-    let is_set_dim: Arc<Mutex<bool>> = Arc::new(Mutex::new(false));
+    let is_set_dim = Arc::new(AtomicBool::new(false));
     let in_special_workspace: Arc<Mutex<bool>> = Arc::new(Mutex::new(is_special()));
 
     // Initialize with dim so the user sees something, but only if the user wants dim
@@ -161,13 +163,13 @@ fn main() -> hyprland::Result<()> {
         // but only if the user specified the argument to do so.
         if let Some(dialog_strength) = dialog_dim {
             if same_workspace && same_class && is_floating() {
-                *is_set_dim.lock().unwrap() = true;
+                is_set_dim.store(true, Ordering::Relaxed);
                 set_dim(dialog_strength, persist).unwrap();
                 return;
             }
         }
 
-        *is_set_dim.lock().unwrap() = false;
+        is_set_dim.store(false, Ordering::Relaxed);
 
         // Don't dim when switching to another workspace with only one window
         if no_dim_when_only {

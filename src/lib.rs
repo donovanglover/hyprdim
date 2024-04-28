@@ -3,8 +3,8 @@ use cli::Cli;
 use hyprland::data::{Client, WorkspaceBasic, Workspaces};
 use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
-use std::sync::atomic::{AtomicU16, Ordering};
-use std::sync::{Arc, Mutex};
+use std::sync::atomic::{AtomicBool, AtomicU16, Ordering};
+use std::sync::Arc;
 use std::{thread, time};
 
 mod cli;
@@ -24,7 +24,7 @@ pub fn log(text: &str) {
 /// enough, dimming is disabled.
 pub fn spawn_dim_thread(
     num_threads: Arc<AtomicU16>,
-    is_set_dim: Arc<Mutex<bool>>,
+    is_set_dim: Arc<AtomicBool>,
     strength: f64,
     persist: bool,
     duration: u64,
@@ -47,7 +47,7 @@ pub fn spawn_dim_thread(
 
         // If this is the last thread and we're not setting dim, remove dim
         if num_threads.load(Ordering::Relaxed) == 0 {
-            if *is_set_dim.lock().unwrap() {
+            if is_set_dim.load(Ordering::Relaxed) {
                 log("info: Last thread, but not removing dim since permanent dim is active");
             } else {
                 Keyword::set("decoration:dim_strength", 0)?;
