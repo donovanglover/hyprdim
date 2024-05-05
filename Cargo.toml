@@ -19,11 +19,11 @@ version = "3.4.4"
 features = ["termination"]
 
 [dependencies.hyprland]
-git = "https://github.com/hyprland-community/hyprland-rs.git"
+version = "0.4.0-alpha.1"
 features = ["silent"]
 
 [build-dependencies]
-clap_complete = "4.5.1"
+clap_complete = "4.5.2"
 clap_mangen = "0.2.20"
 
 [build-dependencies.clap]
@@ -33,5 +33,5 @@ features = ["derive"]
 [dev-dependencies]
 assert_cmd = "2.0.14"
 rustympkglib = "0.1.1"
-serde = "1.0.197"
+serde = "1.0.200"
 toml = "0.8.12"
