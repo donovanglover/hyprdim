@@ -16,7 +16,7 @@ hyprdim has official support for NixOS, Arch Linux (AUR), and Fedora (Copr).
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/hyprdim.svg)](https://repology.org/project/hyprdim/versions)
 
-### [NixOS](https://nixos.wiki/wiki/Overview_of_the_NixOS_Linux_distribution) (Recommended)
+### [NixOS](https://wiki.nixos.org/wiki/Overview_of_the_NixOS_Linux_distribution) (Recommended)
 
 Add [`hyprdim`](https://search.nixos.org/packages?channel=unstable&query=hyprdim) to your `systemPackages` and rebuild.
 
