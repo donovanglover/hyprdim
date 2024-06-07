@@ -23,7 +23,7 @@ version = "0.4.0-alpha.1"
 features = ["silent"]
 
 [build-dependencies]
-clap_complete = "4.5.2"
+clap_complete = "4.5.3"
 clap_mangen = "0.2.20"
 
 [build-dependencies.clap]
