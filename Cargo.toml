@@ -11,7 +11,7 @@ edition = "2021"
 single-instance = "0.3.3"
 
 [dependencies.clap]
-version = "4.5.4"
+version = "4.5.8"
 features = ["derive"]
 
 [dependencies.ctrlc]
@@ -27,7 +27,7 @@ clap_complete = "4.5.2"
 clap_mangen = "0.2.20"
 
 [build-dependencies.clap]
-version = "4.5.4"
+version = "4.5.8"
 features = ["derive"]
 
 [dev-dependencies]
