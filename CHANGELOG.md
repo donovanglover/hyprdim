@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 2.2.6 - 2024-08-09
+
+This release updates the hyprland-rs dependency for Hyprland v0.42.0 and above.
+
+**Full Changelog**: https://github.com/donovanglover/hyprdim/compare/2.2.5...2.2.6
+
 ## 2.2.5 - 2024-05-05
 
 This release updates the hyprland-rs dependency for Hyprland v0.40.0 and above.
