@@ -312,6 +312,7 @@ dependencies = [
 [[package]]
 name = "hyprland"
 version = "0.4.0-alpha.2"
+source = "git+https://github.com/MrYuto/hyprland-rs#7a309a24a94f88973f8d3fb1e7d687e3d730d351"
 dependencies = [
  "ahash",
  "derive_more",
@@ -329,6 +330,7 @@ dependencies = [
 [[package]]
 name = "hyprland-macros"
 version = "0.4.0-alpha.2"
+source = "git+https://github.com/MrYuto/hyprland-rs#7a309a24a94f88973f8d3fb1e7d687e3d730d351"
 dependencies = [
  "quote",
  "syn 2.0.60",
