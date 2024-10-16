@@ -10,9 +10,9 @@ pub fn dialog_dim(cli: &Cli, options: DialogDimOptions) -> bool {
         if options.same_workspace && options.same_class && is_floating() {
             set_dim(dialog_strength, cli.persist).unwrap();
 
-            return true;
+            return true
         }
     }
 
-    return false;
+    false
 }
