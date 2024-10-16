@@ -19,7 +19,7 @@ impl DimState {
 
         Ok(Self {
             dim_strength,
-            dim_inactive
+            dim_inactive,
         })
     }
 }

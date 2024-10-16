@@ -9,7 +9,7 @@ pub fn set_initial_dim(live: &LiveState, cli: &Cli) -> anyhow::Result<()> {
     if is_single() {
         Keyword::set("decoration:dim_strength", 0)?;
         Keyword::set("decoration:dim_inactive", "yes")?;
-        return Ok(())
+        return Ok(());
     }
 
     spawn_dim_thread(SpawnDimThreadOptions {

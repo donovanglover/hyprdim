@@ -1,31 +1,31 @@
 use clap::Parser;
 use cli::Cli;
 use handlers::dialog_dim;
+use handlers::spawn_dim_thread;
 use handlers::DialogDimOptions;
 use handlers::SpawnDimThreadOptions;
-use mutations::set_animation;
-use mutations::set_initial_dim;
-use queries::is_special;
-use utils::log;
-use handlers::spawn_dim_thread;
-use queries::is_single;
 use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
+use mutations::set_animation;
+use mutations::set_initial_dim;
+use queries::is_single;
+use queries::is_special;
 use state::DimState;
 use state::LiveState;
-use ui::single_instance;
 use std::sync::atomic::Ordering;
 use std::sync::Arc;
 use ui::ctrlc;
+use ui::single_instance;
+use utils::log;
 
 mod cli;
-mod queries;
-mod mutations;
-mod ui;
-mod state;
 mod handlers;
+mod mutations;
+mod queries;
+mod state;
+mod ui;
 mod utils;
 
 fn main() -> anyhow::Result<()> {
