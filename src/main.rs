@@ -32,31 +32,26 @@ fn main() -> anyhow::Result<()> {
     single_instance();
 
     let state = DimState::new()?;
-
     let cli = Cli::parse();
-
-    set_animation(cli.fade, &cli.bezier)?;
-
     let mut event_listener = EventListener::new();
-
     let live = LiveState::new();
 
+    set_animation(cli.fade, &cli.bezier)?;
     set_initial_dim(&live, &cli)?;
 
     event_listener.add_active_window_change_handler(move |data| {
         let Some(WindowEventData { window_address, window_class, .. }) = data else { return };
-
         let num_threads = Arc::clone(&live.num_threads);
         let is_set_dim = Arc::clone(&live.is_set_dim);
+        let mut same_class = false;
+        let parent_workspace = Workspace::get_active().unwrap();
+        let parent_workspace_window = &parent_workspace.last_window;
 
-        // If the last address is the same as the new window, don't dim
         if let Some(ref old_address) = *live.last_address.lock().unwrap() {
             if format!("{old_address}") == format!("{window_address}") {
                 return;
             }
         }
-
-        let mut same_class = false;
 
         if let Some(ref old_class) = *live.last_class.lock().unwrap() {
             if *old_class == window_class {
@@ -64,11 +59,6 @@ fn main() -> anyhow::Result<()> {
             }
         }
 
-        // Get the state of the current parent workspace
-        let parent_workspace = Workspace::get_active().unwrap();
-        let parent_workspace_window = &parent_workspace.last_window;
-
-        // If the parent_workspace_window is NOT the same as the window_address, then we're in a special workspace
         let is_special_workspace =
             format!("{parent_workspace_window}") != format!("0x{window_address}");
 
