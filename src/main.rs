@@ -6,7 +6,7 @@ use queries::is_floating;
 use queries::is_special;
 use utils::log;
 use mutations::set_dim;
-use hyprdim::spawn_dim_thread;
+use handlers::spawn_dim_thread;
 use queries::is_single;
 use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
@@ -23,6 +23,7 @@ mod queries;
 mod mutations;
 mod ui;
 mod state;
+mod handlers;
 mod utils;
 
 fn main() -> anyhow::Result<()> {

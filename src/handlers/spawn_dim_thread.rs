@@ -3,6 +3,8 @@ use std::sync::atomic::{AtomicBool, AtomicU16, Ordering};
 use std::sync::Arc;
 use std::{thread, time};
 
+use crate::utils::log;
+
 /// Spawns a new thread in charge of dimming inactive windows with Hyprland.
 ///
 /// When there are no more threads left to wait for, that is, when the user has been inactive long
