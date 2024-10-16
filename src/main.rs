@@ -5,7 +5,7 @@ use util::is_special;
 use hyprdim::log;
 use util::set_dim;
 use hyprdim::spawn_dim_thread;
-use util::special_only_has_one_visible_window;
+use util::is_single;
 use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::{Keyword, OptionValue};
@@ -78,7 +78,7 @@ fn main() -> hyprland::Result<()> {
     // Initialize with dim so the user sees something, but only if the user wants dim
     if is_special()
         && (ignore_entering_special || no_dim_when_only)
-        && special_only_has_one_visible_window()
+        && is_single()
     {
         Keyword::set("decoration:dim_strength", 0)?;
         Keyword::set("decoration:dim_inactive", "yes")?;
@@ -182,7 +182,7 @@ fn main() -> hyprland::Result<()> {
                 return;
             }
 
-            if is_special() && special_only_has_one_visible_window() {
+            if is_special() && is_single() {
                 Keyword::set("decoration:dim_strength", 0).unwrap();
                 log("info: Special workspace only has one window, so not dimming.");
                 return;
