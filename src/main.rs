@@ -3,7 +3,7 @@ use cli::Cli;
 use util::is_floating;
 use util::is_special;
 use hyprdim::log;
-use util::set_dim;
+use mutations::set_dim;
 use hyprdim::spawn_dim_thread;
 use util::is_single;
 use hyprland::data::Workspace;
@@ -20,6 +20,7 @@ use std::{process, thread};
 
 mod cli;
 mod util;
+mod mutations;
 
 /// Main function in charge of hyprdim flow logic.
 ///
