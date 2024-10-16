@@ -31,20 +31,7 @@ fn main() -> anyhow::Result<()> {
 
     let cli = Cli::parse();
 
-    let Cli {
-        fade,
-        ref bezier,
-        strength,
-        duration,
-        persist,
-        no_dim_when_only,
-        ignore_entering_special,
-        ignore_leaving_special,
-        dialog_dim,
-        ..
-    } = cli;
-
-    set_animation(fade, bezier)?;
+    set_animation(cli.fade, &cli.bezier)?;
 
     let mut event_listener = EventListener::new();
 
@@ -52,12 +39,9 @@ fn main() -> anyhow::Result<()> {
 
     set_initial_dim(&live, &cli)?;
 
-    // On active window changes
     event_listener.add_active_window_change_handler(move |data| {
-        // Ignore the event if no window_address was given
         let Some(WindowEventData { window_address, window_class, .. }) = data else { return };
 
-        // Clone inside since primitives don't implement copy
         let num_threads = live.num_threads.clone();
         let is_set_dim = live.is_set_dim.clone();
 
@@ -101,7 +85,7 @@ fn main() -> anyhow::Result<()> {
         if is_special_workspace && !live.in_special_workspace.load(Ordering::Relaxed) {
             live.in_special_workspace.store(true, Ordering::Relaxed);
 
-            if ignore_entering_special {
+            if cli.ignore_entering_special {
                 log("info: Special workspace was opened, so not dimming.");
                 return;
             }
@@ -113,7 +97,7 @@ fn main() -> anyhow::Result<()> {
             live.in_special_workspace.store(false, Ordering::Relaxed);
 
             // If we're exiting for the first time, don't dim
-            if ignore_leaving_special && was_in_special {
+            if cli.ignore_leaving_special && was_in_special {
                 log("info: Leaving special workspace, so not dimming.");
                 return;
             }
@@ -121,10 +105,10 @@ fn main() -> anyhow::Result<()> {
 
         // Enable dim when using a floating window with the same class as the last window,
         // but only if the user specified the argument to do so.
-        if let Some(dialog_strength) = dialog_dim {
+        if let Some(dialog_strength) = cli.dialog_dim {
             if same_workspace && same_class && is_floating() {
                 is_set_dim.store(true, Ordering::Relaxed);
-                set_dim(dialog_strength, persist).unwrap();
+                set_dim(dialog_strength, cli.persist).unwrap();
                 return;
             }
         }
@@ -132,7 +116,7 @@ fn main() -> anyhow::Result<()> {
         is_set_dim.store(false, Ordering::Relaxed);
 
         // Don't dim when switching to another workspace with only one window
-        if no_dim_when_only {
+        if cli.no_dim_when_only {
             if (parent_workspace.windows == 1 || parent_workspace.fullscreen)
                 && !is_special_workspace
             {
@@ -148,7 +132,7 @@ fn main() -> anyhow::Result<()> {
             }
         }
 
-        spawn_dim_thread(num_threads, is_set_dim, strength, persist, duration, false);
+        spawn_dim_thread(num_threads, is_set_dim, cli.strength, cli.persist, cli.duration, false);
     });
 
     ctrlc(state);
