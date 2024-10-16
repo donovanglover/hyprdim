@@ -1,8 +1,6 @@
 use clap::Parser;
 use cli::Cli;
-use hyprland::data::{Client, WorkspaceBasic, Workspaces};
 use hyprland::keyword::Keyword;
-use hyprland::prelude::*;
 use std::sync::atomic::{AtomicBool, AtomicU16, Ordering};
 use std::sync::Arc;
 use std::{thread, time};
@@ -58,67 +56,4 @@ pub fn spawn_dim_thread(
 
         Ok(())
     });
-}
-
-/// Sets the dim strength to a specific value permanently until it gets changed again.
-///
-/// Useful for setting the dim of dialog windows.
-pub fn set_dim(strength: f64, persist: bool) -> hyprland::Result<()> {
-    if persist {
-        Keyword::set("decoration:dim_inactive", "yes")?;
-    };
-
-    Keyword::set("decoration:dim_strength", strength)?;
-
-    log("info: Set a permanent dim (until next event) without spawning thread");
-
-    Ok(())
-}
-
-/// Gets whether the current workspace is a special workspace or not.
-///
-/// This function works by getting which workspace the active window is in.
-///
-/// The if statement is used to make sure this function works when no window
-/// is the active window.
-pub fn is_special() -> bool {
-    if let Some(client) = Client::get_active().unwrap() {
-        let Client { workspace, .. } = client;
-        return workspace.name.contains("special");
-    }
-
-    false
-}
-
-/// Returns true if there is only one visible window in the special workspace.
-///
-/// In the future, this function should be updated to accommodate for fullscreen
-/// windows in special workspaces if Hyprland implements it.
-///
-/// https://github.com/hyprwm/Hyprland/issues/2173
-pub fn special_only_has_one_visible_window() -> bool {
-    if let Some(client) = Client::get_active().unwrap() {
-        let Client { workspace, .. } = client;
-        let WorkspaceBasic { id, .. } = workspace;
-
-        for workspace in Workspaces::get().unwrap() {
-            if workspace.id == id {
-                return workspace.windows == 1;
-            }
-        }
-    }
-
-    false
-}
-
-/// Checks if the active window is floating or not.
-///
-/// Returns false if no window is active.
-pub fn is_floating() -> bool {
-    if let Some(client) = Client::get_active().unwrap() {
-        let Client { floating, .. } = client;
-        return floating;
-    }
-
-    false
 }
