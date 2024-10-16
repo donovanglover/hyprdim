@@ -8,10 +8,11 @@ use hyprdim::spawn_dim_thread;
 use queries::is_single;
 use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
-use hyprland::keyword::{Keyword, OptionValue};
+use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
 use hyprland::shared::Address;
 use single_instance::SingleInstance;
+use state::DimState;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::AtomicU16;
 use std::sync::atomic::Ordering;
@@ -21,13 +22,14 @@ use std::{process, thread};
 mod cli;
 mod queries;
 mod mutations;
+mod state;
 
 /// Main function in charge of hyprdim flow logic.
 ///
 /// Although it's possible to test all expected functionality and any regressions over time,
 /// the current implementation would require an existing Hyprland environment with test
 /// applications that can be used to simulate windows.
-fn main() -> hyprland::Result<()> {
+fn main() -> anyhow::Result<()> {
     let instance = SingleInstance::new("hyprdim").unwrap();
 
     // Don't allow more than one hyprdim instance to run
@@ -39,16 +41,7 @@ fn main() -> hyprland::Result<()> {
 
     log("hyprdim is now running.");
 
-    // Save dim_strength and dim_inactive values so they can be restored later
-    let dim_strength = match Keyword::get("decoration:dim_strength")?.value {
-        OptionValue::Float(i) => i,
-        _ => 0.5,
-    };
-
-    let dim_inactive = match Keyword::get("decoration:dim_inactive")?.value {
-        OptionValue::Int(i) => i,
-        _ => 0,
-    };
+    let state = DimState::new()?;
 
     let Cli {
         fade,
@@ -210,5 +203,5 @@ fn main() -> hyprland::Result<()> {
         process::exit(0);
     });
 
-    event_listener.start_listener()
+    Ok(event_listener.start_listener()?)
 }
