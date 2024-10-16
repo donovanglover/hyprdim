@@ -16,12 +16,14 @@ use state::DimState;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::AtomicU16;
 use std::sync::atomic::Ordering;
-use std::sync::{mpsc, Arc, Mutex};
-use std::{process, thread};
+use std::sync::{Arc, Mutex};
+use std::process;
+use ui::ctrlc;
 
 mod cli;
 mod queries;
 mod mutations;
+mod ui;
 mod state;
 
 /// Main function in charge of hyprdim flow logic.
@@ -186,22 +188,7 @@ fn main() -> anyhow::Result<()> {
         spawn_dim_thread(num_threads, is_set_dim, strength, persist, duration, false);
     });
 
-    // Gracefully handle hyprdim termination
-    thread::spawn(move || -> hyprland::Result<()> {
-        let (tx, rx) = mpsc::channel();
-
-        ctrlc::set_handler(move || tx.send(()).expect("Could not send signal on channel."))
-            .expect("Error setting Ctrl-C handler");
-
-        rx.recv().expect("Could not receive from channel.");
-
-        Keyword::set("decoration:dim_strength", dim_strength)?;
-        Keyword::set("decoration:dim_inactive", dim_inactive)?;
-
-        log("\nhyprdim terminated successfully.");
-
-        process::exit(0);
-    });
+    ctrlc(state);
 
     Ok(event_listener.start_listener()?)
 }
