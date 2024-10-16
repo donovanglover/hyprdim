@@ -11,13 +11,12 @@ use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
 use hyprland::shared::Address;
-use single_instance::SingleInstance;
 use state::DimState;
+use ui::single_instance;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::AtomicU16;
 use std::sync::atomic::Ordering;
 use std::sync::{Arc, Mutex};
-use std::process;
 use ui::ctrlc;
 
 mod cli;
@@ -32,16 +31,7 @@ mod state;
 /// the current implementation would require an existing Hyprland environment with test
 /// applications that can be used to simulate windows.
 fn main() -> anyhow::Result<()> {
-    let instance = SingleInstance::new("hyprdim").unwrap();
-
-    // Don't allow more than one hyprdim instance to run
-    if !instance.is_single() {
-        log("hyprdim is already running. Use `killall hyprdim` to stop any existing processes.");
-
-        process::exit(1);
-    };
-
-    log("hyprdim is now running.");
+    single_instance();
 
     let state = DimState::new()?;
 
