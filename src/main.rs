@@ -1,11 +1,11 @@
 use clap::Parser;
 use cli::Cli;
-use util::is_floating;
-use util::is_special;
+use queries::is_floating;
+use queries::is_special;
 use hyprdim::log;
 use mutations::set_dim;
 use hyprdim::spawn_dim_thread;
-use util::is_single;
+use queries::is_single;
 use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::{Keyword, OptionValue};
@@ -19,7 +19,7 @@ use std::sync::{mpsc, Arc, Mutex};
 use std::{process, thread};
 
 mod cli;
-mod util;
+mod queries;
 mod mutations;
 
 /// Main function in charge of hyprdim flow logic.
