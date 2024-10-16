@@ -1,7 +1,7 @@
 use clap::Parser;
 
-use crate::cli::LONG_ABOUT;
 use crate::cli::styles;
+use crate::cli::LONG_ABOUT;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = LONG_ABOUT, styles = styles())]
