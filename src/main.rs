@@ -11,13 +11,10 @@ use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
-use hyprland::shared::Address;
 use state::DimState;
+use state::LiveState;
 use ui::single_instance;
-use std::sync::atomic::AtomicBool;
-use std::sync::atomic::AtomicU16;
 use std::sync::atomic::Ordering;
-use std::sync::{Arc, Mutex};
 use ui::ctrlc;
 
 mod cli;
@@ -53,13 +50,7 @@ fn main() -> anyhow::Result<()> {
 
     let mut event_listener = EventListener::new();
 
-    // Keep track of state
-    let num_threads = Arc::new(AtomicU16::new(0));
-    let last_address: Arc<Mutex<Option<Address>>> = Arc::new(Mutex::new(None));
-    let last_class: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(None));
-    let last_workspace: Arc<Mutex<Option<Workspace>>> = Arc::new(Mutex::new(None));
-    let is_set_dim = Arc::new(AtomicBool::new(false));
-    let in_special_workspace = Arc::new(AtomicBool::new(is_special()));
+    let live = LiveState::new();
 
     // Initialize with dim so the user sees something, but only if the user wants dim
     if is_special()
@@ -70,8 +61,8 @@ fn main() -> anyhow::Result<()> {
         Keyword::set("decoration:dim_inactive", "yes")?;
     } else {
         spawn_dim_thread(
-            num_threads.clone(),
-            is_set_dim.clone(),
+            live.num_threads.clone(),
+            live.is_set_dim.clone(),
             strength,
             persist,
             duration,
@@ -85,11 +76,11 @@ fn main() -> anyhow::Result<()> {
         let Some(WindowEventData { window_address, window_class, .. }) = data else { return };
 
         // Clone inside since primitives don't implement copy
-        let num_threads = num_threads.clone();
-        let is_set_dim = is_set_dim.clone();
+        let num_threads = live.num_threads.clone();
+        let is_set_dim = live.is_set_dim.clone();
 
         // If the last address is the same as the new window, don't dim
-        if let Some(ref old_address) = *last_address.lock().unwrap() {
+        if let Some(ref old_address) = *live.last_address.lock().unwrap() {
             if format!("{old_address}") == format!("{window_address}") {
                 return;
             }
@@ -97,14 +88,14 @@ fn main() -> anyhow::Result<()> {
 
         let mut same_class = false;
 
-        if let Some(ref old_class) = *last_class.lock().unwrap() {
+        if let Some(ref old_class) = *live.last_class.lock().unwrap() {
             if *old_class == window_class {
                 same_class = true;
             }
         }
 
-        *last_address.lock().unwrap() = Some(window_address.clone());
-        *last_class.lock().unwrap() = Some(window_class.clone());
+        *live.last_address.lock().unwrap() = Some(window_address.clone());
+        *live.last_class.lock().unwrap() = Some(window_class.clone());
 
         // Get the state of the current parent workspace
         let parent_workspace = Workspace::get_active().unwrap();
@@ -112,21 +103,21 @@ fn main() -> anyhow::Result<()> {
 
         let mut same_workspace = false;
 
-        if let Some(ref old_workspace) = *last_workspace.lock().unwrap() {
+        if let Some(ref old_workspace) = *live.last_workspace.lock().unwrap() {
             if old_workspace.id == parent_workspace.id {
                 same_workspace = true;
             }
         }
 
-        *last_workspace.lock().unwrap() = Some(parent_workspace.clone());
+        *live.last_workspace.lock().unwrap() = Some(parent_workspace.clone());
 
         // If the parent_workspace_window is NOT the same as the window_address, then we're in a special workspace
         let is_special_workspace =
             format!("{parent_workspace_window}") != format!("0x{window_address}");
 
         // Keep track of being inside special workspaces and don't dim when entering them
-        if is_special_workspace && !in_special_workspace.load(Ordering::Relaxed) {
-            in_special_workspace.store(true, Ordering::Relaxed);
+        if is_special_workspace && !live.in_special_workspace.load(Ordering::Relaxed) {
+            live.in_special_workspace.store(true, Ordering::Relaxed);
 
             if ignore_entering_special {
                 log("info: Special workspace was opened, so not dimming.");
@@ -135,9 +126,9 @@ fn main() -> anyhow::Result<()> {
         }
 
         if !is_special_workspace {
-            let was_in_special = in_special_workspace.load(Ordering::Relaxed);
+            let was_in_special = live.in_special_workspace.load(Ordering::Relaxed);
 
-            in_special_workspace.store(false, Ordering::Relaxed);
+            live.in_special_workspace.store(false, Ordering::Relaxed);
 
             // If we're exiting for the first time, don't dim
             if ignore_leaving_special && was_in_special {
