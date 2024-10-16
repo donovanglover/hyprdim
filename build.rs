@@ -1,10 +1,12 @@
-include!("src/cli.rs");
+#[path = "src/cli/mod.rs"]
+mod cli;
 
 use clap::Command;
 use clap::CommandFactory;
 use clap_complete::generate_to;
 use clap_complete::Shell::{Bash, Fish, Zsh};
 use clap_mangen::Man;
+use cli::Cli;
 use std::error::Error;
 use std::fs;
 use std::path::PathBuf;

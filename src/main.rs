@@ -1,5 +1,3 @@
-use clap::Parser;
-use cli::Cli;
 use handlers::dialog_dim;
 use handlers::spawn_dim_thread;
 use handlers::DialogDimOptions;
@@ -14,6 +12,7 @@ use queries::is_single;
 use queries::is_special;
 use state::DimState;
 use state::LiveState;
+use ui::clap;
 use std::sync::atomic::Ordering;
 use std::sync::Arc;
 use ui::ctrlc;
@@ -32,7 +31,7 @@ fn main() -> anyhow::Result<()> {
     single_instance();
 
     let state = DimState::new()?;
-    let cli = Cli::parse();
+    let cli = clap();
     let mut event_listener = EventListener::new();
     let live = LiveState::new();
 
