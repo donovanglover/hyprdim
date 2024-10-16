@@ -1,5 +1,7 @@
 use clap::Parser;
 use cli::Cli;
+use handlers::dialog_dim;
+use handlers::DialogDimOptions;
 use handlers::SpawnDimThreadOptions;
 use mutations::set_animation;
 use mutations::set_initial_dim;
@@ -99,15 +101,16 @@ fn main() -> anyhow::Result<()> {
 
         // Enable dim when using a floating window with the same class as the last window,
         // but only if the user specified the argument to do so.
-        if let Some(dialog_strength) = cli.dialog_dim {
-            if same_workspace && same_class && is_floating() {
-                is_set_dim.store(true, Ordering::Relaxed);
-                set_dim(dialog_strength, cli.persist).unwrap();
-                return;
-            }
-        }
+        let did_dim = dialog_dim(&cli, DialogDimOptions {
+            same_class,
+            same_workspace
+        });
 
-        is_set_dim.store(false, Ordering::Relaxed);
+        is_set_dim.store(did_dim, Ordering::Relaxed);
+
+        if did_dim {
+            return;
+        }
 
         // Don't dim when switching to another workspace with only one window
         if cli.no_dim_when_only {
