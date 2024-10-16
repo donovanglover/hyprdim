@@ -1,5 +1,6 @@
 use clap::Parser;
 use cli::Cli;
+use mutations::set_animation;
 use queries::is_floating;
 use queries::is_special;
 use hyprdim::log;
@@ -48,8 +49,7 @@ fn main() -> anyhow::Result<()> {
         ..
     } = Cli::parse();
 
-    // Set initial dim animation
-    Keyword::set("animation", format!("fadeDim,1,{fade},{bezier}"))?;
+    set_animation(fade, bezier)?;
 
     let mut event_listener = EventListener::new();
 
