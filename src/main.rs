@@ -16,6 +16,7 @@ use state::DimState;
 use state::LiveState;
 use ui::single_instance;
 use std::sync::atomic::Ordering;
+use std::sync::Arc;
 use ui::ctrlc;
 
 mod cli;
@@ -44,8 +45,8 @@ fn main() -> anyhow::Result<()> {
     event_listener.add_active_window_change_handler(move |data| {
         let Some(WindowEventData { window_address, window_class, .. }) = data else { return };
 
-        let num_threads = live.num_threads.clone();
-        let is_set_dim = live.is_set_dim.clone();
+        let num_threads = Arc::clone(&live.num_threads);
+        let is_set_dim = Arc::clone(&live.is_set_dim);
 
         // If the last address is the same as the new window, don't dim
         if let Some(ref old_address) = *live.last_address.lock().unwrap() {
