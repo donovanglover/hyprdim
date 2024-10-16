@@ -1,6 +1,7 @@
 use clap::Parser;
 use cli::Cli;
 use mutations::set_animation;
+use mutations::set_initial_dim;
 use queries::is_floating;
 use queries::is_special;
 use hyprdim::log;
@@ -23,19 +24,16 @@ mod mutations;
 mod ui;
 mod state;
 
-/// Main function in charge of hyprdim flow logic.
-///
-/// Although it's possible to test all expected functionality and any regressions over time,
-/// the current implementation would require an existing Hyprland environment with test
-/// applications that can be used to simulate windows.
 fn main() -> anyhow::Result<()> {
     single_instance();
 
     let state = DimState::new()?;
 
+    let cli = Cli::parse();
+
     let Cli {
         fade,
-        bezier,
+        ref bezier,
         strength,
         duration,
         persist,
@@ -44,7 +42,7 @@ fn main() -> anyhow::Result<()> {
         ignore_leaving_special,
         dialog_dim,
         ..
-    } = Cli::parse();
+    } = cli;
 
     set_animation(fade, bezier)?;
 
@@ -52,23 +50,7 @@ fn main() -> anyhow::Result<()> {
 
     let live = LiveState::new();
 
-    // Initialize with dim so the user sees something, but only if the user wants dim
-    if is_special()
-        && (ignore_entering_special || no_dim_when_only)
-        && is_single()
-    {
-        Keyword::set("decoration:dim_strength", 0)?;
-        Keyword::set("decoration:dim_inactive", "yes")?;
-    } else {
-        spawn_dim_thread(
-            live.num_threads.clone(),
-            live.is_set_dim.clone(),
-            strength,
-            persist,
-            duration,
-            true,
-        );
-    }
+    set_initial_dim(&live, &cli)?;
 
     // On active window changes
     event_listener.add_active_window_change_handler(move |data| {
