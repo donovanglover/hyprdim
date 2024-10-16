@@ -1,5 +1,6 @@
 use clap::Parser;
 use cli::Cli;
+use handlers::SpawnDimThreadOptions;
 use mutations::set_animation;
 use mutations::set_initial_dim;
 use queries::is_floating;
@@ -135,7 +136,14 @@ fn main() -> anyhow::Result<()> {
             }
         }
 
-        spawn_dim_thread(num_threads, is_set_dim, cli.strength, cli.persist, cli.duration, false);
+        spawn_dim_thread(SpawnDimThreadOptions {
+            num_threads,
+            is_set_dim,
+            strength: cli.strength,
+            persist: cli.persist,
+            duration: cli.duration,
+            first_run: false
+        });
     });
 
     ctrlc(state);
