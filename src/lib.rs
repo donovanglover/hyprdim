@@ -1,20 +1,7 @@
-use clap::Parser;
-use cli::Cli;
 use hyprland::keyword::Keyword;
 use std::sync::atomic::{AtomicBool, AtomicU16, Ordering};
 use std::sync::Arc;
 use std::{thread, time};
-
-mod cli;
-
-/// A helper function to only print what's happening to users if they enable the verbose flag.
-pub fn log(text: &str) {
-    let Cli { verbose, .. } = Cli::parse();
-
-    if verbose {
-        println!("{text}")
-    }
-}
 
 /// Spawns a new thread in charge of dimming inactive windows with Hyprland.
 ///

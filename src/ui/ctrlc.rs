@@ -1,7 +1,7 @@
 use std::sync::mpsc;
 use std::{process, thread};
 
-use hyprdim::log;
+use crate::utils::log;
 use hyprland::keyword::Keyword;
 
 use crate::state::DimState;

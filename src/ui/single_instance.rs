@@ -1,4 +1,4 @@
-use hyprdim::log;
+use crate::utils::log;
 use single_instance::SingleInstance;
 use std::process;
 

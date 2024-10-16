@@ -4,7 +4,7 @@ use mutations::set_animation;
 use mutations::set_initial_dim;
 use queries::is_floating;
 use queries::is_special;
-use hyprdim::log;
+use utils::log;
 use mutations::set_dim;
 use hyprdim::spawn_dim_thread;
 use queries::is_single;
@@ -23,6 +23,7 @@ mod queries;
 mod mutations;
 mod ui;
 mod state;
+mod utils;
 
 fn main() -> anyhow::Result<()> {
     single_instance();
