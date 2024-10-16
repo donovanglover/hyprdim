@@ -63,12 +63,16 @@ fn main() -> anyhow::Result<()> {
             }
         }
 
-        *live.last_address.lock().unwrap() = Some(window_address.clone());
-        *live.last_class.lock().unwrap() = Some(window_class.clone());
-
         // Get the state of the current parent workspace
         let parent_workspace = Workspace::get_active().unwrap();
         let parent_workspace_window = &parent_workspace.last_window;
+
+        // If the parent_workspace_window is NOT the same as the window_address, then we're in a special workspace
+        let is_special_workspace =
+            format!("{parent_workspace_window}") != format!("0x{window_address}");
+
+        *live.last_address.lock().unwrap() = Some(window_address);
+        *live.last_class.lock().unwrap() = Some(window_class);
 
         let mut same_workspace = false;
 
@@ -79,10 +83,6 @@ fn main() -> anyhow::Result<()> {
         }
 
         *live.last_workspace.lock().unwrap() = Some(parent_workspace.clone());
-
-        // If the parent_workspace_window is NOT the same as the window_address, then we're in a special workspace
-        let is_special_workspace =
-            format!("{parent_workspace_window}") != format!("0x{window_address}");
 
         // Keep track of being inside special workspaces and don't dim when entering them
         if is_special_workspace && !live.in_special_workspace.load(Ordering::Relaxed) {
