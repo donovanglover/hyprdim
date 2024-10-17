@@ -1,4 +1,3 @@
-use handlers::dialog_dim;
 use handlers::spawn_dim_thread;
 use handlers::SpawnDimThreadOptions;
 use hyprland::data::Workspace;
@@ -6,7 +5,9 @@ use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
 use mutations::set_animation;
+use mutations::set_dim;
 use mutations::set_initial_dim;
+use queries::is_floating;
 use queries::is_single;
 use state::InitialState;
 use state::LiveState;
@@ -57,7 +58,7 @@ fn main() -> anyhow::Result<()> {
         };
 
         let top_level_workspace = Workspace::get_active().unwrap();
-        let mut did_dim = false;
+        let mut dialog_dim = false;
 
         if let Some(ref last_address) = *live.last_address.lock().unwrap() {
             if format!("{last_address}") == format!("{window_address}") {
@@ -69,18 +70,22 @@ fn main() -> anyhow::Result<()> {
             if *last_class == window_class {
                 if let Some(ref last_workspace) = *live.last_workspace.lock().unwrap() {
                     if last_workspace.id == top_level_workspace.id {
-                        did_dim = dialog_dim(&cli);
+                        if is_floating() {
+                            set_dim(cli.dialog_dim).unwrap();
+
+                            dialog_dim = true;
+                        }
                     }
                 }
             }
         }
 
-        live.is_set_dim.store(did_dim, Ordering::Relaxed);
+        live.is_set_dim.store(dialog_dim, Ordering::Relaxed);
         *live.last_address.lock().unwrap() = Some(window_address);
         *live.last_class.lock().unwrap() = Some(window_class);
         *live.last_workspace.lock().unwrap() = Some(top_level_workspace);
 
-        if did_dim {
+        if dialog_dim {
             return;
         }
 
