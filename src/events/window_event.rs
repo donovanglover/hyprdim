@@ -2,10 +2,10 @@ use hyprland::event_listener::{EventListener, WindowEventData};
 use crate::cli::Cli;
 use crate::mutations::{set_dim, set_initial_dim};
 use crate::queries::{get_parent, is_floating};
-use crate::state::LiveState;
+use crate::state::GlobalState;
 use std::sync::atomic::Ordering;
 
-pub fn window_event(live: LiveState, cli: Cli) -> anyhow::Result<()> {
+pub fn window_event(global: GlobalState, cli: Cli) -> anyhow::Result<()> {
     let mut event_listener = EventListener::new();
 
     event_listener.add_active_window_change_handler(move |data| {
@@ -21,15 +21,15 @@ pub fn window_event(live: LiveState, cli: Cli) -> anyhow::Result<()> {
         let parent_workspace = get_parent();
         let mut dialog_dim = false;
 
-        if let Some(ref last_address) = *live.last_address.lock().unwrap() {
+        if let Some(ref last_address) = *global.last_address.lock().unwrap() {
             if format!("{last_address}") == format!("{window_address}") {
                 return;
             }
         }
 
-        if let Some(ref last_class) = *live.last_class.lock().unwrap() {
+        if let Some(ref last_class) = *global.last_class.lock().unwrap() {
             if *last_class == window_class {
-                if let Some(ref last_workspace) = *live.last_workspace.lock().unwrap() {
+                if let Some(ref last_workspace) = *global.last_workspace.lock().unwrap() {
                     if last_workspace.id == parent_workspace.id {
                         if is_floating() {
                             set_dim(cli.dialog_dim).unwrap();
@@ -41,16 +41,16 @@ pub fn window_event(live: LiveState, cli: Cli) -> anyhow::Result<()> {
             }
         }
 
-        live.is_set_dim.store(dialog_dim, Ordering::Relaxed);
-        *live.last_address.lock().unwrap() = Some(window_address);
-        *live.last_class.lock().unwrap() = Some(window_class);
-        *live.last_workspace.lock().unwrap() = Some(parent_workspace);
+        global.is_set_dim.store(dialog_dim, Ordering::Relaxed);
+        *global.last_address.lock().unwrap() = Some(window_address);
+        *global.last_class.lock().unwrap() = Some(window_class);
+        *global.last_workspace.lock().unwrap() = Some(parent_workspace);
 
         if dialog_dim {
             return;
         }
 
-        set_initial_dim(&live, &cli).unwrap()
+        set_initial_dim(&global, &cli).unwrap()
     });
 
     event_listener.start_listener()?;

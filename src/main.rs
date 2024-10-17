@@ -2,7 +2,7 @@ use events::window_event;
 use mutations::set_animation;
 use mutations::set_initial_dim;
 use state::InitialState;
-use state::LiveState;
+use state::GlobalState;
 use ui::clap;
 use ui::ctrlc;
 use ui::hyprland_version;
@@ -31,12 +31,12 @@ fn main() -> anyhow::Result<()> {
 
     let initial_state = InitialState::new()?;
     let cli = clap();
-    let live = LiveState::new();
+    let global_state = GlobalState::new();
 
     set_animation(cli.fade, &cli.bezier)?;
-    set_initial_dim(&live, &cli)?;
+    set_initial_dim(&global_state, &cli)?;
     ctrlc(initial_state);
-    window_event(live, cli)?;
+    window_event(global_state, cli)?;
 
     Ok(())
 }
