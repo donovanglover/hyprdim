@@ -14,6 +14,7 @@ A lot has changed since when I first wrote hyprdim. Special workspaces now funct
 - **Persist by default.** hyprdim will always work and the `--persist` flag is no longer necessary. If you want to toggle hyprdim functionality, you should kill it instead of changing `dim_inactive`.
 - **No dim when only by default.** No reason to dim when there's only one window showing. Remove `--no-dim-when-only` from your config.
 - **No-dim options for special workspaces have been removed.** Remove `--ignore-entering-special` and `--ignore-leaving-special` from your config. At some point this broke anyway since I never wrote proper tests for this. If you want to not dim when toggling a special workspace, use a single window (or fullscreen one) on that workspace, or kill hyprdim in your Hyprland keybinds.
+- **Dialog dim is now default.** Set `--dialog-dim` to `0` to disable.
 
 ## 2.2.6 - 2024-08-09
 

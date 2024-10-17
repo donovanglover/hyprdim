@@ -27,19 +27,13 @@ pub struct Cli {
     #[arg(short, long, default_value = "default")]
     pub bezier: String,
 
-    /// Dim windows if they're the same class and floating (strength_default: 0.7)
+    /// Strength of dim for windows that are the same class and floating (strength_default: 0.7)
     ///
-    /// This option is particularly useful for dimming dialog boxes started by applications
-    /// since those tend to have the same class and be floating.
-    ///
-    /// The dim is a permanent dim while working in the floating window of the same class.
+    /// Used for a permanent dim while working in dialog boxes such as file pickers.
     ///
     /// Note that the dim is removed when switching workspaces or doing any other event.
-    ///
-    /// Optionally specify a strength value to change how much dim is applied to dialog windows.
-    /// The default strength value is 0.7.
-    #[arg(short = 'D', long, value_name = "STRENGTH", default_value = None, default_missing_value = "0.7", num_args = 0..=1)]
-    pub dialog_dim: Option<f64>,
+    #[arg(short = 'D', long, value_name = "STRENGTH", default_value_t = 0.7)]
+    pub dialog_dim: f64,
 
     /// Show information about what hyprdim is doing
     #[arg(short, long, default_value_t = false)]
