@@ -48,7 +48,15 @@ fn main() -> anyhow::Result<()> {
     set_initial_dim(&live, &cli)?;
 
     event_listener.add_active_window_change_handler(move |data| {
-        let Some(WindowEventData { window_address, window_class, .. }) = data else { return };
+        let Some(WindowEventData {
+            window_address,
+            window_class,
+            ..
+        }) = data
+        else {
+            return;
+        };
+
         let num_threads = Arc::clone(&live.num_threads);
         let is_set_dim = Arc::clone(&live.is_set_dim);
         let mut same_class = false;
@@ -81,10 +89,13 @@ fn main() -> anyhow::Result<()> {
 
         // Enable dim when using a floating window with the same class as the last window,
         // but only if the user specified the argument to do so.
-        let did_dim = dialog_dim(&cli, DialogDimOptions {
-            same_class,
-            same_workspace
-        });
+        let did_dim = dialog_dim(
+            &cli,
+            DialogDimOptions {
+                same_class,
+                same_workspace,
+            },
+        );
 
         is_set_dim.store(did_dim, Ordering::Relaxed);
 
