@@ -1,5 +1,5 @@
-mod initial;
-mod live;
+mod initial_state;
+mod global_state;
 
-pub use initial::*;
-pub use live::*;
+pub use initial_state::*;
+pub use global_state::*;
