@@ -1,5 +1,3 @@
-use handlers::spawn_dim_thread;
-use handlers::SpawnDimThreadOptions;
 use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
 use hyprland::prelude::*;
@@ -7,16 +5,13 @@ use mutations::set_animation;
 use mutations::set_dim;
 use mutations::set_initial_dim;
 use queries::is_floating;
-use queries::is_single;
 use state::InitialState;
 use state::LiveState;
 use std::sync::atomic::Ordering;
-use std::sync::Arc;
 use ui::clap;
 use ui::ctrlc;
 use ui::hyprland_version;
 use ui::single_instance;
-use utils::log;
 
 mod cli;
 mod handlers;
@@ -88,18 +83,7 @@ fn main() -> anyhow::Result<()> {
             return;
         }
 
-        if is_single() {
-            set_dim(0.0).unwrap();
-            log("info: Workspace only has one window, so not dimming.");
-            return;
-        }
-
-        spawn_dim_thread(SpawnDimThreadOptions {
-            num_threads: Arc::clone(&live.num_threads),
-            is_set_dim: Arc::clone(&live.is_set_dim),
-            strength: cli.strength,
-            duration: cli.duration,
-        });
+        set_initial_dim(&live, &cli).unwrap()
     });
 
     ctrlc(initial_state);
