@@ -1,8 +1,8 @@
 use events::window_event;
 use handlers::maybe_dim;
 use mutations::set_animation;
-use state::InitialState;
 use state::GlobalState;
+use state::InitialState;
 use ui::clap;
 use ui::ctrlc;
 use ui::hyprland_version;

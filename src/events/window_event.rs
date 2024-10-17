@@ -1,9 +1,9 @@
-use hyprland::event_listener::{EventListener, WindowEventData};
 use crate::cli::Options;
 use crate::handlers::maybe_dim;
 use crate::mutations::set_dim;
 use crate::queries::{get_parent, is_floating};
 use crate::state::GlobalState;
+use hyprland::event_listener::{EventListener, WindowEventData};
 use std::sync::atomic::Ordering;
 
 pub fn window_event(global: GlobalState, options: Options) -> anyhow::Result<()> {
