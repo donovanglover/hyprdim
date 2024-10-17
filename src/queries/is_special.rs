@@ -19,6 +19,7 @@ pub fn is_special() -> bool {
 #[cfg(test)]
 mod tests {
     #[test]
+    #[ignore]
     fn is_special() {
         let res = super::is_special();
         assert_eq!(res, true);

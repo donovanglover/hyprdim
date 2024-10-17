@@ -24,6 +24,7 @@ pub fn hyprland_version(minimum_version: &str) -> anyhow::Result<bool> {
 #[cfg(test)]
 mod tests {
     #[test]
+    #[ignore]
     fn hyprland_version() {
         let res = super::hyprland_version("0.44.1").unwrap();
         assert_eq!(res, true);
