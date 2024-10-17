@@ -85,10 +85,8 @@ fn main() -> anyhow::Result<()> {
             }
         }
 
-        *live.last_workspace.lock().unwrap() = Some(parent_workspace.clone());
+        *live.last_workspace.lock().unwrap() = Some(parent_workspace);
 
-        // Enable dim when using a floating window with the same class as the last window,
-        // but only if the user specified the argument to do so.
         let did_dim = dialog_dim(
             &cli,
             DialogDimOptions {
