@@ -9,7 +9,6 @@ use hyprland::prelude::*;
 use mutations::set_animation;
 use mutations::set_initial_dim;
 use queries::is_single;
-use queries::is_special;
 use state::DimState;
 use state::LiveState;
 use std::sync::atomic::Ordering;

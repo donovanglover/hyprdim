@@ -8,7 +8,7 @@ pub struct DialogDimOptions {
 pub fn dialog_dim(cli: &Cli, options: DialogDimOptions) -> bool {
     if let Some(dialog_strength) = cli.dialog_dim {
         if options.same_workspace && options.same_class && is_floating() {
-            set_dim(dialog_strength, cli.persist).unwrap();
+            set_dim(dialog_strength).unwrap();
 
             return true;
         }
