@@ -67,8 +67,6 @@ fn main() -> anyhow::Result<()> {
             }
         }
 
-        let is_special_workspace = is_special();
-
         *live.last_address.lock().unwrap() = Some(window_address);
         *live.last_class.lock().unwrap() = Some(window_class);
 
@@ -95,18 +93,9 @@ fn main() -> anyhow::Result<()> {
             return;
         }
 
-        // Don't dim when switching to another workspace with only one window
-        if (parent_workspace.windows == 1 || parent_workspace.fullscreen)
-            && !is_special_workspace
-        {
+        if is_single() {
             Keyword::set("decoration:dim_strength", 0).unwrap();
-            log("info: Parent workspace only has one window or that window is fullscreen, so not dimming.");
-            return;
-        }
-
-        if is_special() && is_single() {
-            Keyword::set("decoration:dim_strength", 0).unwrap();
-            log("info: Special workspace only has one window, so not dimming.");
+            log("info: Workspace only has one window, so not dimming.");
             return;
         }
 
