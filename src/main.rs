@@ -54,7 +54,6 @@ fn main() -> anyhow::Result<()> {
         let is_set_dim = Arc::clone(&live.is_set_dim);
         let mut same_class = false;
         let parent_workspace = Workspace::get_active().unwrap();
-        let parent_workspace_window = &parent_workspace.last_window;
 
         if let Some(ref old_address) = *live.last_address.lock().unwrap() {
             if format!("{old_address}") == format!("{window_address}") {
@@ -68,8 +67,7 @@ fn main() -> anyhow::Result<()> {
             }
         }
 
-        let is_special_workspace =
-            format!("{parent_workspace_window}") != format!("0x{window_address}");
+        let is_special_workspace = is_special();
 
         *live.last_address.lock().unwrap() = Some(window_address);
         *live.last_class.lock().unwrap() = Some(window_class);
