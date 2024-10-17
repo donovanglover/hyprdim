@@ -1,10 +1,10 @@
-use hyprland::keyword::Keyword;
 use std::sync::atomic::{AtomicBool, AtomicU16, Ordering};
 use std::sync::Arc;
 use std::thread::sleep;
 use std::thread::spawn;
 use std::time::Duration;
 
+use crate::mutations::set_dim;
 use crate::utils::log;
 
 pub struct SpawnDimThreadOptions {
@@ -20,8 +20,7 @@ pub struct SpawnDimThreadOptions {
 /// enough, dimming is removed.
 pub fn spawn_dim_thread(options: SpawnDimThreadOptions) {
     spawn(move || -> hyprland::Result<()> {
-        Keyword::set("decoration:dim_inactive", "yes")?;
-        Keyword::set("decoration:dim_strength", options.strength)?;
+        set_dim(options.strength).unwrap();
 
         log("info: Applied dim (new thread)");
 
@@ -33,7 +32,7 @@ pub fn spawn_dim_thread(options: SpawnDimThreadOptions) {
             if options.is_set_dim.load(Ordering::Relaxed) {
                 log("info: Last thread, but not removing dim since permanent dim is active");
             } else {
-                Keyword::set("decoration:dim_strength", 0)?;
+                set_dim(0.0).unwrap();
 
                 log("info: Removed dim (last thread)");
             }

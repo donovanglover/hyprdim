@@ -2,7 +2,6 @@ use handlers::spawn_dim_thread;
 use handlers::SpawnDimThreadOptions;
 use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
-use hyprland::keyword::Keyword;
 use hyprland::prelude::*;
 use mutations::set_animation;
 use mutations::set_dim;
@@ -90,7 +89,7 @@ fn main() -> anyhow::Result<()> {
         }
 
         if is_single() {
-            Keyword::set("decoration:dim_strength", 0).unwrap();
+            set_dim(0.0).unwrap();
             log("info: Workspace only has one window, so not dimming.");
             return;
         }
