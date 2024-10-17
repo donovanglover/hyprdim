@@ -56,8 +56,6 @@ fn main() -> anyhow::Result<()> {
             return;
         };
 
-        let num_threads = Arc::clone(&live.num_threads);
-        let is_set_dim = Arc::clone(&live.is_set_dim);
         let top_level_workspace = Workspace::get_active().unwrap();
         let mut did_dim = false;
 
@@ -72,12 +70,12 @@ fn main() -> anyhow::Result<()> {
                 if let Some(ref last_workspace) = *live.last_workspace.lock().unwrap() {
                     if last_workspace.id == top_level_workspace.id {
                         did_dim = dialog_dim(&cli);
-                        is_set_dim.store(did_dim, Ordering::Relaxed);
                     }
                 }
             }
         }
 
+        live.is_set_dim.store(did_dim, Ordering::Relaxed);
         *live.last_address.lock().unwrap() = Some(window_address);
         *live.last_class.lock().unwrap() = Some(window_class);
         *live.last_workspace.lock().unwrap() = Some(top_level_workspace);
@@ -93,8 +91,8 @@ fn main() -> anyhow::Result<()> {
         }
 
         spawn_dim_thread(SpawnDimThreadOptions {
-            num_threads,
-            is_set_dim,
+            num_threads: Arc::clone(&live.num_threads),
+            is_set_dim: Arc::clone(&live.is_set_dim),
             strength: cli.strength,
             duration: cli.duration,
         });
