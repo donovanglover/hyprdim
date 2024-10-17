@@ -27,12 +27,6 @@ pub struct Cli {
     #[arg(short, long, default_value = "default")]
     pub bezier: String,
 
-    /// Prevent dim_inactive from being disabled by `hyprctl reload` etc
-    ///
-    /// Alternatively, set dim_inactive to true in hyprland.conf.
-    #[arg(short, long, default_value_t = false)]
-    pub persist: bool,
-
     /// Don't dim when switching to a workspace that only has one visible window
     ///
     /// Usually when you use dim in Hyprland, windows are dimmed even when switching between

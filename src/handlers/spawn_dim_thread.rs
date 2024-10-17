@@ -9,7 +9,6 @@ pub struct SpawnDimThreadOptions {
     pub num_threads: Arc<AtomicU16>,
     pub is_set_dim: Arc<AtomicBool>,
     pub strength: f64,
-    pub persist: bool,
     pub duration: u64,
     pub first_run: bool,
 }
@@ -20,9 +19,7 @@ pub struct SpawnDimThreadOptions {
 /// enough, dimming is disabled.
 pub fn spawn_dim_thread(options: SpawnDimThreadOptions) {
     thread::spawn(move || -> hyprland::Result<()> {
-        if options.persist || options.first_run {
-            Keyword::set("decoration:dim_inactive", "yes")?;
-        };
+        Keyword::set("decoration:dim_inactive", "yes")?;
 
         // Note that dim_strength is used instead of toggling dim_inactive for smooth animations
         Keyword::set("decoration:dim_strength", options.strength)?;

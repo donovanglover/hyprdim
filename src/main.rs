@@ -140,7 +140,6 @@ fn main() -> anyhow::Result<()> {
             num_threads,
             is_set_dim,
             strength: cli.strength,
-            persist: cli.persist,
             duration: cli.duration,
             first_run: false
         });
