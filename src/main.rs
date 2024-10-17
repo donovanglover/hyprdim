@@ -8,7 +8,7 @@ use hyprland::prelude::*;
 use mutations::set_animation;
 use mutations::set_initial_dim;
 use queries::is_single;
-use state::DimState;
+use state::InitialState;
 use state::LiveState;
 use std::sync::atomic::Ordering;
 use std::sync::Arc;
@@ -38,7 +38,7 @@ fn main() -> anyhow::Result<()> {
         );
     }
 
-    let state = DimState::new()?;
+    let initial_state = InitialState::new()?;
     let cli = clap();
     let mut event_listener = EventListener::new();
     let live = LiveState::new();
@@ -100,7 +100,7 @@ fn main() -> anyhow::Result<()> {
         });
     });
 
-    ctrlc(state);
+    ctrlc(initial_state);
 
     Ok(event_listener.start_listener()?)
 }

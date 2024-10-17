@@ -2,21 +2,18 @@ use std::sync::mpsc;
 use std::{process, thread};
 
 use crate::utils::log;
-use hyprland::keyword::Keyword;
 
-use crate::state::DimState;
+use crate::state::InitialState;
 
-pub fn ctrlc(state: DimState) {
-    thread::spawn(move || -> hyprland::Result<()> {
+pub fn ctrlc(state: InitialState) {
+    thread::spawn(move || -> anyhow::Result<()> {
         let (tx, rx) = mpsc::channel();
 
-        ctrlc::set_handler(move || tx.send(()).expect("Could not send signal on channel."))
-            .expect("Error setting Ctrl-C handler");
+        ctrlc::set_handler(move || tx.send(()).unwrap())?;
 
-        rx.recv().expect("Could not receive from channel.");
+        rx.recv()?;
 
-        Keyword::set("decoration:dim_strength", state.dim_strength)?;
-        Keyword::set("decoration:dim_inactive", state.dim_inactive)?;
+        state.restore()?;
 
         log("\nhyprdim terminated successfully.");
 
