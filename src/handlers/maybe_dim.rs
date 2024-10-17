@@ -2,12 +2,11 @@ use std::sync::Arc;
 
 use crate::handlers::{spawn_dim_thread, SpawnDimThreadOptions};
 
+use crate::mutations::set_dim;
 use crate::utils::log;
 use crate::{cli::Options, queries::is_single, state::GlobalState};
 
-use super::set_dim;
-
-pub fn set_initial_dim(global: &GlobalState, options: &Options) -> anyhow::Result<()> {
+pub fn maybe_dim(global: &GlobalState, options: &Options) -> anyhow::Result<()> {
     if is_single() {
         set_dim(0.0)?;
         log("info: Workspace only has one window, so not dimming.");

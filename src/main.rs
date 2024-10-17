@@ -1,6 +1,6 @@
 use events::window_event;
+use handlers::maybe_dim;
 use mutations::set_animation;
-use mutations::set_initial_dim;
 use state::InitialState;
 use state::GlobalState;
 use ui::clap;
@@ -33,10 +33,11 @@ fn main() -> anyhow::Result<()> {
     let global_state = GlobalState::new();
     let options = clap();
 
-    set_animation(cli.fade, &cli.bezier)?;
-    set_initial_dim(&global_state, &cli)?;
     ctrlc(initial_state);
-    window_event(global_state, cli)?;
+
+    set_animation(options.fade, &options.bezier)?;
+    maybe_dim(&global_state, &options)?;
+    window_event(global_state, options)?;
 
     Ok(())
 }

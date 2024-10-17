@@ -1,6 +1,7 @@
 use hyprland::event_listener::{EventListener, WindowEventData};
 use crate::cli::Options;
-use crate::mutations::{set_dim, set_initial_dim};
+use crate::handlers::maybe_dim;
+use crate::mutations::set_dim;
 use crate::queries::{get_parent, is_floating};
 use crate::state::GlobalState;
 use std::sync::atomic::Ordering;
@@ -50,7 +51,7 @@ pub fn window_event(global: GlobalState, options: Options) -> anyhow::Result<()>
             return;
         }
 
-        set_initial_dim(&global, &options).unwrap()
+        maybe_dim(&global, &options).unwrap()
     });
 
     event_listener.start_listener()?;
