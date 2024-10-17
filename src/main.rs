@@ -82,28 +82,6 @@ fn main() -> anyhow::Result<()> {
 
         *live.last_workspace.lock().unwrap() = Some(parent_workspace.clone());
 
-        // Keep track of being inside special workspaces and don't dim when entering them
-        if is_special_workspace && !live.in_special_workspace.load(Ordering::Relaxed) {
-            live.in_special_workspace.store(true, Ordering::Relaxed);
-
-            if cli.ignore_entering_special {
-                log("info: Special workspace was opened, so not dimming.");
-                return;
-            }
-        }
-
-        if !is_special_workspace {
-            let was_in_special = live.in_special_workspace.load(Ordering::Relaxed);
-
-            live.in_special_workspace.store(false, Ordering::Relaxed);
-
-            // If we're exiting for the first time, don't dim
-            if cli.ignore_leaving_special && was_in_special {
-                log("info: Leaving special workspace, so not dimming.");
-                return;
-            }
-        }
-
         // Enable dim when using a floating window with the same class as the last window,
         // but only if the user specified the argument to do so.
         let did_dim = dialog_dim(&cli, DialogDimOptions {

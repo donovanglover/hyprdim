@@ -27,27 +27,6 @@ pub struct Cli {
     #[arg(short, long, default_value = "default")]
     pub bezier: String,
 
-    /// Don't dim when opening a special workspace
-    ///
-    /// This is useful when you like toggling between a special workspace that has a transparent
-    /// window and don't want to deal with a distracting dim in the background.
-    ///
-    /// Note that when you leave a special workspace, the workspace in the background will dim
-    /// inactive windows if there's more than one window. If you want to avoid this, use this
-    /// option in combination with ignore_leaving_special.
-    ///
-    /// Note that if you're watching a video you never want to dim, you can use windowrules in
-    /// Hyprland to achieve this.
-    #[arg(short, long, default_value_t = false)]
-    pub ignore_entering_special: bool,
-
-    /// Don't dim when closing a special workspace
-    ///
-    /// This is useful if you have multiple windows in your main workspace and usually don't switch
-    /// between them.
-    #[arg(short = 'I', long, default_value_t = false)]
-    pub ignore_leaving_special: bool,
-
     /// Dim windows if they're the same class and floating (strength_default: 0.7)
     ///
     /// This option is particularly useful for dimming dialog boxes started by applications
