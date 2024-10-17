@@ -17,7 +17,6 @@ pub fn set_initial_dim(live: &LiveState, cli: &Cli) -> anyhow::Result<()> {
         is_set_dim: Arc::clone(&live.is_set_dim),
         strength: cli.strength,
         duration: cli.duration,
-        first_run: true,
     });
 
     Ok(())

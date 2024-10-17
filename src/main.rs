@@ -141,7 +141,6 @@ fn main() -> anyhow::Result<()> {
             is_set_dim,
             strength: cli.strength,
             duration: cli.duration,
-            first_run: false
         });
     });
 

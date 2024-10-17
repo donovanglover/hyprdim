@@ -10,7 +10,6 @@ pub struct SpawnDimThreadOptions {
     pub is_set_dim: Arc<AtomicBool>,
     pub strength: f64,
     pub duration: u64,
-    pub first_run: bool,
 }
 
 /// Spawns a new thread in charge of dimming inactive windows with Hyprland.
