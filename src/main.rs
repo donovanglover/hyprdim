@@ -58,19 +58,19 @@ fn main() -> anyhow::Result<()> {
 
         let num_threads = Arc::clone(&live.num_threads);
         let is_set_dim = Arc::clone(&live.is_set_dim);
-        let parent_workspace = Workspace::get_active().unwrap();
+        let top_level_workspace = Workspace::get_active().unwrap();
         let mut did_dim = false;
 
-        if let Some(ref old_address) = *live.last_address.lock().unwrap() {
-            if format!("{old_address}") == format!("{window_address}") {
+        if let Some(ref last_address) = *live.last_address.lock().unwrap() {
+            if format!("{last_address}") == format!("{window_address}") {
                 return;
             }
         }
 
-        if let Some(ref old_class) = *live.last_class.lock().unwrap() {
-            if *old_class == window_class {
-                if let Some(ref old_workspace) = *live.last_workspace.lock().unwrap() {
-                    if old_workspace.id == parent_workspace.id {
+        if let Some(ref last_class) = *live.last_class.lock().unwrap() {
+            if *last_class == window_class {
+                if let Some(ref last_workspace) = *live.last_workspace.lock().unwrap() {
+                    if last_workspace.id == top_level_workspace.id {
                         did_dim = dialog_dim(&cli);
                         is_set_dim.store(did_dim, Ordering::Relaxed);
                     }
@@ -80,7 +80,7 @@ fn main() -> anyhow::Result<()> {
 
         *live.last_address.lock().unwrap() = Some(window_address);
         *live.last_class.lock().unwrap() = Some(window_class);
-        *live.last_workspace.lock().unwrap() = Some(parent_workspace);
+        *live.last_workspace.lock().unwrap() = Some(top_level_workspace);
 
         if did_dim {
             return;
