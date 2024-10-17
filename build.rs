@@ -6,7 +6,7 @@ use clap::CommandFactory;
 use clap_complete::generate_to;
 use clap_complete::Shell::{Bash, Fish, Zsh};
 use clap_mangen::Man;
-use cli::Cli;
+use cli::Options;
 use std::error::Error;
 use std::fs;
 use std::path::PathBuf;
@@ -37,7 +37,7 @@ fn generate_shell_completions(mut cmd: Command) -> Result<(), Box<dyn Error>> {
 }
 
 fn main() {
-    let mut cmd = Cli::command();
+    let mut cmd = Options::command();
     cmd.set_bin_name(NAME);
 
     if let Err(err) = generate_man_pages(cmd.clone()) {

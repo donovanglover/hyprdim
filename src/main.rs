@@ -30,8 +30,8 @@ fn main() -> anyhow::Result<()> {
     }
 
     let initial_state = InitialState::new()?;
-    let cli = clap();
     let global_state = GlobalState::new();
+    let options = clap();
 
     set_animation(cli.fade, &cli.bezier)?;
     set_initial_dim(&global_state, &cli)?;

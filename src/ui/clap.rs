@@ -1,6 +1,6 @@
-use crate::cli::Cli;
+use crate::cli::Options;
 use clap::Parser;
 
-pub fn clap() -> Cli {
-    Cli::parse()
+pub fn clap() -> Options {
+    Options::parse()
 }

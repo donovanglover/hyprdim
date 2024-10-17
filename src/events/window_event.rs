@@ -1,11 +1,11 @@
 use hyprland::event_listener::{EventListener, WindowEventData};
-use crate::cli::Cli;
+use crate::cli::Options;
 use crate::mutations::{set_dim, set_initial_dim};
 use crate::queries::{get_parent, is_floating};
 use crate::state::GlobalState;
 use std::sync::atomic::Ordering;
 
-pub fn window_event(global: GlobalState, cli: Cli) -> anyhow::Result<()> {
+pub fn window_event(global: GlobalState, options: Options) -> anyhow::Result<()> {
     let mut event_listener = EventListener::new();
 
     event_listener.add_active_window_change_handler(move |data| {
@@ -32,7 +32,7 @@ pub fn window_event(global: GlobalState, cli: Cli) -> anyhow::Result<()> {
                 if let Some(ref last_workspace) = *global.last_workspace.lock().unwrap() {
                     if last_workspace.id == parent_workspace.id {
                         if is_floating() {
-                            set_dim(cli.dialog_dim).unwrap();
+                            set_dim(options.dialog_dim).unwrap();
 
                             dialog_dim = true;
                         }
@@ -50,7 +50,7 @@ pub fn window_event(global: GlobalState, cli: Cli) -> anyhow::Result<()> {
             return;
         }
 
-        set_initial_dim(&global, &cli).unwrap()
+        set_initial_dim(&global, &options).unwrap()
     });
 
     event_listener.start_listener()?;

@@ -5,7 +5,7 @@ use crate::cli::ABOUT;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = ABOUT, styles = styles())]
-pub struct Cli {
+pub struct Options {
     /// A value from 0 (no dim) to 1 (maximum dim)
     ///
     /// Note that negative numbers such as -1 and -5 are also supported for "light dim".
