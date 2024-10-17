@@ -1,4 +1,4 @@
-pub const LONG_ABOUT: &str = "
+pub const ABOUT: &str = "
 hyprdim is a daemon that automatically dims windows in Hyprland[1] when
 switching between them. It works by setting the dim_inactive[2] variable
 and changing dim_strength[2] based on whether windows should be dimmed

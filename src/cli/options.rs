@@ -1,10 +1,10 @@
 use clap::Parser;
 
 use crate::cli::styles;
-use crate::cli::LONG_ABOUT;
+use crate::cli::ABOUT;
 
 #[derive(Parser)]
-#[command(author, version, about, long_about = LONG_ABOUT, styles = styles())]
+#[command(author, version, about, long_about = ABOUT, styles = styles())]
 pub struct Cli {
     /// A value from 0 (no dim) to 1 (maximum dim)
     ///
