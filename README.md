@@ -68,7 +68,7 @@ Options:
   -d, --duration <DURATION>      How many milliseconds to wait before removing dim [default: 800]
   -f, --fade <FADE>              Fade animation speed from 0 (instantaneous) to 255 (very slow) [default: 7]
   -b, --bezier <BEZIER>          Bezier curve used for the animation [default: default]
-  -D, --dialog-dim [<STRENGTH>]  Dim windows if they're the same class and floating (strength_default: 0.7)
+  -D, --dialog-dim <DIALOG_DIM>  Strength of dim for windows that are the same class and floating [default: 0.7]
   -v, --verbose                  Show information about what hyprdim is doing
   -h, --help                     Print help (see more with '--help')
   -V, --version                  Print version
@@ -76,7 +76,7 @@ Options:
 
 ## Contributing
 
-As far as I'm aware, this software is bug free. That said, if you know how to do things better, feel free to open an issue or make a pull request.
+Use `cargo clippy`, `cargo fmt`, and `cargo test` to check your work.
 
 ## Thanks
 
