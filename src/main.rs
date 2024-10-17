@@ -12,6 +12,7 @@ use queries::is_single;
 use queries::is_special;
 use state::DimState;
 use state::LiveState;
+use ui::hyprland_version;
 use std::sync::atomic::Ordering;
 use std::sync::Arc;
 use ui::clap;
@@ -27,8 +28,14 @@ mod state;
 mod ui;
 mod utils;
 
+const MINIMUM_VERSION: &str = "0.42.0";
+
 fn main() -> anyhow::Result<()> {
     single_instance();
+
+    if !hyprland_version(MINIMUM_VERSION)? {
+        println!("WARNING: This hyprdim version only supports Hyprland v{} and above.", MINIMUM_VERSION);
+    }
 
     let state = DimState::new()?;
     let cli = clap();
