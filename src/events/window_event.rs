@@ -31,12 +31,10 @@ pub fn window_event(global: GlobalState, options: Options) -> anyhow::Result<()>
         if let Some(ref last_class) = *global.last_class.lock().unwrap() {
             if *last_class == window_class {
                 if let Some(ref last_workspace) = *global.last_workspace.lock().unwrap() {
-                    if last_workspace.id == parent_workspace.id {
-                        if is_floating() {
-                            set_dim(options.dialog_dim).unwrap();
+                    if last_workspace.id == parent_workspace.id && is_floating() {
+                        set_dim(options.dialog_dim).unwrap();
 
-                            dialog_dim = true;
-                        }
+                        dialog_dim = true;
                     }
                 }
             }
