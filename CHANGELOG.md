@@ -12,6 +12,7 @@ A lot has changed since when I first wrote hyprdim. Special workspaces now funct
 ### Breaking Changes
 
 - **Persist by default.** hyprdim will always work and the `--persist` flag is no longer necessary. If you want to toggle hyprdim functionality, you should kill it instead of changing `dim_inactive`.
+- **No dim when only by default.** No reason to dim when there's only one window showing. Remove `--no-dim-when-only` from your config.
 
 ## 2.2.6 - 2024-08-09
 
