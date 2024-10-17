@@ -2,16 +2,12 @@ use crate::queries::get_version;
 
 pub fn hyprland_version(minimum_version: &str) -> anyhow::Result<bool> {
     let version = get_version()?;
-    let version: Vec<&str> = version.split('.').collect();
-
-    if version.len() != 3 {
-        return Ok(false);
-    }
+    let mut version = version.split('.');
 
     let version = semver::Version {
-        major: version.get(0).unwrap().parse()?,
-        minor: version.get(1).unwrap().parse()?,
-        patch: version.get(2).unwrap().parse()?,
+        major: version.next().unwrap_or("99").parse()?,
+        minor: version.next().unwrap_or("99").parse()?,
+        patch: version.next().unwrap_or("99").parse()?,
         pre: semver::Prerelease::EMPTY,
         build: semver::BuildMetadata::EMPTY,
     };
