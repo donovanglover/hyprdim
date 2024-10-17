@@ -1,6 +1,5 @@
 use handlers::dialog_dim;
 use handlers::spawn_dim_thread;
-use handlers::DialogDimOptions;
 use handlers::SpawnDimThreadOptions;
 use hyprland::data::Workspace;
 use hyprland::event_listener::{EventListener, WindowEventData};
@@ -59,8 +58,8 @@ fn main() -> anyhow::Result<()> {
 
         let num_threads = Arc::clone(&live.num_threads);
         let is_set_dim = Arc::clone(&live.is_set_dim);
-        let mut same_class = false;
         let parent_workspace = Workspace::get_active().unwrap();
+        let mut did_dim = false;
 
         if let Some(ref old_address) = *live.last_address.lock().unwrap() {
             if format!("{old_address}") == format!("{window_address}") {
@@ -70,32 +69,18 @@ fn main() -> anyhow::Result<()> {
 
         if let Some(ref old_class) = *live.last_class.lock().unwrap() {
             if *old_class == window_class {
-                same_class = true;
+                if let Some(ref old_workspace) = *live.last_workspace.lock().unwrap() {
+                    if old_workspace.id == parent_workspace.id {
+                        did_dim = dialog_dim(&cli);
+                        is_set_dim.store(did_dim, Ordering::Relaxed);
+                    }
+                }
             }
         }
 
         *live.last_address.lock().unwrap() = Some(window_address);
         *live.last_class.lock().unwrap() = Some(window_class);
-
-        let mut same_workspace = false;
-
-        if let Some(ref old_workspace) = *live.last_workspace.lock().unwrap() {
-            if old_workspace.id == parent_workspace.id {
-                same_workspace = true;
-            }
-        }
-
         *live.last_workspace.lock().unwrap() = Some(parent_workspace);
-
-        let did_dim = dialog_dim(
-            &cli,
-            DialogDimOptions {
-                same_class,
-                same_workspace,
-            },
-        );
-
-        is_set_dim.store(did_dim, Ordering::Relaxed);
 
         if did_dim {
             return;
