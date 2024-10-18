@@ -53,7 +53,7 @@ sudo dnf copr enable solopasha/hyprland && sudo dnf install hyprdim
 Follow the [install guide](https://www.rust-lang.org/tools/install) for Rust. Then, use cargo to install hyprdim.
 
 ```fish
-cargo install --git https://github.com/donovanglover/hyprdim --tag 2.2.6
+cargo install --git https://github.com/donovanglover/hyprdim --tag 3.0.0
 ```
 
 Make sure `$HOME/.cargo/bin` is in your `$PATH` if it isn't already.
