@@ -7,7 +7,9 @@ pub fn single_instance() {
 
     // Don't allow more than one hyprdim instance to run
     if !instance.is_single() {
-        println!("hyprdim is already running. Use `killall hyprdim` to stop any existing processes.");
+        println!(
+            "hyprdim is already running. Use `killall hyprdim` to stop any existing processes."
+        );
 
         process::exit(1);
     };
