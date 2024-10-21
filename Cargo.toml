@@ -8,7 +8,7 @@ license = "GPL-3.0-or-later"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.89"
+anyhow = "1.0.90"
 semver = "1.0.23"
 single-instance = "0.3.3"
 
