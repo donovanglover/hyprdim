@@ -35,5 +35,5 @@ features = ["derive"]
 [dev-dependencies]
 assert_cmd = "2.0.14"
 rustympkglib = "0.1.1"
-serde = "1.0.213"
+serde = "1.0.214"
 toml = "0.8.12"
