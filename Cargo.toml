@@ -9,7 +9,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.89"
-semver = "1.0.23"
+semver = "1.0.25"
 single-instance = "0.3.3"
 
 [dependencies.clap]
