@@ -2,7 +2,7 @@
 name = "hyprdim"
 description = "Automatically dim windows in Hyprland when switching between them."
 version = "3.0.0"
-authors = ["Copyright (C) 2023-2024 Donovan Glover <https://donovan.is/>"]
+authors = ["Copyright (C) 2023-2025 Donovan Glover <https://donovan.is/>"]
 repository = "https://github.com/donovanglover/hyprdim"
 license = "GPL-3.0-or-later"
 edition = "2021"
