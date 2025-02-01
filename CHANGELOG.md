@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 3.0.1 - 2025-02-01
+
+- [Fixed](https://github.com/donovanglover/hyprdim/commit/f5f3f342e6ff3769491f76618e59e6f0e09dd82e) Hyprland version check preventing hyprdim from starting (reported by @murlakatamenka)
+- [Fixed](https://github.com/donovanglover/hyprdim/commit/5cc480ba4e3790b66efeff8816c8cd2e24e8b508) regression where it was possible to start more than one hyprdim instance
+
+**Full Changelog**: https://github.com/donovanglover/hyprdim/compare/3.0.0...3.0.1
+
 ## 3.0.0 - 2024-10-17
 
 A lot has changed since when I first wrote hyprdim. Special workspaces now function similar to actual workspaces and even include fullscreen windows, which simplifies the code base a bit.
