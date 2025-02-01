@@ -13,9 +13,7 @@ pub fn single_instance() {
         return;
     }
 
-    println!(
-        "hyprdim is already running. Use `killall hyprdim` to stop any existing processes."
-    );
+    println!("hyprdim is already running. Use `killall hyprdim` to stop any existing processes.");
 
     process::exit(1);
 }
